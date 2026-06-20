@@ -1,0 +1,37 @@
+[project]
+name = "aegis"
+version = "0.1.0"
+description = "AEGIS — evidence-weighted capstone allocation engine (CIPHER 2.0)"
+requires-python = ">=3.13"
+# Engine core is stdlib-only. Heavy deps land in the phase that first needs them:
+#   scikit-learn  -> Phase A dedupe (TF-IDF cosine)
+#   matching      -> Phase B SPA
+#   fastapi/uvicorn -> Phase D API
+dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.13"
+mypy_path = "."
+explicit_package_bases = true
+namespace_packages = true
+ignore_missing_imports = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["aegis/tests"]
+addopts = "-q"

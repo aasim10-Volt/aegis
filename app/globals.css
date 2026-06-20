@@ -1,0 +1,254 @@
+/* ============================================================================
+   AEGIS Design System — token layer
+   Tailwind v4 (CSS-first) + shadcn/ui variable contract.
+   Drop this in at app/globals.css. Light + dark included.
+
+   Synthesis note: structure borrowed from the "Course" reference (floating
+   rounded cards, soft layered shadows, generous space). Color is deliberately
+   NOT borrowed — one indigo brand accent + a disciplined data palette
+   (jade / amber / rose) so the product reads as a governance tool, not a
+   course store. Most of the UI rides on spacing, type, and hierarchy.
+   ============================================================================ */
+
+@import "tailwindcss";
+
+/* dark mode driven by a .dark class on <html> (next-themes default) */
+@custom-variant dark (&:is(.dark *));
+
+/* ----------------------------------------------------------------------------
+   LIGHT
+   ---------------------------------------------------------------------------- */
+:root {
+  /* surfaces — cool light canvas, white floating cards (the reference's bones) */
+  --background:        oklch(0.975 0.006 265);   /* #F4F6FB cool grey-blue canvas */
+  --foreground:        oklch(0.27 0.03 257);     /* #1E293B slate ink            */
+  --card:              oklch(1 0 0);             /* #FFFFFF                       */
+  --card-foreground:   oklch(0.27 0.03 257);
+  --popover:           oklch(1 0 0);
+  --popover-foreground:oklch(0.27 0.03 257);
+
+  /* brand — one confident indigo, used for primary action / active nav / focus */
+  --primary:            oklch(0.54 0.22 277);    /* #4F46E5 indigo */
+  --primary-foreground: oklch(0.985 0 0);
+
+  /* quiet supporting tones */
+  --secondary:            oklch(0.968 0.006 265);
+  --secondary-foreground: oklch(0.30 0.03 257);
+  --muted:                oklch(0.968 0.006 265);
+  --muted-foreground:     oklch(0.55 0.03 257);  /* #64748B slate-500 */
+  --accent:               oklch(0.962 0.012 277);/* faint indigo wash for hovers */
+  --accent-foreground:    oklch(0.30 0.03 257);
+
+  /* semantic / data — disciplined, accessible on white */
+  --healthy:             oklch(0.66 0.15 162);   /* #10B981 jade   (≥75)   */
+  --healthy-foreground:  oklch(0.985 0 0);
+  --at-risk:             oklch(0.76 0.15 75);    /* #F59E0B amber  (50–74) */
+  --at-risk-foreground:  oklch(0.27 0.03 257);
+  --critical:            oklch(0.59 0.22 18);    /* #E11D48 rose   (<50)   */
+  --critical-foreground: oklch(0.985 0 0);
+  --info:                oklch(0.70 0.14 233);   /* #0EA5E9 sky            */
+  --info-foreground:     oklch(0.985 0 0);
+  --destructive:         oklch(0.59 0.22 18);    /* alias of critical      */
+  --destructive-foreground: oklch(0.985 0 0);
+
+  /* chart series — brand-led, accent violet last so color stays meaningful */
+  --chart-1: oklch(0.54 0.22 277);   /* indigo  */
+  --chart-2: oklch(0.66 0.15 162);   /* jade    */
+  --chart-3: oklch(0.76 0.15 75);    /* amber   */
+  --chart-4: oklch(0.70 0.14 233);   /* sky     */
+  --chart-5: oklch(0.62 0.20 290);   /* violet  */
+
+  /* lines + inputs + focus */
+  --border: oklch(0.92 0.006 265);   /* #E2E8F0 hairline, never harsh */
+  --input:  oklch(0.92 0.006 265);
+  --ring:   oklch(0.54 0.22 277);
+
+  /* sidebar (floating, glassy) */
+  --sidebar:                     oklch(1 0 0);
+  --sidebar-foreground:          oklch(0.30 0.03 257);
+  --sidebar-primary:             oklch(0.54 0.22 277);
+  --sidebar-primary-foreground:  oklch(0.985 0 0);
+  --sidebar-accent:              oklch(0.962 0.012 277);
+  --sidebar-accent-foreground:   oklch(0.30 0.03 257);
+  --sidebar-border:              oklch(0.93 0.006 265);
+  --sidebar-ring:                oklch(0.54 0.22 277);
+
+  /* radius — generous, for the floating-pill feel */
+  --radius: 0.875rem;       /* 14px base; cards use rounded-[1.25rem] */
+
+  /* elevation — soft, layered, cool-tinted, low alpha (the "floating" look) */
+  --shadow-sm: 0 1px 2px rgb(2 6 23 / 0.04), 0 1px 1px rgb(2 6 23 / 0.03);
+  --shadow-md: 0 4px 14px -3px rgb(2 6 23 / 0.07), 0 2px 6px -2px rgb(2 6 23 / 0.05);
+  --shadow-lg: 0 14px 34px -10px rgb(2 6 23 / 0.12), 0 6px 14px -6px rgb(2 6 23 / 0.07);
+  --shadow-xl: 0 26px 60px -16px rgb(2 6 23 / 0.18), 0 10px 22px -10px rgb(2 6 23 / 0.10);
+  --shadow-focus: 0 0 0 3px oklch(0.54 0.22 277 / 0.28);
+
+  /* motion */
+  --ease-standard:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-quint:  cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast:  150ms;
+  --dur-base:  220ms;
+  --dur-slow:  320ms;
+  --dur-slower:480ms;
+}
+
+/* ----------------------------------------------------------------------------
+   DARK — deep slate-navy, lifted cards. Same hues, raised lightness.
+   ---------------------------------------------------------------------------- */
+.dark {
+  --background:        oklch(0.205 0.03 264);    /* #0F172A deep slate */
+  --foreground:        oklch(0.93 0.006 265);
+  --card:              oklch(0.25 0.03 264);      /* lifted card        */
+  --card-foreground:   oklch(0.93 0.006 265);
+  --popover:           oklch(0.25 0.03 264);
+  --popover-foreground:oklch(0.93 0.006 265);
+
+  --primary:            oklch(0.64 0.19 277);     /* brighter indigo on dark */
+  --primary-foreground: oklch(0.205 0.03 264);
+
+  --secondary:            oklch(0.28 0.025 264);
+  --secondary-foreground: oklch(0.93 0.006 265);
+  --muted:                oklch(0.28 0.025 264);
+  --muted-foreground:     oklch(0.70 0.02 258);
+  --accent:               oklch(0.30 0.03 277);
+  --accent-foreground:    oklch(0.93 0.006 265);
+
+  --healthy:             oklch(0.72 0.15 162);
+  --healthy-foreground:  oklch(0.205 0.03 264);
+  --at-risk:             oklch(0.80 0.14 78);
+  --at-risk-foreground:  oklch(0.205 0.03 264);
+  --critical:            oklch(0.65 0.21 18);
+  --critical-foreground: oklch(0.985 0 0);
+  --info:                oklch(0.72 0.13 233);
+  --info-foreground:     oklch(0.205 0.03 264);
+  --destructive:         oklch(0.65 0.21 18);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --chart-1: oklch(0.64 0.19 277);
+  --chart-2: oklch(0.72 0.15 162);
+  --chart-3: oklch(0.80 0.14 78);
+  --chart-4: oklch(0.72 0.13 233);
+  --chart-5: oklch(0.68 0.18 290);
+
+  --border: oklch(0.30 0.02 264);
+  --input:  oklch(0.32 0.02 264);
+  --ring:   oklch(0.64 0.19 277);
+
+  --sidebar:                     oklch(0.235 0.03 264);
+  --sidebar-foreground:          oklch(0.93 0.006 265);
+  --sidebar-primary:             oklch(0.64 0.19 277);
+  --sidebar-primary-foreground:  oklch(0.205 0.03 264);
+  --sidebar-accent:              oklch(0.30 0.03 277);
+  --sidebar-accent-foreground:   oklch(0.93 0.006 265);
+  --sidebar-border:              oklch(0.30 0.02 264);
+  --sidebar-ring:                oklch(0.64 0.19 277);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.30), 0 1px 1px rgb(0 0 0 / 0.22);
+  --shadow-md: 0 4px 14px -3px rgb(0 0 0 / 0.40), 0 2px 6px -2px rgb(0 0 0 / 0.30);
+  --shadow-lg: 0 14px 34px -10px rgb(0 0 0 / 0.50), 0 6px 14px -6px rgb(0 0 0 / 0.35);
+  --shadow-xl: 0 26px 60px -16px rgb(0 0 0 / 0.60), 0 10px 22px -10px rgb(0 0 0 / 0.40);
+  --shadow-focus: 0 0 0 3px oklch(0.64 0.19 277 / 0.40);
+}
+
+/* ----------------------------------------------------------------------------
+   Map tokens → Tailwind utilities (bg-background, text-healthy, rounded-xl, …)
+   ---------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-healthy: var(--healthy);
+  --color-healthy-foreground: var(--healthy-foreground);
+  --color-at-risk: var(--at-risk);
+  --color-at-risk-foreground: var(--at-risk-foreground);
+  --color-critical: var(--critical);
+  --color-critical-foreground: var(--critical-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+}
+
+/* ----------------------------------------------------------------------------
+   Base
+   ---------------------------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv11", "ss01";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.018em;
+  }
+  /* tabular numerals everywhere a metric lives */
+  .nums { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  /* quality floor: visible keyboard focus, honored reduced motion */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* utility: the signature soft elevation used by floating cards */
+@utility shadow-card { box-shadow: var(--shadow-md); }
+@utility shadow-card-lg { box-shadow: var(--shadow-lg); }

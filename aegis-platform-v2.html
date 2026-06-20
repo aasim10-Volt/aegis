@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEGIS — Capstone Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif;font-size:14px;background:#eef1f6;color:#0f1620}
+
+:root{
+  --navy:#0a1626; --navy2:#0e1d31; --navy3:#060e1a;
+  --teal:#0ea882; --teal-d:#0c8f6e; --teal-br:#2dd4bf; --teal-gl:#5eead4;
+  --teal-l:#e6f8f3; --teal-ll:#f0fdf9;
+  --amber:#f59e0b; --amber-l:#fffbeb;
+  --red:#ef4444; --red-l:#fef2f2;
+  --green:#10b981; --green-l:#ecfdf5;
+  --blue:#3b82f6; --blue-l:#eff6ff;
+  --purple:#8b5cf6; --purple-l:#f5f3ff;
+  --bg:#eef1f6; --surface:#ffffff; --surface2:#f7f9fc;
+  --border:#e6ebf2; --border2:#d4dce6;
+  --text:#0f1620; --text2:#516079; --text3:#94a3b8;
+  --radius:12px; --radius-lg:16px;
+  --shadow:0 1px 2px rgba(16,28,48,.04), 0 2px 6px rgba(16,28,48,.05);
+  --shadow-md:0 4px 12px rgba(16,28,48,.06), 0 12px 32px -12px rgba(16,28,48,.14);
+  --shadow-lg:0 8px 24px rgba(16,28,48,.08), 0 24px 60px -20px rgba(16,28,48,.22);
+  --ring:0 0 0 3px rgba(14,168,130,.14);
+}
+
+.mono{font-family:'JetBrains Mono',monospace}
+.grotesk{font-family:'Space Grotesk',sans-serif}
+
+.screen{display:none;width:100%;height:100%}
+.screen.active{display:flex}
+
+/* ════════════════ BOOT ════════════════ */
+#screen-boot{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  background:radial-gradient(120% 90% at 50% 0%, #102842 0%, #0a1626 45%, #060e1a 100%);
+  overflow:hidden;transition:opacity .7s ease, visibility .7s;
+}
+#screen-boot.gone{opacity:0;visibility:hidden;pointer-events:none}
+.boot-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(45,212,191,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(45,212,191,.05) 1px,transparent 1px);
+  background-size:48px 48px;
+  -webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 45%,#000 20%,transparent 70%);
+  mask-image:radial-gradient(ellipse 60% 55% at 50% 45%,#000 20%,transparent 70%);
+}
+.boot-scan{position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(45,212,191,.04),transparent);
+  height:40%;animation:scan 4s linear infinite}
+@keyframes scan{0%{top:-40%}100%{top:100%}}
+.boot-core{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.boot-mark{width:96px;height:108px;margin-bottom:28px;filter:drop-shadow(0 0 26px rgba(45,212,191,.45))}
+.boot-mark path{stroke:#5eead4;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.boot-mark .shield{stroke-dasharray:240;stroke-dashoffset:240;animation:draw 1.1s .15s ease forwards}
+.boot-mark .glyph{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .7s .85s ease forwards}
+.boot-mark .fillpulse{fill:rgba(45,212,191,.06);opacity:0;animation:fillin 1s 1.1s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fillin{to{opacity:1}}
+.boot-word{font-family:'Space Grotesk',sans-serif;font-size:46px;font-weight:700;color:#fff;
+  letter-spacing:1.4em;padding-left:1.4em;opacity:0;animation:wordin 1s 1.15s ease forwards}
+@keyframes wordin{from{opacity:0;letter-spacing:1.4em;padding-left:1.4em}to{opacity:1;letter-spacing:.34em;padding-left:.34em}}
+.boot-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5eead4;letter-spacing:.42em;
+  text-transform:uppercase;margin-top:14px;opacity:0;animation:fadeup .6s 1.7s ease forwards}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.boot-bar{width:280px;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;
+  margin-top:38px;opacity:0;animation:fadeup .5s 1.9s ease forwards}
+.boot-bar > i{display:block;height:100%;width:0;border-radius:3px;
+  background:linear-gradient(90deg,#0ea882,#5eead4);box-shadow:0 0 12px rgba(94,234,212,.6);
+  animation:load 1.9s 2s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes load{to{width:100%}}
+.boot-log{margin-top:22px;height:20px;font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:rgba(173,213,202,.75);letter-spacing:.04em;text-align:center;min-width:320px}
+.boot-log b{color:#5eead4;font-weight:500}
+.boot-skip{position:absolute;bottom:26px;right:28px;z-index:3;font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.1em;cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:6px 12px;transition:all .15s}
+.boot-skip:hover{color:#5eead4;border-color:rgba(94,234,212,.4)}
+
+/* ════════════════ LOGIN (dark glass) ════════════════ */
+#screen-login{
+  background:radial-gradient(130% 100% at 80% -10%, #123255 0%, #0a1626 50%, #060e1a 100%);
+  align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+.login-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(45,212,191,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,.045) 1px,transparent 1px);
+  background-size:54px 54px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 20%,#000,transparent 75%);
+  mask-image:radial-gradient(ellipse 80% 70% at 70% 20%,#000,transparent 75%)}
+.login-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
+.login-orb.o1{width:420px;height:420px;background:#0ea882;top:-120px;right:-60px;opacity:.25}
+.login-orb.o2{width:340px;height:340px;background:#3b82f6;bottom:-120px;left:-80px;opacity:.18}
+.login-split{position:relative;z-index:2;width:880px;max-width:94vw;display:grid;grid-template-columns:1fr 1fr;
+  border-radius:24px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08)}
+.login-left{padding:46px 42px;background:linear-gradient(160deg,rgba(20,40,66,.6),rgba(10,22,38,.4));
+  backdrop-filter:blur(20px);display:flex;flex-direction:column}
+.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:auto}
+.login-brand-mark{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#0ea882,#0c8f6e);
+  display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(14,168,130,.5)}
+.login-brand-mark svg{width:22px;height:22px;fill:#fff}
+.login-brand-text{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:.06em}
+.login-brand-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(94,234,212,.7);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+.login-hero{margin:30px 0}
+.login-hero h1{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.01em}
+.login-hero h1 span{color:#5eead4}
+.login-hero p{font-size:13px;color:rgba(203,220,235,.7);line-height:1.7;margin-top:14px;max-width:300px}
+.login-feats{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+.login-feat{display:flex;align-items:center;gap:10px;font-size:12px;color:rgba(203,220,235,.85)}
+.login-feat i{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  background:rgba(94,234,212,.12);color:#5eead4;font-size:14px;flex-shrink:0}
+.login-right{padding:44px 40px;background:rgba(248,250,252,.98);backdrop-filter:blur(10px)}
+.login-title{font-size:21px;font-weight:700;color:#0b1929;margin-bottom:5px;font-family:'Space Grotesk',sans-serif}
+.login-sub{font-size:13px;color:#64748b;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:11px;font-weight:600;color:#374151;margin-bottom:6px;letter-spacing:.03em;text-transform:uppercase}
+.form-input,.form-select{width:100%;padding:11px 13px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:14px;
+  color:#1a1d23;background:#fff;outline:none;transition:all .18s;font-family:'Inter',sans-serif}
+.form-input:focus,.form-select:focus{border-color:#0ea882;box-shadow:var(--ring)}
+.form-select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.btn-login{width:100%;padding:13px;background:linear-gradient(135deg,#0ea882,#0c8f6e);color:#fff;border:none;
+  border-radius:9px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;
+  margin-top:6px;box-shadow:0 6px 18px rgba(14,168,130,.32)}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(14,168,130,.42)}
+.google-btn{width:100%;padding:11px;border:1.5px solid #e2e8f0;border-radius:9px;background:#fff;color:#374151;
+  font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:8px;transition:all .15s;font-family:'Inter',sans-serif}
+.google-btn:hover{border-color:#cbd5e1;background:#f8fafc}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#94a3b8;font-size:11px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.login-foot{text-align:center;margin-top:18px;font-size:11px;color:#94a3b8;line-height:1.7}
+
+/* ════════════════ CONSENT ════════════════ */
+#screen-consent{background:radial-gradient(120% 90% at 50% 0%, #0e1d31, #060e1a);align-items:center;justify-content:center;padding:24px}
+.consent-box{background:#fff;border-radius:22px;padding:40px;width:600px;max-width:100%;box-shadow:var(--shadow-lg);max-height:92vh;overflow-y:auto}
+.consent-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:22px;border-bottom:1.5px solid #f1f5f9}
+.consent-logo{width:42px;height:42px;background:linear-gradient(135deg,#0ea882,#0c8f6e);border-radius:11px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;font-family:'Space Grotesk',sans-serif;box-shadow:0 0 18px rgba(14,168,130,.4)}
+.consent-title{font-size:19px;font-weight:700;color:#0b1929;font-family:'Space Grotesk',sans-serif}
+.consent-sub{font-size:12px;color:#64748b;margin-top:2px}
+.consent-intro{font-size:13.5px;color:#374151;line-height:1.7;margin-bottom:22px}
+.consent-items{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.consent-item{display:flex;gap:13px;padding:13px;background:#f8fafc;border-radius:11px;border:1px solid #eef2f7}
+.consent-item-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+.ci-teal{background:#e6f8f3;color:#0ea882}.ci-blue{background:#eff6ff;color:#3b82f6}.ci-amber{background:#fffbeb;color:#f59e0b}.ci-purple{background:#f5f3ff;color:#8b5cf6}
+.consent-item-title{font-size:13px;font-weight:600;color:#0b1929;margin-bottom:2px}
+.consent-item-desc{font-size:12px;color:#64748b;line-height:1.55}
+.consent-check-row{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-top:1px solid #f1f5f9}
+.consent-check-row input{width:16px;height:16px;accent-color:#0ea882;flex-shrink:0;margin-top:2px;cursor:pointer}
+.consent-check-label{font-size:12.5px;color:#374151;line-height:1.5;cursor:pointer}
+.consent-actions{display:flex;gap:10px;margin-top:18px}
+.btn-consent{flex:1;padding:13px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-consent-primary{background:linear-gradient(135deg,#0ea882,#0c8f6e);color:#fff;box-shadow:0 6px 16px rgba(14,168,130,.3)}
+.btn-consent-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 9px 22px rgba(14,168,130,.4)}
+.btn-consent-primary:disabled{opacity:.45;cursor:not-allowed}
+.btn-consent-ghost{background:#f1f5f9;color:#64748b}.btn-consent-ghost:hover{background:#e2e8f0}
+
+/* ════════════════ APP SHELL ════════════════ */
+#screen-app{flex-direction:row}
+.sidebar{width:236px;min-height:100vh;background:linear-gradient(180deg,#0a1626,#081120);display:flex;flex-direction:column;flex-shrink:0;box-shadow:6px 0 30px rgba(0,0,0,.18);position:relative}
+.sidebar::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,rgba(94,234,212,.0),rgba(94,234,212,.12),rgba(94,234,212,.0))}
+.sb-logo{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-logo-row{display:flex;align-items:center;gap:11px}
+.sb-logo-mark{width:36px;height:36px;background:linear-gradient(135deg,#0ea882,#0c8f6e);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 18px rgba(14,168,130,.45)}
+.sb-logo-mark svg{width:19px;height:19px;fill:#fff}
+.sb-logo-text{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:.05em}
+.sb-logo-sub{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(94,234,212,.55);letter-spacing:.14em;text-transform:uppercase;margin-top:4px;padding-left:47px}
+.sb-role-badge{margin:14px;background:rgba(14,168,130,.1);border:1px solid rgba(14,168,130,.2);border-radius:10px;padding:9px 13px;position:relative;overflow:hidden}
+.sb-role-badge::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:#0ea882}
+.sb-role-label{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em}
+.sb-role-val{font-size:13px;color:#5eead4;font-weight:600;margin-top:3px;font-family:'Space Grotesk',sans-serif}
+.sb-section{padding:14px 18px 5px;font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.22);text-transform:uppercase;letter-spacing:.14em;font-weight:500}
+.sb-item{display:flex;align-items:center;gap:11px;padding:10px 18px;color:rgba(255,255,255,.5);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;border-left:3px solid transparent;user-select:none}
+.sb-item:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.04)}
+.sb-item.active{color:#5eead4;background:linear-gradient(90deg,rgba(14,168,130,.16),transparent);border-left-color:#0ea882}
+.sb-item i{font-size:17px;width:20px;text-align:center;opacity:.85}
+.sb-item.active i{opacity:1}
+.sb-badge{margin-left:auto;background:#ef4444;color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:600;box-shadow:0 0 10px rgba(239,68,68,.5)}
+.sb-bottom{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-user{display:flex;align-items:center;gap:10px;cursor:pointer;padding:7px;border-radius:9px;transition:background .15s}
+.sb-user:hover{background:rgba(255,255,255,.05)}
+.sb-avatar{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.sb-uname{font-size:13px;color:rgba(255,255,255,.9);font-weight:500}
+.sb-uemail{font-size:10px;color:rgba(255,255,255,.32);margin-top:1px}
+.sb-logout{margin-left:auto;color:rgba(255,255,255,.25);font-size:16px;cursor:pointer}
+.sb-logout:hover{color:#5eead4}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.topbar{background:rgba(255,255,255,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-title{font-size:16px;font-weight:700;color:var(--text);font-family:'Space Grotesk',sans-serif}
+.topbar-crumb{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.04em}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.role-switcher{display:flex;background:#eef2f7;border-radius:9px;padding:3px;gap:2px}
+.rs-btn{padding:6px 14px;border-radius:7px;border:none;background:transparent;color:#64748b;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.rs-btn.active{background:#fff;color:#0b1929;box-shadow:0 1px 5px rgba(16,28,48,.12)}
+.topbar-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748b;font-size:18px;transition:all .15s;position:relative}
+.topbar-icon:hover{background:#eef2f7;color:#1a1d23}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:#ef4444;border-radius:50%;border:2px solid #fff}
+.content{flex:1;overflow-y:auto;padding:28px}
+
+/* PAGE TRANSITION */
+.page{display:none}
+.page.visible{display:block;animation:pagein .45s cubic-bezier(.22,1,.36,1)}
+@keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.page-header{margin-bottom:24px}
+.page-header h2{font-size:22px;font-weight:700;color:var(--text);font-family:'Space Grotesk',sans-serif;letter-spacing:-.01em}
+.page-header p{font-size:13px;color:var(--text3);margin-top:5px}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--teal);opacity:0;transition:opacity .25s}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-card:hover::before{opacity:1}
+.stat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+.si-teal{background:#e6f8f3;color:#0ea882}.si-amber{background:#fffbeb;color:#f59e0b}.si-red{background:#fef2f2;color:#ef4444}.si-blue{background:#eff6ff;color:#3b82f6}.si-green{background:#ecfdf5;color:#10b981}.si-purple{background:#f5f3ff;color:#8b5cf6}
+.stat-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.stat-val{font-size:28px;font-weight:700;color:var(--text);line-height:1;font-family:'Space Grotesk',sans-serif}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:6px;font-family:'JetBrains Mono',monospace}
+.stat-good .stat-val{color:#0ea882}.stat-warn .stat-val{color:#f59e0b}.stat-bad .stat-val{color:#ef4444}
+
+/* CARDS */
+.card{background:#fff;border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:'Space Grotesk',sans-serif}
+.card-title-right{font-size:12px;font-weight:500;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f3f6fa;font-size:13px}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row-name{flex:1;color:var(--text);font-weight:500}
+.row-right{color:var(--text2);font-size:13px;font-family:'JetBrains Mono',monospace}
+
+.task-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f6f8fb;font-size:13px}
+.task-row:last-child{border-bottom:none}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot-green{background:#10b981;box-shadow:0 0 8px rgba(16,185,129,.4)}.dot-amber{background:#f59e0b}.dot-gray{background:#cbd5e1}.dot-red{background:#ef4444;box-shadow:0 0 8px rgba(239,68,68,.4)}
+.task-name{flex:1;color:var(--text)}
+
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;letter-spacing:.01em}
+.tag-green{background:#d1fae5;color:#065f46}.tag-amber{background:#fef3c7;color:#92400e}.tag-red{background:#fee2e2;color:#991b1b}.tag-blue{background:#dbeafe;color:#1e40af}.tag-gray{background:#eef2f7;color:#475569}.tag-purple{background:#ede9fe;color:#5b21b6}.tag-teal{background:#ccfbf1;color:#0f766e}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid var(--border2);background:#fff;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.btn:hover{background:#f8fafc;border-color:#b9c4d2}
+.btn-primary{background:linear-gradient(135deg,#0ea882,#0c8f6e);color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(14,168,130,.25)}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(14,168,130,.36);transform:translateY(-1px)}
+.btn-danger{background:#fef2f2;color:#dc2626;border-color:#fecaca}.btn-danger:hover{background:#fee2e2}
+.btn-warn{background:#fffbeb;color:#d97706;border-color:#fde68a}
+
+.member-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #f6f8fb}
+.member-row:last-child{border-bottom:none}
+.m-avatar{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.m-name{font-size:13px;font-weight:600;color:var(--text)}
+.m-role{font-size:11px;color:var(--text3);margin-top:1px}
+.m-bar-bg{flex:1;height:5px;background:#eef2f7;border-radius:3px;overflow:hidden}
+.m-bar-fill{height:100%;border-radius:3px}
+.m-score{font-size:12px;font-weight:700;min-width:26px;text-align:right;font-family:'JetBrains Mono',monospace}
+
+.hbar-wrap{margin:9px 0}
+.hbar-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:5px}
+.hbar-label{color:var(--text2);font-weight:500}
+.hbar-val{color:var(--text3);font-family:'JetBrains Mono',monospace}
+.hbar-bg{height:6px;background:#eef2f7;border-radius:3px;overflow:hidden}
+.hbar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+.hf-green{background:linear-gradient(90deg,#10b981,#34d399)}.hf-amber{background:linear-gradient(90deg,#f59e0b,#fbbf24)}.hf-red{background:linear-gradient(90deg,#ef4444,#f87171)}
+
+.score-ring-wrap{display:flex;align-items:center;gap:18px;margin-bottom:16px;padding:16px;background:#f8fafc;border-radius:12px;border:1px solid #eef2f7}
+.score-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.score-ring svg{position:absolute;top:0;left:0}
+.score-num{font-size:18px;font-weight:800;color:var(--text);font-family:'Space Grotesk',sans-serif}
+.score-status{font-size:14px;font-weight:700}
+.score-team{font-size:12px;color:var(--text3);margin-top:2px}
+
+.alert-row{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #f6f8fb}
+.alert-row:last-child{border-bottom:none}
+.alert-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.ai-red{background:#fef2f2;color:#dc2626}.ai-amber{background:#fffbeb;color:#d97706}.ai-blue{background:#eff6ff;color:#2563eb}.ai-green{background:#ecfdf5;color:#059669}
+.alert-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.alert-desc{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:8px}
+.alert-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+.activity-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #f6f8fb;font-size:12px}
+.activity-item:last-child{border-bottom:none}
+.act-dot{width:7px;height:7px;border-radius:50%;background:#cbd5e1;margin-top:4px;flex-shrink:0}
+.act-text{flex:1;color:var(--text2);line-height:1.55}
+.act-time{color:var(--text3);white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:11px}
+
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{text-align:left;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text3);background:#f8fafc;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+.table td{padding:12px 14px;border-bottom:1px solid #f6f8fb;color:var(--text);vertical-align:middle}
+.table tr:last-child td{border-bottom:none}
+.table tbody tr{transition:background .12s}
+.table tbody tr:hover td{background:#f8fbfa}
+
+.skill-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f6f8fb;font-size:13px}
+.skill-row:last-child{border-bottom:none}
+.skill-name{flex:0 0 170px;color:var(--text);font-weight:500}
+.skill-bar-wrap{flex:1;height:6px;background:#eef2f7;border-radius:3px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#0ea882,#34d399)}
+.skill-scores{font-size:12px;color:var(--text3);flex:0 0 140px;text-align:right;font-family:'JetBrains Mono',monospace}
+.skill-adj-bold{font-weight:700;color:#0ea882}
+
+.onboard-step{display:flex;gap:16px;padding:15px 0;border-bottom:1px solid #f6f8fb;align-items:flex-start}
+.onboard-step:last-child{border-bottom:none}
+.step-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Space Grotesk',sans-serif}
+.step-done{background:#d1fae5;color:#065f46}
+.step-curr{background:linear-gradient(135deg,#0ea882,#0c8f6e);color:#fff;box-shadow:0 0 14px rgba(14,168,130,.45)}
+.step-todo{background:#eef2f7;color:#94a3b8}
+.step-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.55}
+
+.ws-file{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border-radius:11px;border:1px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:8px}
+.ws-file:hover{box-shadow:var(--shadow-md);transform:translateX(3px)}
+.ws-file.active-file{border-color:#0ea882;background:#f0fdf9;box-shadow:var(--ring)}
+.ws-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ws-file-name{font-size:13px;font-weight:600;color:var(--text)}
+.ws-file-meta{font-size:11px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace}
+.ws-embed{background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:14px;height:260px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;margin-bottom:18px}
+.ws-embed-icon{font-size:36px;color:#cbd5e1}
+.ws-embed-text{font-size:14px;font-weight:600;color:#94a3b8;font-family:'Space Grotesk',sans-serif}
+.ws-embed-sub{font-size:12px;color:#b0bec5}
+
+.section-hd{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;margin-top:4px}
+
+.chat-msgs{height:130px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:12px;padding:4px}
+.chat-msg{font-size:12px;line-height:1.5}.chat-sender{font-weight:700}
+.chat-input-row{display:flex;gap:8px}
+.chat-input{flex:1;padding:9px 12px;border-radius:9px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:12px;color:var(--text);outline:none;font-family:'Inter',sans-serif}
+.chat-input:focus{border-color:#0ea882;background:#fff}
+.chat-send{padding:9px 12px;background:linear-gradient(135deg,#0ea882,#0c8f6e);color:#fff;border:none;border-radius:9px;cursor:pointer;font-size:14px}
+
+.email-preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:11px;padding:18px;font-size:13px;color:#374151;line-height:1.8;font-family:'Georgia',serif;margin-bottom:14px;white-space:pre-line}
+
+.online-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13px;border-bottom:1px solid #f6f8fb}
+.online-row:last-child{border-bottom:none}
+.online-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.od-green{background:#10b981;box-shadow:0 0 8px rgba(16,185,129,.5)}.od-gray{background:#cbd5e1}
+
+.nav-group{display:none}.nav-group.active{display:block}
+
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+::selection{background:rgba(14,168,130,.2)}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.05ms !important}}
+
+/* ════════════════ TOASTS ════════════════ */
+#toasts{position:fixed;bottom:22px;right:22px;z-index:400;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{display:flex;align-items:flex-start;gap:11px;background:#0e1d31;color:#fff;padding:13px 16px;border-radius:12px;
+  box-shadow:0 12px 36px rgba(0,0,0,.35);min-width:280px;max-width:360px;pointer-events:auto;
+  border:1px solid rgba(255,255,255,.08);animation:toastin .35s cubic-bezier(.22,1,.36,1)}
+.toast.out{animation:toastout .3s ease forwards}
+@keyframes toastin{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes toastout{to{opacity:0;transform:translateX(40px)}}
+.toast-ic{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:1px}
+.toast.ok .toast-ic{background:rgba(14,168,130,.22);color:#5eead4}
+.toast.warn .toast-ic{background:rgba(245,158,11,.2);color:#fbbf24}
+.toast.bad .toast-ic{background:rgba(239,68,68,.2);color:#f87171}
+.toast.info .toast-ic{background:rgba(59,130,246,.2);color:#93c5fd}
+.toast-body{flex:1}
+.toast-t{font-size:13px;font-weight:600;line-height:1.3}
+.toast-d{font-size:11.5px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.4}
+.toast-x{color:rgba(255,255,255,.35);font-size:15px;cursor:pointer;margin-top:1px}
+.toast-x:hover{color:#fff}
+
+/* ════════════════ MODAL ════════════════ */
+.overlay{position:fixed;inset:0;z-index:350;background:rgba(8,16,28,.55);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:24px}
+.overlay.open{display:flex;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:18px;width:480px;max-width:100%;max-height:88vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);animation:modalin .3s cubic-bezier(.22,1,.36,1)}
+.modal.wide{width:620px}
+@keyframes modalin{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--text)}
+.modal-head .sub{font-size:12px;color:var(--text3);margin-top:2px}
+.modal-x{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:18px;transition:all .15s}
+.modal-x:hover{background:#eef2f7;color:var(--text)}
+.modal-body{padding:22px 24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.mfield{margin-bottom:14px}
+.mfield label{display:block;font-size:11px;font-weight:600;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:.03em}
+.mfield input,.mfield select,.mfield textarea{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:14px;color:var(--text);background:#fff;outline:none;font-family:'Inter',sans-serif;transition:all .15s}
+.mfield input:focus,.mfield select:focus,.mfield textarea:focus{border-color:#0ea882;box-shadow:var(--ring)}
+.mfield textarea{resize:vertical;min-height:90px}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f3f6fa;font-size:13px}
+.kv:last-child{border-bottom:none}
+.kv span:first-child{color:var(--text2)}
+.kv span:last-child{font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace}
+
+/* ════════════════ NOTIF PANEL ════════════════ */
+.popwrap{position:relative}
+.notif-panel,.search-panel{position:fixed;z-index:360;background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);border:1px solid var(--border);display:none;overflow:hidden}
+.notif-panel.open,.search-panel.open{display:block;animation:popin .22s cubic-bezier(.22,1,.36,1)}
+@keyframes popin{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+.notif-panel{top:60px;right:96px;width:360px}
+.notif-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.notif-head b{font-family:'Space Grotesk',sans-serif;font-size:14px;color:var(--text)}
+.notif-clear{font-size:11px;color:#0ea882;cursor:pointer;font-weight:600}
+.notif-clear:hover{text-decoration:underline}
+.notif-list{max-height:380px;overflow-y:auto}
+.notif-item{display:flex;gap:12px;padding:13px 18px;border-bottom:1px solid #f6f8fb;cursor:pointer;transition:background .12s;position:relative}
+.notif-item:hover{background:#f8fafc}
+.notif-item.unread{background:#f0fdf9}
+.notif-item.unread:hover{background:#e6f8f3}
+.notif-item.read{opacity:.6}
+.ni-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ni-t{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.4}
+.ni-d{font-size:11.5px;color:var(--text2);margin-top:2px;line-height:1.45}
+.ni-time{font-size:10px;color:var(--text3);margin-top:4px;font-family:'JetBrains Mono',monospace}
+.notif-empty{padding:34px 18px;text-align:center;color:var(--text3);font-size:13px}
+.notif-foot{padding:11px 18px;border-top:1px solid var(--border);text-align:center}
+.notif-foot a{font-size:12px;color:#0ea882;font-weight:600;cursor:pointer}
+
+/* SEARCH PALETTE */
+.search-panel{top:60px;right:132px;width:420px}
+.search-in-wrap{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.search-in-wrap i{color:var(--text3);font-size:18px}
+.search-in-wrap input{flex:1;border:none;outline:none;font-size:14px;color:var(--text);font-family:'Inter',sans-serif;background:transparent}
+.search-results{max-height:340px;overflow-y:auto;padding:6px}
+.sr-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:13px;color:var(--text)}
+.sr-item:hover,.sr-item.sel{background:#f0fdf9}
+.sr-item i{width:30px;height:30px;border-radius:8px;background:#eef2f7;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:15px;flex-shrink:0}
+.sr-item .sr-role{margin-left:auto;font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;text-transform:uppercase}
+.sr-empty{padding:24px;text-align:center;color:var(--text3);font-size:13px}
+
+/* ALLOCATION RUNNER */
+.alloc-over{position:fixed;inset:0;z-index:370;background:radial-gradient(120% 90% at 50% 0%,#0e1d31,#060e1a);display:none;align-items:center;justify-content:center;flex-direction:column}
+.alloc-over.open{display:flex;animation:fadein .3s ease}
+.alloc-mark{width:64px;height:72px;margin-bottom:24px;filter:drop-shadow(0 0 22px rgba(94,234,212,.5));animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.08);opacity:1}}
+.alloc-mark path{stroke:#5eead4;fill:rgba(94,234,212,.06);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.alloc-title{font-family:'Space Grotesk',sans-serif;font-size:20px;color:#fff;font-weight:700;letter-spacing:.02em}
+.alloc-bar{width:300px;height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-top:24px}
+.alloc-bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#0ea882,#5eead4);box-shadow:0 0 12px rgba(94,234,212,.6)}
+.alloc-log{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(173,213,202,.8);height:20px;letter-spacing:.04em}
+.alloc-log b{color:#5eead4}
+
+.task-row.done .task-name{text-decoration:line-through;color:var(--text3)}
+.toggle-task{cursor:pointer;user-select:none}
+.toggle-task:hover .task-name{color:#0ea882}
+
+/* clickable surfaces */
+.stat-card,.member-row,.activity-item,.skill-row,.onboard-step,.row,.online-row,.alert-row,.score-ring-wrap,.hbar-wrap,.task-row,.table tbody tr{cursor:pointer}
+.member-row:hover,.activity-item:hover,.skill-row:hover,.online-row:hover,.hbar-wrap:hover,.task-row:hover,.row:hover{background:#f6fbfa}
+.onboard-step:hover{background:#f6fbfa;border-radius:8px}
+.alert-row:hover{background:#fcfdff}
+.score-ring-wrap:hover{box-shadow:var(--ring)}
+
+/* ════════════════ ACCESSIBILITY ════════════════ */
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:6px}
+.sb-item:focus-visible,.rs-btn:focus-visible,.topbar-icon:focus-visible,.hamburger:focus-visible,.ws-file:focus-visible{outline:2px solid var(--teal-gl);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ════════════════ MOBILE / HAMBURGER ════════════════ */
+.hamburger{display:none;width:38px;height:38px;border-radius:9px;align-items:center;justify-content:center;cursor:pointer;color:#475569;font-size:21px;transition:background .15s}
+.hamburger:hover{background:#eef2f7}
+.sb-backdrop{position:fixed;inset:0;background:rgba(8,16,28,.5);backdrop-filter:blur(2px);z-index:110;opacity:0;visibility:hidden;transition:opacity .3s}
+.sb-roleswitch{display:none}
+
+@media(max-width:860px){
+  .hamburger{display:flex}
+  .sidebar{position:fixed;top:0;left:0;height:100%;width:266px;z-index:130;transform:translateX(-100%);transition:transform .32s cubic-bezier(.22,1,.36,1)}
+  body.sb-open .sidebar{transform:translateX(0);box-shadow:10px 0 50px rgba(0,0,0,.45)}
+  body.sb-open .sb-backdrop{opacity:1;visibility:visible}
+  .topbar .role-switcher{display:none}
+  .sb-roleswitch{display:flex;margin:0 14px 10px;background:rgba(255,255,255,.06);border-radius:9px;padding:3px;gap:2px}
+  .sb-roleswitch .rs-btn{flex:1;color:rgba(255,255,255,.6)}
+  .sb-roleswitch .rs-btn.active{background:#fff;color:#0b1929}
+  .topbar-crumb{display:none}
+  .topbar{padding:0 14px}
+  .topbar-left{gap:8px}
+  .content{padding:16px}
+  .two-col{grid-template-columns:1fr}
+  .notif-panel,.search-panel{left:12px;right:12px;width:auto;top:60px}
+  #toasts{left:12px;right:12px;bottom:12px}
+  .toast{min-width:0;max-width:none;width:100%}
+  .overlay{padding:14px}
+}
+@media(max-width:760px){
+  #screen-login{align-items:flex-start;overflow-y:auto;padding:0}
+  .login-split{grid-template-columns:1fr;width:100%;max-width:520px;margin:0 auto;border-radius:0;min-height:100vh}
+  .login-left{padding:36px 26px}
+  .login-hero{margin:24px 0}
+  .login-hero h1{font-size:27px}
+  .login-right{padding:34px 26px}
+  .login-orb{display:none}
+  .consent-box{padding:26px}
+  .stat-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+  .boot-word{font-size:38px}
+}
+@media(max-width:430px){
+  .page-header h2{font-size:19px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat-val{font-size:23px}
+  .login-hero h1{font-size:24px}
+  .skill-name{flex:0 0 118px}
+  .skill-scores{flex:0 0 108px}
+  .topbar-title{font-size:15px}
+  .topbar-icon{width:34px;height:34px;font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ BOOT ═══════════ -->
+<div class="screen active" id="screen-boot">
+  <div class="boot-grid"></div>
+  <div class="boot-scan"></div>
+  <div class="boot-skip" onclick="endBoot()">SKIP →</div>
+  <div class="boot-core">
+    <svg class="boot-mark" viewBox="0 0 96 108">
+      <path class="fillpulse" d="M48 5 L88 19 V56 C88 84 70 98 48 104 C26 98 8 84 8 56 V19 Z"/>
+      <path class="shield" d="M48 5 L88 19 V56 C88 84 70 98 48 104 C26 98 8 84 8 56 V19 Z"/>
+      <path class="glyph" d="M48 28 V76 M30 52 H66"/>
+    </svg>
+    <div class="boot-word">AEGIS</div>
+    <div class="boot-tag">Capstone Intelligence</div>
+    <div class="boot-bar"><i></i></div>
+    <div class="boot-log mono" id="boot-log">&nbsp;</div>
+  </div>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div class="screen" id="screen-login">
+  <div class="login-grid"></div>
+  <div class="login-orb o1"></div>
+  <div class="login-orb o2"></div>
+  <div class="login-split">
+    <!-- left brand panel -->
+    <div class="login-left">
+      <div class="login-brand">
+        <div class="login-brand-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div>
+          <div class="login-brand-text">AEGIS</div>
+          <div class="login-brand-sub">Capstone Intelligence</div>
+        </div>
+      </div>
+      <div class="login-hero">
+        <h1>Fair teams.<br><span>Real evidence.</span><br>Zero free-riders.</h1>
+        <p>AEGIS forms balanced capstone teams from verified skill signals, then watches for ghosting and burnout — so no one carries the group alone.</p>
+      </div>
+      <div class="login-feats">
+        <div class="login-feat"><i class="ti ti-wand"></i>Maximin + SPA team formation</div>
+        <div class="login-feat"><i class="ti ti-shield-check"></i>PDPA-compliant, human-in-the-loop</div>
+        <div class="login-feat"><i class="ti ti-activity"></i>72-hour contribution monitoring</div>
+      </div>
+    </div>
+    <!-- right form -->
+    <div class="login-right">
+      <div class="login-title">Welcome back</div>
+      <div class="login-sub">Sign in to continue to your workspace.</div>
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <div class="divider">or sign in with email</div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" placeholder="you@iit.ac.lk" id="login-email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="••••••••" id="login-pass">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sign in as</label>
+        <select class="form-select" id="login-role">
+          <option value="student">Student</option>
+          <option value="faculty">Faculty / Supervisor</option>
+          <option value="admin">System Admin</option>
+        </select>
+      </div>
+      <button class="btn-login" onclick="doLogin()">Sign in to AEGIS</button>
+      <div class="login-foot">Informatics Institute of Technology · Sri Lanka<br>Protected under PDPA No. 9 of 2022</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONSENT ═══════════ -->
+<div class="screen" id="screen-consent">
+  <div class="consent-box">
+    <div class="consent-header">
+      <div class="consent-logo">AE</div>
+      <div><div class="consent-title">Data use &amp; monitoring consent</div><div class="consent-sub">Please read carefully before continuing</div></div>
+    </div>
+    <div class="consent-intro">AEGIS is a transparent system — everything it monitors, you are told about now. Your workspace activity supports fair contribution tracking, protects you from carrying others' work, and gives lecturers accurate information for grade disputes.</div>
+    <div class="consent-items">
+      <div class="consent-item"><div class="consent-item-icon ci-teal"><i class="ti ti-activity"></i></div><div><div class="consent-item-title">Workspace activity monitoring</div><div class="consent-item-desc">Google Drive edits, file revisions, and document activity are polled every 72 hours. Only metadata is recorded — document contents are never read.</div></div></div>
+      <div class="consent-item"><div class="consent-item-icon ci-blue"><i class="ti ti-chart-bar"></i></div><div><div class="consent-item-title">Contribution scoring</div><div class="consent-item-desc">A contribution score is computed from task completion and workspace engagement, visible to you and your lecturer. It feeds ghosting detection and workload balancing.</div></div></div>
+      <div class="consent-item"><div class="consent-item-icon ci-amber"><i class="ti ti-eye"></i></div><div><div class="consent-item-title">What lecturers can see</div><div class="consent-item-desc">Lecturers see team health scores and flagged anomalies — not raw logs. No automated decision affects your standing without a faculty review first.</div></div></div>
+      <div class="consent-item"><div class="consent-item-icon ci-purple"><i class="ti ti-shield-check"></i></div><div><div class="consent-item-title">Your rights under PDPA</div><div class="consent-item-desc">You may view your own data, appeal any placement, and withdraw from optional collection at any time. Data is retained for one academic year then deleted.</div></div></div>
+    </div>
+    <div style="border-top:1px solid #f1f5f9">
+      <div class="consent-check-row"><input type="checkbox" id="c1" onchange="checkConsent()"><label class="consent-check-label" for="c1">I understand my Google Drive activity metadata will be collected every 72 hours for the duration of the capstone project.</label></div>
+      <div class="consent-check-row"><input type="checkbox" id="c2" onchange="checkConsent()"><label class="consent-check-label" for="c2">I understand my contribution score is visible to my supervisor and can be used in grade dispute resolution.</label></div>
+      <div class="consent-check-row"><input type="checkbox" id="c3" onchange="checkConsent()"><label class="consent-check-label" for="c3">I have read and agree to the AEGIS data governance policy, and consent to my data being processed as described.</label></div>
+    </div>
+    <div class="consent-actions">
+      <button class="btn-consent btn-consent-ghost" onclick="backToLogin()">Go back</button>
+      <button class="btn-consent btn-consent-primary" id="consent-btn" disabled onclick="doConsent()">I agree &amp; continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div class="screen" id="screen-app">
+  <div class="sb-backdrop" onclick="closeSidebar()"></div>
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-row">
+        <div class="sb-logo-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div class="sb-logo-text">AEGIS</div>
+      </div>
+      <div class="sb-logo-sub">Capstone Intelligence</div>
+    </div>
+    <div class="sb-role-badge"><div class="sb-role-label">Viewing as</div><div class="sb-role-val" id="role-display">Student</div></div>
+    <div class="sb-roleswitch">
+      <button class="rs-btn active" onclick="switchRole('student',this)">Student</button>
+      <button class="rs-btn" onclick="switchRole('faculty',this)">Faculty</button>
+      <button class="rs-btn" onclick="switchRole('admin',this)">Admin</button>
+    </div>
+
+    <div class="nav-group active" id="nav-student">
+      <div class="sb-section">Student</div>
+      <div class="sb-item active" onclick="nav('s-dashboard',this)"><i class="ti ti-home"></i>Dashboard</div>
+      <div class="sb-item" onclick="nav('s-workspace',this)"><i class="ti ti-layout-board"></i>Workspace</div>
+      <div class="sb-item" onclick="nav('s-profile',this)"><i class="ti ti-chart-radar"></i>My profile</div>
+      <div class="sb-item" onclick="nav('s-onboard',this)"><i class="ti ti-clipboard-check"></i>Onboarding</div>
+    </div>
+    <div class="nav-group" id="nav-faculty">
+      <div class="sb-section">Faculty</div>
+      <div class="sb-item" onclick="nav('f-dashboard',this)"><i class="ti ti-home"></i>Overview</div>
+      <div class="sb-item" onclick="nav('f-teams',this)"><i class="ti ti-users"></i>Teams</div>
+      <div class="sb-item" onclick="nav('f-alerts',this)"><i class="ti ti-bell"></i>Alerts<span class="sb-badge">3</span></div>
+      <div class="sb-item" onclick="nav('f-allocation',this)"><i class="ti ti-wand"></i>Run allocation</div>
+    </div>
+    <div class="nav-group" id="nav-admin">
+      <div class="sb-section">Admin</div>
+      <div class="sb-item" onclick="nav('a-dashboard',this)"><i class="ti ti-home"></i>System overview</div>
+      <div class="sb-item" onclick="nav('a-users',this)"><i class="ti ti-users"></i>Users</div>
+      <div class="sb-item" onclick="nav('a-cohorts',this)"><i class="ti ti-school"></i>Cohorts</div>
+      <div class="sb-item" onclick="nav('a-settings',this)"><i class="ti ti-settings"></i>Settings</div>
+    </div>
+
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sb-av" style="background:linear-gradient(135deg,#0ea882,#0c8f6e)">ZN</div>
+        <div><div class="sb-uname" id="sb-name">Zaidh Najeeb</div><div class="sb-uemail" id="sb-email">Student · CS</div></div>
+        <i class="ti ti-logout sb-logout" title="Sign out" onclick="logout()"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="hamburger" onclick="toggleSidebar()" role="button" tabindex="0" aria-label="Open menu"><i class="ti ti-menu-2" aria-hidden="true"></i></div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-crumb" id="topbar-crumb">/ student</div>
+      </div>
+      <div class="topbar-right">
+        <div class="role-switcher">
+          <button class="rs-btn active" onclick="switchRole('student',this)">Student</button>
+          <button class="rs-btn" onclick="switchRole('faculty',this)">Faculty</button>
+          <button class="rs-btn" onclick="switchRole('admin',this)">Admin</button>
+        </div>
+        <div class="topbar-icon" id="searchIcon" onclick="toggleSearch(event)" role="button" tabindex="0" aria-label="Search"><i class="ti ti-search" aria-hidden="true"></i></div>
+        <div class="topbar-icon" id="bellIcon" onclick="toggleNotif(event)" role="button" tabindex="0" aria-label="Notifications"><i class="ti ti-bell" aria-hidden="true"></i><span class="notif-dot" id="notifDot"></span></div>
+        <div class="topbar-icon" onclick="openSettings()" role="button" tabindex="0" aria-label="Preferences"><i class="ti ti-settings" aria-hidden="true"></i></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- STUDENT DASHBOARD -->
+      <div class="page visible" id="page-s-dashboard">
+        <div class="page-header"><h2>Good morning, Zaidh</h2><p>Here's your capstone snapshot for today.</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon si-amber"><i class="ti ti-subtask"></i></div><div class="stat-label">Tasks remaining</div><div class="stat-val">4</div><div class="stat-sub">sprint ends Fri</div></div>
+          <div class="stat-card stat-good"><div class="stat-icon si-green"><i class="ti ti-trophy"></i></div><div class="stat-label">Contribution score</div><div class="stat-val">78</div><div class="stat-sub">+6 this week</div></div>
+          <div class="stat-card stat-warn"><div class="stat-icon si-amber"><i class="ti ti-clock"></i></div><div class="stat-label">Hours used</div><div class="stat-val">6.5<span style="font-size:16px;font-weight:500">/8</span></div><div class="stat-sub">this week</div></div>
+          <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-flag"></i></div><div class="stat-label">Days to milestone</div><div class="stat-val">11</div><div class="stat-sub">phase 2 delivery</div></div>
+        </div>
+        <div class="two-col">
+          <div>
+            <div class="card">
+              <div class="card-title">My tasks <span class="card-title-right">sprint 2</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Set up project repo structure</span><span class="tag tag-green">done</span></div>
+              <div class="task-row"><span class="dot dot-amber"></span><span class="task-name">Design onboarding flow wireframes</span><span class="tag tag-amber">in progress</span></div>
+              <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Write API spec for skill endpoint</span><span class="tag tag-red">high priority</span></div>
+              <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Review Aasim's data model PR</span><span class="tag tag-gray">pending</span></div>
+              <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Update README with team roles</span><span class="tag tag-gray">low</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Team health</div>
+              <div class="score-ring-wrap">
+                <div class="score-ring" style="width:72px;height:72px">
+                  <svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="28" fill="none" stroke="#eef2f7" stroke-width="7"/><circle cx="36" cy="36" r="28" fill="none" stroke="#0ea882" stroke-width="7" stroke-dasharray="176" stroke-dashoffset="35" stroke-linecap="round" transform="rotate(-90 36 36)"/></svg>
+                  <span class="score-num">80</span>
+                </div>
+                <div><div class="score-status" style="color:#0ea882">Healthy</div><div class="score-team">Team Amateurs · 3 members</div><div style="margin-top:6px"><span class="tag tag-teal">updated 6h ago</span></div></div>
+              </div>
+              <div class="hbar-wrap"><div class="hbar-row"><span class="hbar-label">Task completion</span><span class="hbar-val">85%</span></div><div class="hbar-bg"><div class="hbar-fill hf-green" style="width:85%"></div></div></div>
+              <div class="hbar-wrap"><div class="hbar-row"><span class="hbar-label">Workload balance</span><span class="hbar-val">72%</span></div><div class="hbar-bg"><div class="hbar-fill hf-amber" style="width:72%"></div></div></div>
+              <div class="hbar-wrap"><div class="hbar-row"><span class="hbar-label">Engagement</span><span class="hbar-val">91%</span></div><div class="hbar-bg"><div class="hbar-fill hf-green" style="width:91%"></div></div></div>
+              <div class="hbar-wrap"><div class="hbar-row"><span class="hbar-label">Milestone progress</span><span class="hbar-val">60%</span></div><div class="hbar-bg"><div class="hbar-fill hf-amber" style="width:60%"></div></div></div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">Team members</div>
+              <div class="member-row"><div class="m-avatar" style="background:linear-gradient(135deg,#0ea882,#0c8f6e)">ZN</div><div style="flex:1"><div class="m-name">Zaidh Najeeb <span style="font-size:11px;color:#0ea882;font-weight:500">(you)</span></div><div class="m-role">Technical Lead · CS</div></div><div style="width:90px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px"><span>Score</span><span class="m-score" style="color:#0ea882">78</span></div><div class="m-bar-bg"><div class="m-bar-fill" style="width:78%;background:#0ea882"></div></div></div></div>
+              <div class="member-row"><div class="m-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">AN</div><div style="flex:1"><div class="m-name">Aasim Niyas</div><div class="m-role">Research Lead · AI/DS</div></div><div style="width:90px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px"><span>Score</span><span class="m-score" style="color:#8b5cf6">82</span></div><div class="m-bar-bg"><div class="m-bar-fill" style="width:82%;background:#8b5cf6"></div></div></div></div>
+              <div class="member-row"><div class="m-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">IP</div><div style="flex:1"><div class="m-name">Irusha Pettanayaka</div><div class="m-role">Documentation Lead · AI/DS</div></div><div style="width:90px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:3px"><span>Score</span><span class="m-score" style="color:#f59e0b">65</span></div><div class="m-bar-bg"><div class="m-bar-fill" style="width:65%;background:#f59e0b"></div></div></div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Recent activity</div>
+              <div class="activity-item"><span class="act-dot" style="background:#8b5cf6"></span><span class="act-text"><strong>Aasim</strong> edited Project Report — added literature review</span><span class="act-time">2h</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#0ea882"></span><span class="act-text"><strong>You</strong> completed: Set up project repo structure</span><span class="act-time">5h</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#f59e0b"></span><span class="act-text"><strong>Irusha</strong> updated Task Tracker (4 rows)</span><span class="act-time">1d</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#8b5cf6"></span><span class="act-text"><strong>Aasim</strong> added 3 slides to deck</span><span class="act-time">1d</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#0ea882"></span><span class="act-text"><strong>You</strong> opened deck (view only — not counted)</span><span class="act-time">2d</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT WORKSPACE -->
+      <div class="page" id="page-s-workspace">
+        <div class="page-header"><h2>Workspace</h2><p>Your team files and collaboration hub.</p></div>
+        <div class="two-col" style="align-items:start">
+          <div>
+            <div class="section-hd">Team files</div>
+            <div class="ws-file active-file" onclick="showEmbed('doc',this)"><div class="ws-icon" style="background:#dbeafe;color:#1d4ed8"><i class="ti ti-file-text"></i></div><div style="flex:1"><div class="ws-file-name">Project Report</div><div class="ws-file-meta">Aasim · 2h ago</div></div><i class="ti ti-external-link" style="color:var(--text3);font-size:15px"></i></div>
+            <div class="ws-file" onclick="showEmbed('sheet',this)"><div class="ws-icon" style="background:#d1fae5;color:#065f46"><i class="ti ti-table"></i></div><div style="flex:1"><div class="ws-file-name">Task Tracker</div><div class="ws-file-meta">Irusha · yesterday</div></div><i class="ti ti-external-link" style="color:var(--text3);font-size:15px"></i></div>
+            <div class="ws-file" onclick="showEmbed('slides',this)"><div class="ws-icon" style="background:#fef3c7;color:#92400e"><i class="ti ti-presentation"></i></div><div style="flex:1"><div class="ws-file-name">Presentation Slides</div><div class="ws-file-meta">Aasim · yesterday</div></div><i class="ti ti-external-link" style="color:var(--text3);font-size:15px"></i></div>
+            <div style="margin:10px 0 18px"><button class="btn"><i class="ti ti-plus"></i>Add file</button></div>
+            <div id="ws-embed-area" class="ws-embed"><div class="ws-embed-icon"><i class="ti ti-file-text"></i></div><div class="ws-embed-text">Project Report</div><div class="ws-embed-sub">Google Docs editor loads here</div><button class="btn btn-primary" style="margin-top:4px"><i class="ti ti-external-link"></i>Open in Google Docs</button></div>
+          </div>
+          <div>
+            <div class="section-hd">Team online</div>
+            <div class="card" style="padding:14px 18px;margin-bottom:16px">
+              <div class="online-row"><span class="online-dot od-green"></span><div class="m-avatar" style="background:#0ea882;width:26px;height:26px;font-size:10px">ZN</div><span style="flex:1;font-weight:500">You</span><span style="font-size:11px;color:#10b981;font-weight:600">Active now</span></div>
+              <div class="online-row"><span class="online-dot od-green"></span><div class="m-avatar" style="background:#8b5cf6;width:26px;height:26px;font-size:10px">AN</div><span style="flex:1;font-weight:500">Aasim</span><span style="font-size:11px;color:#10b981;font-weight:600">Active now</span></div>
+              <div class="online-row"><span class="online-dot od-gray"></span><div class="m-avatar" style="background:#f59e0b;width:26px;height:26px;font-size:10px">IP</div><span style="flex:1;font-weight:500">Irusha</span><span style="font-size:11px;color:var(--text3)">3h ago</span></div>
+            </div>
+            <div class="section-hd">My sprint tasks</div>
+            <div class="card" style="padding:14px 18px;margin-bottom:16px">
+              <div class="task-row"><span class="dot dot-amber"></span><span class="task-name">Design onboarding wireframes</span></div>
+              <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Write API spec for skill endpoint</span></div>
+              <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Review Aasim's data model PR</span></div>
+            </div>
+            <div class="section-hd">Team chat</div>
+            <div class="card" style="padding:14px 18px">
+              <div class="chat-msgs">
+                <div class="chat-msg"><span class="chat-sender" style="color:#8b5cf6">Aasim:</span> <span style="color:var(--text2)">finished the lit review section, check it out</span></div>
+                <div class="chat-msg"><span class="chat-sender" style="color:#0ea882">You:</span> <span style="color:var(--text2)">nice, will review after standup</span></div>
+                <div class="chat-msg"><span class="chat-sender" style="color:#f59e0b">Irusha:</span> <span style="color:var(--text2)">updated the tracker with this week's tasks</span></div>
+                <div class="chat-msg"><span class="chat-sender" style="color:#8b5cf6">Aasim:</span> <span style="color:var(--text2)">pushed the slides draft, need feedback</span></div>
+              </div>
+              <div class="chat-input-row"><input class="chat-input" placeholder="Send a message to the team..." id="chat-input"><button class="chat-send" onclick="sendChat()"><i class="ti ti-send"></i></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT PROFILE -->
+      <div class="page" id="page-s-profile">
+        <div class="page-header"><h2>My profile</h2><p>Your evidence-adjusted skill scores and placement details.</p></div>
+        <div class="two-col">
+          <div>
+            <div class="card">
+              <div class="card-title">Skill profile — Â scores <span class="card-title-right">Â = Declared × Confidence</span></div>
+              <div style="font-size:12px;color:var(--text3);margin-bottom:14px;padding:11px 13px;background:#f8fafc;border-radius:9px;line-height:1.6">Adjusted scores are what AEGIS used for team formation. C = 1.0 verified grade · 0.8 portfolio · 0.6 self-report · 0.5 contradicted by throughput.</div>
+              <div class="skill-row"><span class="skill-name">Technical architecture</span><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:85%"></div></div><span class="skill-scores">8.5 × 0.8 = <span class="skill-adj-bold">6.8</span></span></div>
+              <div class="skill-row"><span class="skill-name">UX / design</span><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:50%"></div></div><span class="skill-scores">5.0 × 0.6 = <span class="skill-adj-bold">3.0</span></span></div>
+              <div class="skill-row"><span class="skill-name">Project management</span><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:55%"></div></div><span class="skill-scores">5.5 × 1.0 = <span class="skill-adj-bold">5.5</span></span></div>
+              <div class="skill-row"><span class="skill-name">Communication</span><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:70%"></div></div><span class="skill-scores">7.0 × 0.8 = <span class="skill-adj-bold">5.6</span></span></div>
+              <div class="skill-row"><span class="skill-name">Data / ML</span><div class="skill-bar-wrap"><div class="skill-bar-fill" style="width:40%"></div></div><span class="skill-scores">4.0 × 0.6 = <span class="skill-adj-bold">2.4</span></span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Placement reasoning</div>
+              <div class="activity-item"><span class="act-dot" style="background:#0ea882"></span><span class="act-text">Placed in <strong>Team Amateurs</strong> (AEGIS · Scenario 03) as <strong>Technical Lead</strong></span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#0ea882"></span><span class="act-text">Critical skill match: Technical architecture (6.8) — highest priority for this project</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#0ea882"></span><span class="act-text">Schedule compatibility: 92% overlap with team meeting times</span></div>
+              <div class="activity-item"><span class="act-dot" style="background:#f59e0b"></span><span class="act-text">Preferred teammate Aasim honoured · 2nd-choice project assigned</span></div>
+              <div style="margin-top:14px;display:flex;gap:8px"><button class="btn btn-primary"><i class="ti ti-message"></i>Submit an appeal</button><button class="btn"><i class="ti ti-download"></i>Export profile</button></div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">Utilisation this week</div>
+              <div style="display:flex;align-items:center;gap:20px;padding:16px;background:#f0fdf9;border-radius:12px;margin-bottom:14px;border:1px solid #d1fae5">
+                <div class="score-ring" style="width:80px;height:80px"><svg width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="32" fill="none" stroke="#e6f8f3" stroke-width="7"/><circle cx="40" cy="40" r="32" fill="none" stroke="#0ea882" stroke-width="7" stroke-dasharray="201" stroke-dashoffset="50" stroke-linecap="round" transform="rotate(-90 40 40)"/></svg><span class="score-num" style="font-size:20px">75%</span></div>
+                <div><div style="font-size:15px;font-weight:700;color:#065f46">On track</div><div style="font-size:13px;color:#0ea882;margin-top:2px;font-family:'JetBrains Mono',monospace">6 / 8 hours used</div><div style="font-size:11px;color:var(--text3);margin-top:4px">Target band: 70–100%</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">Team contract</div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Meeting frequency: twice weekly (Mon + Wed)</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Primary comms: AEGIS team chat</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Task updates: every 48h minimum</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">All 3 members signed · Week 1</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Contribution ledger</div>
+              <table class="table"><thead><tr><th>Task</th><th>Status</th><th>Effort</th></tr></thead><tbody>
+                <tr><td>Repo setup</td><td><span class="tag tag-green">done</span></td><td>2h</td></tr>
+                <tr><td>API spec draft</td><td><span class="tag tag-amber">in progress</span></td><td>3h</td></tr>
+                <tr><td>Wireframes</td><td><span class="tag tag-amber">in progress</span></td><td>4h</td></tr>
+                <tr><td>PR review</td><td><span class="tag tag-gray">pending</span></td><td>1h</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT ONBOARDING -->
+      <div class="page" id="page-s-onboard">
+        <div class="page-header"><h2>Onboarding</h2><p>Your progress through the AEGIS setup process.</p></div>
+        <div class="card" style="max-width:640px">
+          <div class="card-title">Setup checklist <span class="card-title-right">3 / 5 complete</span></div>
+          <div class="onboard-step"><div class="step-num step-done"><i class="ti ti-check" style="font-size:13px"></i></div><div><div class="step-title">Account created</div><div class="step-desc">Signed in with institutional Google account · data consent given</div></div></div>
+          <div class="onboard-step"><div class="step-num step-done"><i class="ti ti-check" style="font-size:13px"></i></div><div><div class="step-title">Skill survey completed</div><div class="step-desc">20 forced-choice technical scenarios · presented as a profiling exercise</div></div></div>
+          <div class="onboard-step"><div class="step-num step-done"><i class="ti ti-check" style="font-size:13px"></i></div><div><div class="step-title">Capacity &amp; preferences submitted</div><div class="step-desc">8h/week available · Project prefs: AEGIS, EduTrack, CampusNav</div></div></div>
+          <div class="onboard-step"><div class="step-num step-curr">4</div><div><div class="step-title">Placement published</div><div class="step-desc">Team Amateurs · Technical Lead · Appeals window open until June 25</div></div></div>
+          <div class="onboard-step"><div class="step-num step-todo">5</div><div><div class="step-title">Week 2 calibration task</div><div class="step-desc" style="color:#d97706;font-weight:500">Due June 20 · Set up project repo and push your initial commit</div></div></div>
+        </div>
+      </div>
+
+      <!-- FACULTY DASHBOARD -->
+      <div class="page" id="page-f-dashboard">
+        <div class="page-header"><h2>Faculty overview</h2><p>Semester 1 · CS cohort · 18 teams under your supervision.</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-users"></i></div><div class="stat-label">Total teams</div><div class="stat-val">18</div><div class="stat-sub">CS cohort</div></div>
+          <div class="stat-card stat-good"><div class="stat-icon si-green"><i class="ti ti-circle-check"></i></div><div class="stat-label">Healthy</div><div class="stat-val">14</div><div class="stat-sub">score ≥ 75</div></div>
+          <div class="stat-card stat-warn"><div class="stat-icon si-amber"><i class="ti ti-alert-circle"></i></div><div class="stat-label">At risk</div><div class="stat-val">3</div><div class="stat-sub">score 50–74</div></div>
+          <div class="stat-card stat-bad"><div class="stat-icon si-red"><i class="ti ti-alert-triangle"></i></div><div class="stat-label">Critical</div><div class="stat-val">1</div><div class="stat-sub">act now</div></div>
+          <div class="stat-card stat-bad"><div class="stat-icon si-red"><i class="ti ti-bell"></i></div><div class="stat-label">Open alerts</div><div class="stat-val">3</div><div class="stat-sub">unreviewed</div></div>
+          <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-message"></i></div><div class="stat-label">Open appeals</div><div class="stat-val">2</div><div class="stat-sub">due Jun 25</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Alert inbox <span class="card-title-right">needs action</span></div>
+            <div class="alert-row"><div class="alert-icon ai-red"><i class="ti ti-alert-triangle"></i></div><div><div class="alert-title">Team 07 · Ghosting — Tier 3</div><div class="alert-desc">Dineth Perera · 11 consecutive days zero activity. Critical escalation. Faculty decision required.</div><div class="alert-actions"><button class="btn btn-primary">Review</button><button class="btn">Send check-in</button><button class="btn btn-danger">Escalate</button></div></div></div>
+            <div class="alert-row"><div class="alert-icon ai-amber"><i class="ti ti-flame"></i></div><div><div class="alert-title">Team 04 · Sympathy carry detected</div><div class="alert-desc">Ravi Fernando carrying 88% workload ratio. Submission approval halted. Re-delegation recommended.</div><div class="alert-actions"><button class="btn btn-primary">Review</button><button class="btn">Send check-in</button></div></div></div>
+            <div class="alert-row"><div class="alert-icon ai-blue"><i class="ti ti-user-plus"></i></div><div><div class="alert-title">Team 12 · Late joiner registered</div><div class="alert-desc">Shanali Rodrigo registered mid-semester. UX skill gap in Team 12. Recommended: insert.</div><div class="alert-actions"><button class="btn btn-primary">Insert into Team 12</button><button class="btn">Add to pool</button></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Team health overview</div>
+            <table class="table"><thead><tr><th>Team</th><th>Project</th><th>Score</th><th>Status</th></tr></thead><tbody>
+              <tr><td><strong>Amateurs</strong></td><td>AEGIS</td><td><strong>80</strong></td><td><span class="tag tag-teal">healthy</span></td></tr>
+              <tr><td>Team 02</td><td>EduTrack</td><td>76</td><td><span class="tag tag-green">healthy</span></td></tr>
+              <tr><td>Team 03</td><td>CampusNav</td><td>71</td><td><span class="tag tag-amber">at risk</span></td></tr>
+              <tr><td>Team 04</td><td>PayFlow</td><td>58</td><td><span class="tag tag-amber">at risk</span></td></tr>
+              <tr><td>Team 07</td><td>MediLog</td><td>38</td><td><span class="tag tag-red">critical</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- FACULTY TEAMS -->
+      <div class="page" id="page-f-teams">
+        <div class="page-header"><h2>Teams</h2><p>Semester 1 · CS cohort · 18 teams · 54 students</p></div>
+        <div class="card">
+          <div class="card-title">All teams</div>
+          <table class="table"><thead><tr><th>Team</th><th>Project</th><th>Members</th><th>Health</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+            <tr><td><strong>The Amateurs</strong></td><td>AEGIS</td><td>Zaidh, Aasim, Irusha</td><td><strong>80</strong></td><td><span class="tag tag-teal">healthy</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Team 02</td><td>EduTrack</td><td>3 members</td><td>76</td><td><span class="tag tag-green">healthy</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Team 03</td><td>CampusNav</td><td>3 members</td><td>71</td><td><span class="tag tag-amber">at risk</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Team 04</td><td>PayFlow</td><td>3 members</td><td>58</td><td><span class="tag tag-amber">at risk</span></td><td><button class="btn btn-warn">Check</button></td></tr>
+            <tr><td>Team 07</td><td>MediLog</td><td>3 members</td><td>38</td><td><span class="tag tag-red">critical</span></td><td><button class="btn btn-danger">Urgent</button></td></tr>
+          </tbody></table>
+        </div>
+        <div class="card">
+          <div class="card-title">Exception pool <span class="card-title-right">2 unplaced</span></div>
+          <div class="alert-row"><div class="alert-icon ai-amber"><i class="ti ti-user-question"></i></div><div><div class="alert-title">Kasun Jayawardena · CS Year 3</div><div class="alert-desc">Heavy ML focus. No team with matching critical skill gap found automatically. Manual placement required.</div><div class="alert-actions"><button class="btn btn-primary">Place manually</button><button class="btn">View profile</button></div></div></div>
+        </div>
+      </div>
+
+      <!-- FACULTY ALERTS -->
+      <div class="page" id="page-f-alerts">
+        <div class="page-header"><h2>Alerts</h2><p>All flags from the last 72-hour monitoring cycle.</p></div>
+        <div class="card">
+          <div class="card-title">Ready-to-send check-in template <span class="card-title-right">Team 07 · ghosting</span></div>
+          <div class="email-preview">Subject: Capstone check-in — Team MediLog
+
+Hi Dineth,
+
+I wanted to reach out as part of my regular review of team progress this semester. I've noticed your activity on the project workspace has been lower than expected over the past two weeks, and I'd like to understand what's going on.
+
+Please drop by my office hours so we can have a quick chat and make sure you're getting any support you need.
+
+Looking forward to hearing from you.
+Dr. Jayasinghe</div>
+          <div style="display:flex;gap:8px"><button class="btn btn-primary"><i class="ti ti-mail"></i>Send email</button><button class="btn"><i class="ti ti-edit"></i>Edit first</button><button class="btn"><i class="ti ti-note"></i>Log manual action</button></div>
+        </div>
+        <div class="card">
+          <div class="card-title">All alerts</div>
+          <div class="alert-row"><div class="alert-icon ai-red"><i class="ti ti-alert-triangle"></i></div><div><div class="alert-title">Team 07 · Tier 3 ghosting — Dineth Perera</div><div class="alert-desc">11 days zero footprint. Critical. Faculty decision required before AEGIS can redistribute tasks.</div><div class="alert-actions"><button class="btn btn-primary">Decide</button><button class="btn btn-danger">Escalate to admin</button></div></div></div>
+          <div class="alert-row"><div class="alert-icon ai-amber"><i class="ti ti-flame"></i></div><div><div class="alert-title">Team 04 · Sympathy carry — Ravi Fernando</div><div class="alert-desc">Contribution ratio 88%. Submission approval halted. Prompt Ravi to re-delegate.</div><div class="alert-actions"><button class="btn">Send prompt</button><button class="btn">Override</button></div></div></div>
+          <div class="alert-row"><div class="alert-icon ai-amber"><i class="ti ti-trending-down"></i></div><div><div class="alert-title">Team 03 · Activity drop — Tier 1</div><div class="alert-desc">Footprint dropped 45% this week. Auto nudge sent. No faculty action needed yet.</div></div></div>
+          <div class="alert-row"><div class="alert-icon ai-blue"><i class="ti ti-user-plus"></i></div><div><div class="alert-title">Team 12 · Mid-semester change</div><div class="alert-desc">Shanali Rodrigo registered late. UX role unfilled. Recommended insert.</div><div class="alert-actions"><button class="btn btn-primary">Insert into Team 12</button><button class="btn">Pool</button></div></div></div>
+        </div>
+      </div>
+
+      <!-- FACULTY ALLOCATION -->
+      <div class="page" id="page-f-allocation">
+        <div class="page-header"><h2>Run allocation</h2><p>Form teams using the AEGIS maximin + SPA matching engine.</p></div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Allocation status</div>
+            <div style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.7;padding:13px;background:#f8fafc;border-radius:9px">Allocation runs on all onboarded students. Formation uses maximin fairness + Abraham–Manlove SPA matching. Review the exception pool before publishing.</div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">54 students onboarded and profiled</span></div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">18 projects submitted by faculty</span></div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Duplicate gate passed · 2 pairs flagged</span></div>
+            <div class="task-row"><span class="dot dot-amber"></span><span class="task-name">Exception pool: 2 students unplaced — needs review</span></div>
+            <div class="task-row"><span class="dot dot-gray"></span><span class="task-name">Faculty approval pending before publish</span></div>
+            <div style="display:flex;gap:8px;margin-top:16px"><button class="btn btn-primary"><i class="ti ti-wand"></i>Re-run allocation</button><button class="btn"><i class="ti ti-users"></i>View exception pool</button></div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">Duplicate proposals flagged <span class="card-title-right">sim ≥ 0.75</span></div>
+              <div class="alert-row"><div class="alert-icon ai-amber"><i class="ti ti-copy"></i></div><div><div class="alert-title">Team 05 vs Team 11 · sim 0.82</div><div class="alert-desc">Both abstracts describe an AI-based attendance system. One group must shift domain or stack before the portal reopens.</div><div class="alert-actions"><button class="btn btn-primary">Require revision</button><button class="btn">Allow both</button></div></div></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Formation summary</div>
+              <div class="row"><span class="row-name">Teams formed</span><span class="row-right"><strong>18</strong></span></div>
+              <div class="row"><span class="row-name">Students placed</span><span class="row-right"><strong>52 / 54</strong></span></div>
+              <div class="row"><span class="row-name">Avg team score</span><span class="row-right"><strong>74.2</strong></span></div>
+              <div class="row"><span class="row-name">Min team score</span><span class="row-right" style="color:#d97706"><strong>38</strong> (T07)</span></div>
+              <div class="row"><span class="row-name">Pref satisfaction</span><span class="row-right" style="color:#0ea882"><strong>78%</strong> 1st</span></div>
+              <div class="row"><span class="row-name">Critical skill gaps</span><span class="row-right"><strong>0</strong> teams</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN DASHBOARD -->
+      <div class="page" id="page-a-dashboard">
+        <div class="page-header"><h2>System overview</h2><p>Informatics Institute of Technology · Semester 1 · 2026</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-users"></i></div><div class="stat-label">Total students</div><div class="stat-val">54</div><div class="stat-sub">active</div></div>
+          <div class="stat-card stat-warn"><div class="stat-icon si-amber"><i class="ti ti-user-check"></i></div><div class="stat-label">Lecturers</div><div class="stat-val">4</div><div class="stat-sub">2 pending</div></div>
+          <div class="stat-card"><div class="stat-icon si-teal"><i class="ti ti-building"></i></div><div class="stat-label">Departments</div><div class="stat-val">2</div><div class="stat-sub">CS · AI/DS</div></div>
+          <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-school"></i></div><div class="stat-label">Active cohorts</div><div class="stat-val">3</div><div class="stat-sub">sem 1 · 2026</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Pending lecturer approvals</div>
+            <div class="alert-row"><div class="m-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);width:42px;height:42px;border-radius:11px;font-size:14px">DW</div><div><div class="alert-title">Dr. Dilan Wickramasinghe</div><div class="alert-desc">AI/DS department · requested June 16, 2026</div><div class="alert-actions"><button class="btn btn-primary">Approve</button><button class="btn btn-danger">Reject</button></div></div></div>
+            <div class="alert-row"><div class="m-avatar" style="background:linear-gradient(135deg,#0ea882,#0c8f6e);width:42px;height:42px;border-radius:11px;font-size:14px">SF</div><div><div class="alert-title">Dr. Samantha Fernando</div><div class="alert-desc">CS department · requested June 17, 2026</div><div class="alert-actions"><button class="btn btn-primary">Approve</button><button class="btn btn-danger">Reject</button></div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">System status</div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Supabase DB · connected and healthy</span></div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Google Drive API · active · service account OK</span></div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Drive Activity polling · 72h cycle running</span></div>
+            <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Email (Resend) · 2,841 / 3,000 remaining</span></div>
+            <div class="task-row"><span class="dot dot-amber"></span><span class="task-name">LMS sync · not configured (optional)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN USERS -->
+      <div class="page" id="page-a-users">
+        <div class="page-header"><h2>Users</h2><p>54 students · 4 lecturers · 1 admin</p></div>
+        <div class="card">
+          <div class="card-title">All users <span class="card-title-right"><button class="btn btn-primary" style="padding:5px 12px"><i class="ti ti-plus"></i>Add user</button></span></div>
+          <table class="table"><thead><tr><th>Name</th><th>Role</th><th>Dept</th><th>Team</th><th>Status</th><th></th></tr></thead><tbody>
+            <tr><td><strong>Zaidh Najeeb</strong></td><td><span class="tag tag-blue">Student</span></td><td>CS</td><td>The Amateurs</td><td><span class="tag tag-green">active</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Aasim Niyas</td><td><span class="tag tag-blue">Student</span></td><td>AI/DS</td><td>The Amateurs</td><td><span class="tag tag-green">active</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Irusha Pettanayaka</td><td><span class="tag tag-blue">Student</span></td><td>AI/DS</td><td>The Amateurs</td><td><span class="tag tag-green">active</span></td><td><button class="btn">View</button></td></tr>
+            <tr><td>Dr. Wickramasinghe</td><td><span class="tag tag-purple">Lecturer</span></td><td>AI/DS</td><td>—</td><td><span class="tag tag-amber">pending</span></td><td><button class="btn btn-primary">Approve</button></td></tr>
+            <tr><td>Dr. Fernando</td><td><span class="tag tag-purple">Lecturer</span></td><td>CS</td><td>—</td><td><span class="tag tag-amber">pending</span></td><td><button class="btn btn-primary">Approve</button></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- ADMIN COHORTS -->
+      <div class="page" id="page-a-cohorts">
+        <div class="page-header"><h2>Cohorts</h2><p>Academic years, semesters, and cohort assignments.</p></div>
+        <div class="card">
+          <div class="card-title">All cohorts <span class="card-title-right"><button class="btn btn-primary" style="padding:5px 12px"><i class="ti ti-plus"></i>Create cohort</button></span></div>
+          <table class="table"><thead><tr><th>Cohort</th><th>Semester</th><th>Lecturer</th><th>Students</th><th>Teams</th><th>Status</th></tr></thead><tbody>
+            <tr><td><strong>CS Year 3</strong></td><td>Sem 1 · 2026</td><td>Dr. Jayasinghe</td><td>54</td><td>18</td><td><span class="tag tag-green">active</span></td></tr>
+            <tr><td>AI/DS Year 3</td><td>Sem 1 · 2026</td><td>Dr. Perera</td><td>36</td><td>12</td><td><span class="tag tag-green">active</span></td></tr>
+            <tr><td>CS Year 4</td><td>Sem 2 · 2026</td><td>TBA</td><td>—</td><td>—</td><td><span class="tag tag-gray">upcoming</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- ADMIN SETTINGS -->
+      <div class="page" id="page-a-settings">
+        <div class="page-header"><h2>Settings</h2><p>System configuration and scoring weights.</p></div>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title">Team score component weights</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:14px">Adjust weights for the maximin formation objective. Must sum to 100.</div>
+            <div class="skill-row"><span class="skill-name">Critical skill coverage</span><span style="font-size:14px;font-weight:700;color:#0ea882;font-family:'JetBrains Mono',monospace">30</span></div>
+            <div class="skill-row"><span class="skill-name">Schedule compatibility</span><span style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace">20</span></div>
+            <div class="skill-row"><span class="skill-name">Role coverage</span><span style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace">15</span></div>
+            <div class="skill-row"><span class="skill-name">Preference satisfaction</span><span style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace">15</span></div>
+            <div class="skill-row"><span class="skill-name">Workload balance</span><span style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace">10</span></div>
+            <div class="skill-row"><span class="skill-name">Experience balance</span><span style="font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace">10</span></div>
+            <div style="margin-top:14px"><button class="btn btn-primary">Save weights</button></div>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-title">Policy configuration</div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">PDPA consent flow · enabled at onboarding</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Data retention: 1 academic year</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Appeals window: 10 days post-allocation</span></div>
+              <div class="task-row"><span class="dot dot-green"></span><span class="task-name">Human override required before automated action</span></div>
+              <div class="task-row"><span class="dot dot-amber"></span><span class="task-name">Bias audit · not yet run this semester</span></div>
+              <div style="margin-top:14px"><button class="btn">Run bias audit</button></div>
+            </div>
+            <div class="card">
+              <div class="card-title">Monitoring thresholds</div>
+              <div class="row"><span class="row-name">Duplicate gate threshold</span><span class="row-right">0.75 cosine</span></div>
+              <div class="row"><span class="row-name">Sympathy carry trigger</span><span class="row-right">≥ 0.95 ratio</span></div>
+              <div class="row"><span class="row-name">Ghosting Tier 1</span><span class="row-right">40% drop</span></div>
+              <div class="row"><span class="row-name">Ghosting Tier 2</span><span class="row-right">6 silent days</span></div>
+              <div class="row"><span class="row-name">Ghosting Tier 3</span><span class="row-right">10 silent days</span></div>
+              <div class="row"><span class="row-name">Burnout trigger</span><span class="row-right">2× team avg</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ OVERLAYS / PANELS ═══════════ -->
+<div id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <div><h3 id="modal-title">Title</h3><div class="sub" id="modal-sub" style="display:none"></div></div>
+      <div class="modal-x" onclick="closeModal()"><i class="ti ti-x"></i></div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot" id="modal-foot"></div>
+  </div>
+</div>
+
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head"><b>Notifications</b><span class="notif-clear" onclick="markAllRead()">Mark all read</span></div>
+  <div class="notif-list" id="notifList"></div>
+  <div class="notif-foot"><a onclick="closeNotif();switchToAlerts()">View all in Alerts →</a></div>
+</div>
+
+<div class="search-panel" id="searchPanel">
+  <div class="search-in-wrap"><i class="ti ti-search"></i><input id="searchInput" placeholder="Search pages, teams, students…" oninput="renderSearch()" onkeydown="searchKey(event)"></div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<div class="alloc-over" id="allocOver">
+  <svg class="alloc-mark" viewBox="0 0 64 72"><path d="M32 3 L59 13 V38 C59 56 47 65 32 69 C17 65 5 56 5 38 V13 Z"/><path d="M32 19 V51 M20 35 H44" fill="none"/></svg>
+  <div class="alloc-title">Running allocation engine</div>
+  <div class="alloc-bar"><i id="allocBar"></i></div>
+  <div class="alloc-log" id="allocLog">&nbsp;</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script>
+const pageTitles={'s-dashboard':'Dashboard','s-workspace':'Workspace','s-profile':'My profile','s-onboard':'Onboarding','f-dashboard':'Faculty overview','f-teams':'Teams','f-alerts':'Alerts','f-allocation':'Run allocation','a-dashboard':'System overview','a-users':'Users','a-cohorts':'Cohorts','a-settings':'Settings'};
+const pageRole={s:'student',f:'faculty',a:'admin'};
+const roleUsers={
+  student:{av:'ZN',name:'Zaidh Najeeb',email:'Student · CS',bg:'linear-gradient(135deg,#0ea882,#0c8f6e)'},
+  faculty:{av:'DJ',name:'Dr. Jayasinghe',email:'Lecturer · CS',bg:'linear-gradient(135deg,#3b82f6,#2563eb)'},
+  admin:{av:'SA',name:'System Admin',email:'Admin · IIT',bg:'linear-gradient(135deg,#8b5cf6,#7c3aed)'}
+};
+const rolePages={student:'s-dashboard',faculty:'f-dashboard',admin:'a-dashboard'};
+let loginRole='student';
+
+/* ---- BOOT ---- */
+const bootLines=['initializing matching engine','loading cohort · CS-Y3-2026','verifying PDPA consent layer','syncing Drive activity (72h)','establishing secure session'];
+let booted=false;
+function runBoot(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){endBoot();return;}
+  const log=document.getElementById('boot-log');
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i<bootLines.length){log.innerHTML='<b>›</b> '+bootLines[i]+' <b>✓</b>';i++;}
+    else{clearInterval(iv);}
+  },380);
+  setTimeout(endBoot,4100);
+}
+function endBoot(){
+  if(booted)return;booted=true;
+  const b=document.getElementById('screen-boot');
+  b.classList.add('gone');
+  setTimeout(()=>{b.style.display='none';showScreen('login');},700);
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>{if(s.id!=='screen-boot')s.classList.remove('active')});
+  document.getElementById('screen-'+id).classList.add('active');
+  if(id==='login')setTimeout(animateLogin,30);
+}
+function loginWithGoogle(){loginRole=document.getElementById('login-role').value;showScreen('consent');}
+function doLogin(){
+  const e=document.getElementById('login-email').value,p=document.getElementById('login-pass').value;
+  if(!e||!p){alert('Please enter your email and password.');return;}
+  loginRole=document.getElementById('login-role').value;showScreen('consent');
+}
+function backToLogin(){showScreen('login');}
+function checkConsent(){
+  const ok=c1.checked&&c2.checked&&c3.checked;document.getElementById('consent-btn').disabled=!ok;
+}
+function doConsent(){
+  showScreen('app');
+  document.querySelectorAll('.rs-btn').forEach(b=>{const m={student:'Student',faculty:'Faculty',admin:'Admin'};b.classList.toggle('active',b.textContent.trim()===m[loginRole]);});
+  applyRole(loginRole);
+}
+function logout(){c1.checked=c2.checked=c3.checked=false;document.getElementById('consent-btn').disabled=true;document.body.classList.remove('sb-open');showScreen('login');}
+function applyRole(role){
+  currentRole=role;
+  document.querySelectorAll('.nav-group').forEach(g=>g.classList.remove('active'));
+  document.getElementById('nav-'+role).classList.add('active');
+  const u=roleUsers[role];
+  document.getElementById('sb-av').textContent=u.av;
+  document.getElementById('sb-av').style.background=u.bg;
+  document.getElementById('sb-name').textContent=u.name;
+  document.getElementById('sb-email').textContent=u.email;
+  document.getElementById('role-display').textContent=role.charAt(0).toUpperCase()+role.slice(1);
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const first=document.querySelector('#nav-'+role+' .sb-item');if(first)first.classList.add('active');
+  nav(rolePages[role],null);
+}
+function switchRole(role,btn){
+  document.querySelectorAll('.rs-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');applyRole(role);
+}
+function nav(pageId,el){
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));
+  const pg=document.getElementById('page-'+pageId);if(pg)pg.classList.add('visible');
+  document.getElementById('topbar-title').textContent=pageTitles[pageId]||pageId;
+  document.getElementById('topbar-crumb').textContent='/ '+(pageRole[pageId.charAt(0)]||'');
+  closeSidebar();
+  animatePage(pageId);
+}
+function showEmbed(type,el){
+  document.querySelectorAll('.ws-file').forEach(f=>f.classList.remove('active-file'));
+  if(el)el.classList.add('active-file');
+  const area=document.getElementById('ws-embed-area');
+  const icons={doc:'ti-file-text',sheet:'ti-table',slides:'ti-presentation'};
+  const colors={doc:'#1d4ed8',sheet:'#065f46',slides:'#92400e'};
+  const labels={doc:'Project Report',sheet:'Task Tracker',slides:'Presentation Slides'};
+  const subs={doc:'Google Docs',sheet:'Google Sheets',slides:'Google Slides'};
+  area.innerHTML=`<div class="ws-embed-icon" style="color:${colors[type]}"><i class="ti ${icons[type]}"></i></div><div class="ws-embed-text">${labels[type]}</div><div class="ws-embed-sub">${subs[type]} editor embedded here in production</div><button class="btn btn-primary" style="margin-top:8px"><i class="ti ti-external-link"></i>Open in Google</button>`;
+}
+function sendChat(){
+  const inp=document.getElementById('chat-input'),msg=inp.value.trim();if(!msg)return;
+  const msgs=document.querySelector('#page-s-workspace .chat-msgs');
+  const d=document.createElement('div');d.className='chat-msg';
+  d.innerHTML=`<span class="chat-sender" style="color:#0ea882">You:</span> <span style="color:var(--text2)">${msg.replace(/</g,'&lt;')}</span>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;inp.value='';
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('login-email').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+
+/* ════════════ INTERACTION LAYER ════════════ */
+let currentRole='student';
+function val(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ---- TOASTS ---- */
+function toast(type,title,desc){
+  const wrap=document.getElementById('toasts');
+  const icons={ok:'ti-check',warn:'ti-alert-triangle',bad:'ti-x',info:'ti-info-circle'};
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML=`<div class="toast-ic"><i class="ti ${icons[type]||'ti-info-circle'}"></i></div>`+
+    `<div class="toast-body"><div class="toast-t">${esc(title)}</div>${desc?`<div class="toast-d">${esc(desc)}</div>`:''}</div>`+
+    `<div class="toast-x"><i class="ti ti-x"></i></div>`;
+  let timer;
+  function dismiss(){clearTimeout(timer);el.classList.add('out');setTimeout(()=>el.remove(),300);}
+  el.querySelector('.toast-x').onclick=dismiss;
+  wrap.appendChild(el);
+  timer=setTimeout(dismiss,4200);
+}
+
+/* ---- MODAL ---- */
+function openModal(o){
+  document.getElementById('modal-title').textContent=o.title||'';
+  const sub=document.getElementById('modal-sub');
+  if(o.sub){sub.textContent=o.sub;sub.style.display='block';}else{sub.style.display='none';}
+  document.getElementById('modal-body').innerHTML=o.body||'';
+  document.getElementById('modal-foot').innerHTML=o.foot||'';
+  document.getElementById('modal').classList.toggle('wide',!!o.wide);
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+
+/* ---- NOTIFICATIONS ---- */
+let notifs=[
+  {ic:'ai-red',i:'ti-alert-triangle',t:'Team 07 · Tier 3 ghosting',d:'Dineth Perera — 11 days zero activity. Decision required.',time:'2m ago',unread:true},
+  {ic:'ai-amber',i:'ti-flame',t:'Team 04 · Sympathy carry',d:'Ravi Fernando is carrying 88% of the workload.',time:'1h ago',unread:true},
+  {ic:'ai-blue',i:'ti-user-plus',t:'Team 12 · Late joiner',d:'Shanali Rodrigo registered mid-semester.',time:'3h ago',unread:true},
+  {ic:'ai-green',i:'ti-circle-check',t:'Allocation published',d:'18 teams formed · 52/54 students placed.',time:'yesterday',unread:false}
+];
+function renderNotif(){
+  const list=document.getElementById('notifList');
+  if(!notifs.length){list.innerHTML='<div class="notif-empty">You\u2019re all caught up</div>';return;}
+  list.innerHTML=notifs.map((n,idx)=>`<div class="notif-item ${n.unread?'unread':'read'}" onclick="readNotif(${idx})">`+
+    `<div class="ni-ic ${n.ic}"><i class="ti ${n.i}"></i></div>`+
+    `<div><div class="ni-t">${n.t}</div><div class="ni-d">${n.d}</div><div class="ni-time">${n.time}</div></div></div>`).join('');
+}
+function unreadCount(){return notifs.filter(n=>n.unread).length;}
+function syncDot(){document.getElementById('notifDot').style.display=unreadCount()>0?'block':'none';}
+function toggleNotif(e){if(e)e.stopPropagation();closeSearch();const p=document.getElementById('notifPanel');if(p.classList.toggle('open'))renderNotif();}
+function closeNotif(){document.getElementById('notifPanel').classList.remove('open');}
+function readNotif(i){if(notifs[i]){notifs[i].unread=false;renderNotif();syncDot();}}
+function markAllRead(){notifs.forEach(n=>n.unread=false);renderNotif();syncDot();toast('ok','All notifications marked read');}
+function switchToAlerts(){switchRoleByName('faculty');nav('f-alerts',document.querySelector('#nav-faculty [onclick*="f-alerts"]'));}
+
+/* ---- SEARCH PALETTE ---- */
+const searchItems=[
+  {t:'Dashboard',role:'student',page:'s-dashboard',i:'ti-home'},
+  {t:'Workspace',role:'student',page:'s-workspace',i:'ti-layout-board'},
+  {t:'My profile',role:'student',page:'s-profile',i:'ti-chart-radar'},
+  {t:'Onboarding',role:'student',page:'s-onboard',i:'ti-clipboard-check'},
+  {t:'Faculty overview',role:'faculty',page:'f-dashboard',i:'ti-home'},
+  {t:'Teams',role:'faculty',page:'f-teams',i:'ti-users'},
+  {t:'Alerts',role:'faculty',page:'f-alerts',i:'ti-bell'},
+  {t:'Run allocation',role:'faculty',page:'f-allocation',i:'ti-wand'},
+  {t:'System overview',role:'admin',page:'a-dashboard',i:'ti-home'},
+  {t:'Users',role:'admin',page:'a-users',i:'ti-users'},
+  {t:'Cohorts',role:'admin',page:'a-cohorts',i:'ti-school'},
+  {t:'Settings',role:'admin',page:'a-settings',i:'ti-settings'},
+  {t:'Team The Amateurs',role:'faculty',page:'f-teams',i:'ti-users'},
+  {t:'Zaidh Najeeb',role:'student',page:'s-profile',i:'ti-user'},
+  {t:'Run bias audit',role:'admin',page:'a-settings',i:'ti-shield-check'}
+];
+let searchSel=0;
+function toggleSearch(e){if(e)e.stopPropagation();closeNotif();const p=document.getElementById('searchPanel');if(p.classList.toggle('open')){const inp=document.getElementById('searchInput');inp.value='';renderSearch();setTimeout(()=>inp.focus(),50);}}
+function closeSearch(){document.getElementById('searchPanel').classList.remove('open');}
+function renderSearch(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const res=searchItems.filter(it=>!q||it.t.toLowerCase().includes(q));
+  searchSel=0;
+  const box=document.getElementById('searchResults');
+  if(!res.length){box.innerHTML='<div class="sr-empty">No matches</div>';return;}
+  box.innerHTML=res.map((it,idx)=>`<div class="sr-item ${idx===0?'sel':''}" onclick="goSearch('${it.role}','${it.page}')"><i class="ti ${it.i}"></i>${it.t}<span class="sr-role">${it.role}</span></div>`).join('');
+}
+function goSearch(role,page){closeSearch();if(role!==currentRole)switchRoleByName(role);const item=document.querySelector('#nav-'+role+' [onclick*="'+page+'"]');nav(page,item);}
+function searchKey(e){
+  const items=[...document.querySelectorAll('#searchResults .sr-item')];
+  if(e.key==='Enter'&&items[searchSel]){items[searchSel].click();}
+  else if(e.key==='ArrowDown'){searchSel=Math.min(searchSel+1,items.length-1);hlSearch(items);e.preventDefault();}
+  else if(e.key==='ArrowUp'){searchSel=Math.max(searchSel-1,0);hlSearch(items);e.preventDefault();}
+  else if(e.key==='Escape'){closeSearch();}
+}
+function hlSearch(items){items.forEach((it,i)=>it.classList.toggle('sel',i===searchSel));if(items[searchSel])items[searchSel].scrollIntoView({block:'nearest'});}
+
+/* ---- SETTINGS / PREFERENCES ---- */
+function openSettings(){
+  closeNotif();closeSearch();
+  openModal({title:'Preferences',sub:'Session settings',
+    body:`<div class="kv"><span>Email notifications</span><input type="checkbox" checked style="accent-color:#0ea882;width:16px;height:16px" onchange="toast('ok','Email notifications '+(this.checked?'enabled':'disabled'))"></div>`+
+      `<div class="kv"><span>Desktop alerts</span><input type="checkbox" checked style="accent-color:#0ea882;width:16px;height:16px" onchange="toast('ok','Desktop alerts '+(this.checked?'enabled':'disabled'))"></div>`+
+      `<div class="kv"><span>Weekly digest email</span><input type="checkbox" style="accent-color:#0ea882;width:16px;height:16px" onchange="toast('ok','Weekly digest '+(this.checked?'enabled':'disabled'))"></div>`+
+      `<div class="kv"><span>Dark mode</span><input type="checkbox" style="accent-color:#0ea882;width:16px;height:16px" onchange="toast('info','Dark mode coming soon')"></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('ok','Preferences saved')">Save</button>`});
+}
+
+/* ---- ROLE HELPER ---- */
+function switchRoleByName(role){
+  document.querySelectorAll('.rs-btn').forEach(b=>{const m={student:'Student',faculty:'Faculty',admin:'Admin'};b.classList.toggle('active',b.textContent.trim()===m[role]);});
+  applyRole(role);
+}
+
+/* ---- ALLOCATION RUNNER ---- */
+function runAllocation(){
+  const over=document.getElementById('allocOver'),bar=document.getElementById('allocBar'),log=document.getElementById('allocLog');
+  over.classList.add('open');
+  bar.style.transition='none';bar.style.width='0%';log.innerHTML='&nbsp;';
+  const steps=['scoring 54 students (\u00C2 = D \u00D7 C)','running SPA stable matching','optimising maximin team strength','checking duplicate gate','balancing workload','finalising 18 teams'];
+  let i=0;
+  requestAnimationFrame(()=>{bar.style.transition='width 3s cubic-bezier(.6,0,.2,1)';bar.style.width='100%';});
+  const iv=setInterval(()=>{if(i<steps.length){log.innerHTML='<b>\u203A</b> '+steps[i];i++;}else clearInterval(iv);},480);
+  setTimeout(()=>{over.classList.remove('open');toast('ok','Allocation complete','18 teams formed \u00B7 52/54 placed \u00B7 min score 38');},3300);
+}
+
+/* ---- MODAL FORMS ---- */
+function addUserModal(){
+  openModal({title:'Add user',sub:'Create a new AEGIS account',
+    body:`<div class="mfield"><label>Full name</label><input id="nu-name" placeholder="e.g. Nimal Silva"></div>`+
+      `<div class="mfield"><label>Role</label><select id="nu-role"><option>Student</option><option>Lecturer</option><option>Admin</option></select></div>`+
+      `<div class="mfield"><label>Department</label><select id="nu-dept"><option>CS</option><option>AI/DS</option></select></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitUser()">Add user</button>`});
+}
+function submitUser(){
+  const name=val('nu-name');if(!name){toast('warn','Name is required');return;}
+  const role=val('nu-role'),dept=val('nu-dept');
+  const tag=role==='Student'?'tag-blue':role==='Lecturer'?'tag-purple':'tag-gray';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><strong>${esc(name)}</strong></td><td><span class="tag ${tag}">${role}</span></td><td>${dept}</td><td>\u2014</td><td><span class="tag tag-green">active</span></td><td><button class="btn">View</button></td>`;
+  document.querySelector('#page-a-users tbody').appendChild(tr);
+  closeModal();toast('ok','User added',name+' \u00B7 '+role);
+}
+function addFileModal(){
+  openModal({title:'Add file',sub:'Link a Google file to the workspace',
+    body:`<div class="mfield"><label>File name</label><input id="nf-name" placeholder="e.g. Research Notes"></div>`+
+      `<div class="mfield"><label>Type</label><select id="nf-type"><option value="doc">Google Docs</option><option value="sheet">Google Sheets</option><option value="slides">Google Slides</option></select></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitFile()">Add file</button>`});
+}
+function submitFile(){
+  const name=val('nf-name');if(!name){toast('warn','File name is required');return;}
+  const type=val('nf-type');
+  const map={doc:['#dbeafe','#1d4ed8','ti-file-text'],sheet:['#d1fae5','#065f46','ti-table'],slides:['#fef3c7','#92400e','ti-presentation']};
+  const m=map[type];
+  const container=document.querySelector('#page-s-workspace .two-col > div:first-child');
+  const anchor=container.querySelector('div[style*="margin:10px 0 18px"]');
+  const div=document.createElement('div');
+  div.className='ws-file';
+  div.setAttribute('onclick',`showEmbed('${type}',this)`);
+  div.innerHTML=`<div class="ws-icon" style="background:${m[0]};color:${m[1]}"><i class="ti ${m[2]}"></i></div><div style="flex:1"><div class="ws-file-name">${esc(name)}</div><div class="ws-file-meta">You \u00B7 just now</div></div><i class="ti ti-external-link" style="color:var(--text3);font-size:15px"></i>`;
+  container.insertBefore(div,anchor);
+  closeModal();toast('ok','File added',name);
+}
+function addCohortModal(){
+  openModal({title:'Create cohort',sub:'New academic cohort',
+    body:`<div class="mfield"><label>Cohort name</label><input id="nc-name" placeholder="e.g. CS Year 4"></div>`+
+      `<div class="mfield"><label>Semester</label><input id="nc-sem" placeholder="e.g. Sem 2 \u00B7 2026"></div>`+
+      `<div class="mfield"><label>Supervising lecturer</label><input id="nc-lec" placeholder="e.g. Dr. Silva"></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitCohort()">Create</button>`});
+}
+function submitCohort(){
+  const name=val('nc-name');if(!name){toast('warn','Cohort name is required');return;}
+  const sem=val('nc-sem')||'TBA',lec=val('nc-lec')||'TBA';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><strong>${esc(name)}</strong></td><td>${esc(sem)}</td><td>${esc(lec)}</td><td>\u2014</td><td>\u2014</td><td><span class="tag tag-gray">upcoming</span></td>`;
+  document.querySelector('#page-a-cohorts tbody').appendChild(tr);
+  closeModal();toast('ok','Cohort created',name);
+}
+function appealModal(){
+  openModal({title:'Submit an appeal',sub:'Team Amateurs \u00B7 Technical Lead',
+    body:`<div class="mfield"><label>Reason</label><select id="ap-reason"><option>Skill mismatch</option><option>Schedule conflict</option><option>Preferred teammate not honoured</option><option>Other</option></select></div>`+
+      `<div class="mfield"><label>Details</label><textarea id="ap-text" placeholder="Explain your appeal\u2026"></textarea></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitAppeal()">Submit appeal</button>`});
+}
+function submitAppeal(){if(!val('ap-text')){toast('warn','Please add appeal details');return;}closeModal();toast('ok','Appeal submitted','Your supervisor will review before Jun 25');}
+function teamModal(name){
+  openModal({title:name&&name!=='View'?name:'Team detail',sub:'Capstone team',
+    body:`<div class="kv"><span>Project</span><span>AEGIS</span></div>`+
+      `<div class="kv"><span>Health score</span><span>80 / 100</span></div>`+
+      `<div class="kv"><span>Members</span><span>Zaidh \u00B7 Aasim \u00B7 Irusha</span></div>`+
+      `<div class="kv"><span>Status</span><span>Healthy</span></div>`+
+      `<div class="kv"><span>Milestone progress</span><span>60%</span></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('info','Opening team workspace\u2026')">Open workspace</button>`});
+}
+function studentProfileModal(name){
+  openModal({title:name||'Student profile',sub:'Unplaced \u00B7 exception pool',
+    body:`<div class="kv"><span>Department</span><span>CS Year 3</span></div>`+
+      `<div class="kv"><span>Top skill</span><span>Data / ML 8.2</span></div>`+
+      `<div class="kv"><span>Availability</span><span>6h / week</span></div>`+
+      `<div class="kv"><span>Preferences</span><span>MLOps \u00B7 DataViz</span></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('info','Choose a team in the exception pool to place this student')">Place manually</button>`});
+}
+let placeRowRef=null;
+function placeModal(row){
+  placeRowRef=row;
+  openModal({title:'Place student manually',sub:'Kasun Jayawardena \u00B7 CS Year 3',
+    body:`<div class="mfield"><label>Assign to team</label><select id="pl-team"><option>Team 03 \u00B7 CampusNav</option><option>Team 08 \u00B7 DataViz</option><option>Team 15 \u00B7 MLOps</option></select></div>`+
+      `<div class="mfield"><label>Role</label><select id="pl-role"><option>ML Engineer</option><option>Backend</option><option>Researcher</option></select></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="confirmPlace()">Place student</button>`});
+}
+function confirmPlace(){
+  const team=val('pl-team');closeModal();
+  if(placeRowRef){placeRowRef.style.transition='opacity .3s';placeRowRef.style.opacity='0';setTimeout(()=>{if(placeRowRef)placeRowRef.remove();placeRowRef=null;},300);}
+  toast('ok','Student placed',team);
+}
+
+/* ---- ALERT RESOLUTION + TABLE ACTIONS ---- */
+function resolveAlert(row,title,desc,type){
+  if(!row)return;
+  const pg=row.closest('.page');
+  row.style.transition='opacity .3s,transform .3s';row.style.opacity='0';row.style.transform='translateX(14px)';
+  setTimeout(()=>row.remove(),300);
+  if(pg&&pg.id==='page-f-alerts'){
+    const badge=document.querySelector('#nav-faculty .sb-badge');
+    if(badge){let n=Math.max(0,(parseInt(badge.textContent,10)||0)-1);if(n>0)badge.textContent=n;else badge.style.display='none';}
+  }
+  toast(type||'ok',title,desc);
+}
+function approveTableRow(tr,btn){
+  const pend=tr.querySelector('.tag-amber');
+  if(pend){pend.className='tag tag-green';pend.textContent='active';}
+  btn.outerHTML='<button class="btn">View</button>';
+  const name=tr.querySelector('td')?tr.querySelector('td').textContent.trim():'User';
+  toast('ok','Approved',name+' is now active');
+}
+
+/* ---- DELEGATED CLICKS ---- */
+function handleBtn(btn){
+  const label=btn.textContent.trim().replace(/\s+/g,' ');
+  const lower=label.toLowerCase();
+  const row=btn.closest('.alert-row');
+  const tr=btn.closest('tbody tr');
+
+  if(tr){
+    if(lower==='approve'){approveTableRow(tr,btn);return;}
+    if(lower==='reject'){const n=tr.querySelector('td')?tr.querySelector('td').textContent.trim():'';tr.style.transition='opacity .25s';tr.style.opacity='0';setTimeout(()=>tr.remove(),260);toast('warn','Rejected',n);return;}
+    if(lower==='view'||lower==='check'||lower==='urgent'){teamModal(tr.querySelector('td')?tr.querySelector('td').textContent.trim():'Team');return;}
+  }
+  if(row&&(lower==='approve'||lower==='reject')){
+    const n=row.querySelector('.alert-title')?row.querySelector('.alert-title').textContent.trim():'Request';
+    resolveAlert(row,lower==='approve'?'Approved':'Rejected',n,lower==='approve'?'ok':'warn');return;
+  }
+  if(row&&lower==='place manually'){placeModal(row);return;}
+  if(row&&lower==='view profile'){studentProfileModal(row.querySelector('.alert-title')?row.querySelector('.alert-title').textContent.trim():'Student');return;}
+  const resolveLabels=['review','decide','escalate','escalate to admin','send check-in','send prompt','override','insert into team 12','add to pool','pool','require revision','allow both','send email'];
+  if(row&&resolveLabels.indexOf(lower)>-1){
+    const n=row.querySelector('.alert-title')?row.querySelector('.alert-title').textContent.trim():'Alert';
+    let msg='Action logged';
+    if(lower.indexOf('insert')===0)msg='Student inserted into Team 12';
+    else if(lower==='send check-in'||lower==='send email')msg='Check-in email sent';
+    else if(lower.indexOf('escalate')===0)msg='Escalated to admin';
+    else if(lower==='override')msg='Override applied';
+    else if(lower==='require revision')msg='Revision required \u2014 team notified';
+    else if(lower==='allow both')msg='Both proposals allowed';
+    else if(lower==='send prompt')msg='Re-delegation prompt sent';
+    else if(lower==='decide'||lower==='review')msg='Marked for review';
+    else if(lower==='add to pool'||lower==='pool')msg='Added to exception pool';
+    resolveAlert(row,n,msg,'ok');return;
+  }
+
+  switch(lower){
+    case 'add user':addUserModal();return;
+    case 'add file':addFileModal();return;
+    case 'create cohort':addCohortModal();return;
+    case 're-run allocation':case 're-run':runAllocation();return;
+    case 'view exception pool':switchRoleByName('faculty');nav('f-teams',document.querySelector('#nav-faculty [onclick*="f-teams"]'));toast('info','Exception pool','2 students awaiting manual placement');return;
+    case 'save weights':toast('ok','Weights saved','Maximin objective updated');return;
+    case 'run bias audit':toast('info','Bias audit running\u2026');setTimeout(()=>toast('ok','Bias audit complete','No disparate impact detected'),1600);return;
+    case 'submit an appeal':appealModal();return;
+    case 'export profile':toast('info','Preparing export\u2026');setTimeout(()=>toast('ok','Profile exported','aegis-profile.pdf downloaded'),1200);return;
+    case 'open in google':case 'open in google docs':toast('info','Opening in Google\u2026');return;
+    case 'send email':toast('ok','Email sent','Check-in delivered to the student');return;
+    case 'edit first':toast('info','Opening editor\u2026');return;
+    case 'log manual action':toast('ok','Manual action logged');return;
+    case 'place manually':placeModal(null);return;
+    case 'view':teamModal('Team detail');return;
+  }
+  toast('ok',label,'Action recorded');
+}
+function toggleTask(row){row.classList.toggle('done');updateTaskCount();}
+function updateTaskCount(){
+  const card=document.querySelector('#page-s-dashboard .card');
+  if(!card)return;
+  const rows=[].slice.call(card.querySelectorAll('.task-row'));
+  const remaining=rows.filter(r=>!r.classList.contains('done')&&!r.querySelector('.tag-green')).length;
+  const sv=document.querySelector('#page-s-dashboard .stat-val');
+  if(sv)sv.textContent=remaining;
+}
+/* ---- SIDEBAR (mobile drawer) ---- */
+function toggleSidebar(){document.body.classList.toggle('sb-open');}
+function closeSidebar(){document.body.classList.remove('sb-open');}
+
+/* ---- ANIME.JS ANIMATIONS ---- */
+function animatePage(pageId){
+  if(!window.anime)return;
+  const pg=document.getElementById('page-'+pageId);
+  if(!pg)return;
+  const items=pg.querySelectorAll('.stat-card, .card');
+  if(items.length){
+    anime.remove(items);
+    anime({targets:items,opacity:[0,1],translateY:[14,0],delay:anime.stagger(45),duration:480,easing:'easeOutCubic',
+      complete:()=>{items.forEach(it=>{it.style.transform='';});}});
+  }
+  pg.querySelectorAll('.stat-val').forEach(el=>{
+    if(el.children.length===0){
+      const txt=el.textContent.trim();
+      if(/^\d+$/.test(txt)){
+        const target=parseInt(txt,10),obj={v:0};
+        anime({targets:obj,v:target,duration:700,easing:'easeOutCubic',round:1,update:()=>{el.textContent=obj.v;}});
+      }
+    }
+  });
+}
+function animateLogin(){
+  if(!window.anime)return;
+  anime.remove('#screen-login .login-hero, #screen-login .login-feat, #screen-login .login-right');
+  anime({targets:'#screen-login .login-hero',opacity:[0,1],translateY:[16,0],duration:650,delay:120,easing:'easeOutCubic',complete:a=>a.animatables.forEach(x=>x.target.style.transform='')});
+  anime({targets:'#screen-login .login-feat',opacity:[0,1],translateX:[-14,0],delay:anime.stagger(90,{start:320}),duration:520,easing:'easeOutCubic',complete:a=>a.animatables.forEach(x=>x.target.style.transform='')});
+  anime({targets:'#screen-login .login-right',opacity:[0,1],translateY:[18,0],duration:620,delay:160,easing:'easeOutCubic',complete:a=>a.animatables.forEach(x=>x.target.style.transform='')});
+}
+
+/* ---- SURFACE DETAIL MODALS ---- */
+function statModal(card){
+  const label=(card.querySelector('.stat-label')||{}).textContent?card.querySelector('.stat-label').textContent.trim():'Metric';
+  const valTxt=(card.querySelector('.stat-val')||{}).textContent?card.querySelector('.stat-val').textContent.trim():'';
+  const sub=(card.querySelector('.stat-sub')||{}).textContent?card.querySelector('.stat-sub').textContent.trim():'';
+  const details={
+    'Tasks remaining':'4 open tasks this sprint. One is high-priority (API spec for the skill endpoint). Sprint ends Friday.',
+    'Contribution score':'Your Â-weighted contribution is 78/100, up 6 this week. Main drivers: repo setup and API work.',
+    'Hours used':'6.5 of your 8 committed hours used this week. Healthy target band is 70–100%.',
+    'Days to milestone':'Phase 2 delivery is in 11 days. 60% of milestone tasks are complete.',
+    'Total teams':'18 teams across the CS cohort this semester.',
+    'Healthy':'14 teams scoring 75 or above. No intervention needed.',
+    'At risk':'3 teams scoring 50–74. Watched on the 72-hour cycle.',
+    'Critical':'1 team below 50. Immediate faculty action required.',
+    'Open alerts':'3 unreviewed flags from the latest monitoring cycle.',
+    'Open appeals':'2 placement appeals open, due June 25.',
+    'Total students':'54 active students this semester.',
+    'Lecturers':'4 lecturers, 2 pending approval.',
+    'Departments':'Computer Science and AI & Data Science.',
+    'Active cohorts':'3 cohorts running in Semester 1, 2026.'
+  };
+  openModal({title:label,sub:valTxt+(sub?' · '+sub:''),body:`<div style="font-size:13px;color:var(--text2);line-height:1.7">${esc(details[label]||'Metric detail for this period.')}</div>`,foot:`<button class="btn" onclick="closeModal()">Close</button>`});
+}
+function memberModal(row){
+  const name=((row.querySelector('.m-name')||{}).textContent||'Member').replace('(you)','').trim();
+  const role=(row.querySelector('.m-role')||{}).textContent?row.querySelector('.m-role').textContent.trim():'';
+  const score=(row.querySelector('.m-score')||{}).textContent?row.querySelector('.m-score').textContent.trim():'—';
+  openModal({title:name,sub:role,
+    body:`<div class="kv"><span>Contribution score</span><span>${esc(score)}</span></div>`+
+      `<div class="kv"><span>Role</span><span>${esc(role)}</span></div>`+
+      `<div class="kv"><span>Tasks completed</span><span>7</span></div>`+
+      `<div class="kv"><span>Workspace activity</span><span>Active</span></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();toast('info','Opening profile\u2026')">View full profile</button>`});
+}
+function skillModal(row){
+  const name=(row.querySelector('.skill-name')||{}).textContent?row.querySelector('.skill-name').textContent.trim():'Skill';
+  const scores=(row.querySelector('.skill-scores')||{}).textContent?row.querySelector('.skill-scores').textContent.trim():'';
+  openModal({title:name,sub:'Evidence-weighted score',
+    body:`<div class="kv"><span>Calculation</span><span>${esc(scores)}</span></div>`+
+      `<div style="font-size:12px;color:var(--text2);line-height:1.7;margin-top:12px">Â = Declared × Confidence. Confidence reflects evidence quality: 1.0 verified grade, 0.8 portfolio, 0.6 self-report, 0.5 contradicted by throughput.</div>`,
+    foot:`<button class="btn" onclick="closeModal()">Close</button>`});
+}
+let weightEl=null;
+function weightEditModal(row){
+  const name=(row.querySelector('.skill-name')||{}).textContent?row.querySelector('.skill-name').textContent.trim():'Weight';
+  weightEl=row.querySelector('span:last-child');
+  const cur=weightEl?weightEl.textContent.trim():'0';
+  openModal({title:'Edit weight',sub:name,
+    body:`<div class="mfield"><label>${esc(name)} (0–100)</label><input id="we-val" type="number" min="0" max="100" value="${esc(cur)}"></div>`,
+    foot:`<button class="btn" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveWeight()">Update</button>`});
+}
+function saveWeight(){const v=val('we-val');if(weightEl)weightEl.textContent=v;closeModal();toast('ok','Weight updated',v);}
+let onbStep=null;
+function onboardModal(step){
+  const title=(step.querySelector('.step-title')||{}).textContent?step.querySelector('.step-title').textContent.trim():'Step';
+  const desc=(step.querySelector('.step-desc')||{}).textContent?step.querySelector('.step-desc').textContent.trim():'';
+  const done=step.querySelector('.step-done'),curr=step.querySelector('.step-curr');
+  onbStep=step;
+  let foot=`<button class="btn" onclick="closeModal()">Close</button>`;
+  if(curr)foot+=`<button class="btn btn-primary" onclick="completeStep()">Mark complete</button>`;
+  openModal({title:title,sub:done?'Completed':(curr?'In progress':'Upcoming'),body:`<div style="font-size:13px;color:var(--text2);line-height:1.7">${esc(desc)}</div>`,foot:foot});
+}
+function completeStep(){
+  closeModal();
+  if(onbStep){const n=onbStep.querySelector('.step-num');if(n){n.className='step-num step-done';n.innerHTML='<i class="ti ti-check" style="font-size:13px"></i>';}}
+  const page=document.getElementById('page-s-onboard');
+  const el=page.querySelector('.card-title-right');
+  if(el)el.textContent=page.querySelectorAll('.step-done').length+' / '+page.querySelectorAll('.onboard-step').length+' complete';
+  toast('ok','Step completed');
+}
+function rowModal(tr){
+  const cells=[].slice.call(tr.children);
+  const table=tr.closest('table');
+  const heads=table?[].slice.call(table.querySelectorAll('thead th')).map(th=>th.textContent.trim()):[];
+  let body='';
+  cells.forEach((td,i)=>{
+    if(td.querySelector('button'))return;
+    const h=heads[i]||('Field '+(i+1));
+    const v=td.textContent.trim();
+    if(h&&v)body+=`<div class="kv"><span>${esc(h)}</span><span>${esc(v)}</span></div>`;
+  });
+  openModal({title:cells[0]?cells[0].textContent.trim():'Detail',sub:'Record detail',body:body||'<div style="color:var(--text3)">No further details.</div>',foot:`<button class="btn" onclick="closeModal()">Close</button>`});
+}
+
+/* ---- SURFACE DISPATCH ---- */
+function handleSurface(e){
+  if(!document.getElementById('screen-app').classList.contains('active'))return;
+  const dashTask=e.target.closest('#page-s-dashboard .card .task-row');
+  if(dashTask){toggleTask(dashTask);return;}
+  const statCard=e.target.closest('.stat-card');
+  if(statCard){statModal(statCard);return;}
+  const member=e.target.closest('.member-row');
+  if(member){memberModal(member);return;}
+  const onb=e.target.closest('.onboard-step');
+  if(onb){onboardModal(onb);return;}
+  const skillRow=e.target.closest('.skill-row');
+  if(skillRow){if(skillRow.closest('#page-a-settings'))weightEditModal(skillRow);else skillModal(skillRow);return;}
+  const act=e.target.closest('.activity-item');
+  if(act){toast('info','Activity',(act.querySelector('.act-text')||{}).textContent?act.querySelector('.act-text').textContent.trim():'');return;}
+  const online=e.target.closest('.online-row');
+  if(online){toast('info','Member status',online.textContent.replace(/\s+/g,' ').trim());return;}
+  const tr=e.target.closest('tbody tr');
+  if(tr){rowModal(tr);return;}
+  const hb=e.target.closest('.hbar-wrap');
+  if(hb){toast('info',(hb.querySelector('.hbar-label')||{}).textContent?hb.querySelector('.hbar-label').textContent.trim():'Metric',(hb.querySelector('.hbar-val')||{}).textContent?hb.querySelector('.hbar-val').textContent.trim():'');return;}
+  const kv=e.target.closest('.row');
+  if(kv){toast('info',(kv.querySelector('.row-name')||{}).textContent?kv.querySelector('.row-name').textContent.trim():'Detail',(kv.querySelector('.row-right')||{}).textContent?kv.querySelector('.row-right').textContent.trim():'');return;}
+  const task=e.target.closest('.task-row');
+  if(task){toast('info',(task.querySelector('.task-name')||{}).textContent?task.querySelector('.task-name').textContent.trim():'Item');return;}
+  const sring=e.target.closest('.score-ring-wrap');
+  if(sring){toast('info','Team health','80 / 100 · Healthy');return;}
+  const alertRow=e.target.closest('.alert-row');
+  if(alertRow){toast('info',(alertRow.querySelector('.alert-title')||{}).textContent?alertRow.querySelector('.alert-title').textContent.trim():'Alert',(alertRow.querySelector('.alert-desc')||{}).textContent?alertRow.querySelector('.alert-desc').textContent.trim():'');return;}
+  const card=e.target.closest('.card');
+  if(card){const ct=card.querySelector('.card-title');let t='Section';if(ct)t=(ct.firstChild&&ct.firstChild.textContent?ct.firstChild.textContent:ct.textContent).trim();toast('info',t||'Section');return;}
+}
+
+function onDocClick(e){
+  const np=document.getElementById('notifPanel'),sp=document.getElementById('searchPanel');
+  if(np.classList.contains('open')&&!np.contains(e.target)&&!document.getElementById('bellIcon').contains(e.target))closeNotif();
+  if(sp.classList.contains('open')&&!sp.contains(e.target)&&!document.getElementById('searchIcon').contains(e.target))closeSearch();
+
+  const btn=e.target.closest('.btn,.btn-primary,.btn-danger,.btn-warn');
+  if(btn&&!btn.closest('.modal')&&!btn.closest('#toasts')&&!btn.closest('.alloc-over')){handleBtn(btn);return;}
+
+  if(e.target.closest('input,select,textarea,a,.chat-send,.ws-file,.sb-item,.sb-user,.rs-btn,.topbar-icon,.hamburger,.sb-backdrop,.notif-item,.notif-clear,.notif-foot,.sr-item,.modal,.overlay,.notif-panel,.search-panel,.alloc-over,#toasts,label,.boot-skip'))return;
+  handleSurface(e);
+}
+document.addEventListener('click',onDocClick);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeNotif();closeSearch();}});
+// keyboard activation for role=button controls (Enter / Space)
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute&&e.target.getAttribute('role')==='button'){e.preventDefault();e.target.click();}
+});
+
+syncDot();
+runBoot();
+</script>
+</body>
+</html>

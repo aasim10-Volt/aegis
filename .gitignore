@@ -1,0 +1,61 @@
+# ── SECRETS: never commit these (public repo = instant compromise + PDPA breach) ──
+.env
+.env.*
+!.env.example
+*.local
+
+# Google service-account credentials — the single most dangerous file in this repo.
+# It can read/write every team's Drive workspace. NEVER commit.
+service-account*.json
+*service_account*.json
+*service-account*.json
+gcp-*.json
+credentials.json
+client_secret*.json
+*.pem
+/secrets/
+**/secrets/**
+
+# Supabase / DB
+.supabase/
+supabase/.temp/
+
+# ── deps / build (Node + Next.js) ──
+node_modules/
+.pnp
+.pnp.js
+.next/
+out/
+dist/
+build/
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# ── deps / build (Python) ──
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── testing / coverage ──
+coverage/
+.nyc_output/
+
+# ── logs ──
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── editor / os ──
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
