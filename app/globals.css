@@ -290,19 +290,3 @@
 /* utility: the signature soft elevation used by floating cards */
 @utility shadow-card { box-shadow: var(--shadow-md); }
 @utility shadow-card-lg { box-shadow: var(--shadow-lg); }
-
-/* hover-card preview: smooth scale + fade, anchored to the natural origin.
-   The global prefers-reduced-motion rule above neutralises these automatically. */
-@keyframes aegis-hc-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@keyframes aegis-hc-out {
-  from { opacity: 1; transform: scale(1); }
-  to   { opacity: 0; transform: scale(0.96); }
-}
-.aegis-hovercard {
-  transform-origin: var(--radix-hover-card-content-transform-origin);
-}
-.aegis-hovercard[data-state="open"]  { animation: aegis-hc-in 160ms var(--ease-out-quint); }
-.aegis-hovercard[data-state="closed"] { animation: aegis-hc-out 110ms ease-in; }

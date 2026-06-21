@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/badge";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { CardZoom } from "@/components/ui/card-zoom";
 import type { AlertView, RunResponse, StudentProfile, TeamView } from "@/lib/api";
 import { type makeLookups, titleCase, utilisationPct } from "@/lib/format";
 import {
@@ -68,19 +68,22 @@ export function StatTile({
   const hint = STAT_HINTS[label];
   if (!hint) return card;
   return (
-    <HoverCard openDelay={160} closeDelay={120}>
-      <HoverCardTrigger asChild>{card}</HoverCardTrigger>
-      <HoverCardContent className="w-64">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-            <Icon className="h-5 w-5" />
+    <CardZoom
+      preview={
+        <Card className="flex flex-col items-start gap-5 p-8">
+          <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/10 text-primary">
+            <Icon className="h-8 w-8" />
           </div>
-          <p className="text-3xl font-bold tabular-nums text-foreground">{value}</p>
-        </div>
-        <p className="mt-3 text-sm font-semibold text-foreground">{label}</p>
-        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{hint}</p>
-      </HoverCardContent>
-    </HoverCard>
+          <p className="text-6xl font-bold tracking-tight tabular-nums text-foreground">{value}</p>
+          <div>
+            <p className="text-lg font-semibold text-foreground">{label}</p>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{hint}</p>
+          </div>
+        </Card>
+      }
+    >
+      {card}
+    </CardZoom>
   );
 }
 
@@ -97,22 +100,25 @@ function memberRight(m: TeamView["members"][number]) {
   );
 }
 
-function TeamDetail({ team }: { team: TeamView }) {
+function TeamCardZoom({ team }: { team: TeamView }) {
   const status = band(team.band);
   const components = Object.entries(team.components ?? {});
   const needsBalancing = team.unallocated_hours > 0 || team.members.some((m) => m.overloaded);
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <div className="flex items-start justify-between gap-3">
-          <h4 className="text-sm font-semibold text-foreground">{team.project_title}</h4>
-          <StatusBadge tone={status.tone} dot>
-            {status.label}
-          </StatusBadge>
+    <Card className="flex flex-col gap-5 p-7">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="text-xl font-bold tracking-tight text-foreground">{team.project_title}</h3>
+          <div className="mt-2">
+            <StatusBadge tone={status.tone} dot>
+              {status.label}
+            </StatusBadge>
+          </div>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Team health {Math.round(team.health_score)} of 100.
+          </p>
         </div>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Team health {Math.round(team.health_score)} of 100.
-        </p>
+        <HealthRing value={team.health_score} size={104} strokeWidth={11} showBand={false} />
       </div>
 
       {components.length > 0 && (
@@ -134,7 +140,7 @@ function TeamDetail({ team }: { team: TeamView }) {
         </div>
       )}
 
-      <div className="flex flex-col gap-1.5 border-t border-border/60 pt-3">
+      <div className="flex flex-col gap-2 border-t border-border/60 pt-4">
         <p className="text-xs font-medium text-muted-foreground">Members</p>
         {team.members.map((m) => (
           <div key={m.student_id} className="flex items-center justify-between gap-3 text-sm">
@@ -145,12 +151,16 @@ function TeamDetail({ team }: { team: TeamView }) {
       </div>
 
       {needsBalancing && (
-        <p className="text-xs" style={{ color: "var(--at-risk-ink)" }}>
+        <p
+          className="flex items-center gap-1.5 rounded-xl bg-[color-mix(in_oklch,var(--at-risk)_12%,transparent)] px-3 py-2 text-xs"
+          style={{ color: "var(--at-risk-ink)" }}
+        >
+          <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
           {RECOMMENDATION.overload}
           {team.unallocated_hours > 0 ? ` · ${Math.round(team.unallocated_hours)} h unassigned` : ""}
         </p>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -201,14 +211,7 @@ export function TeamCard({ team }: { team: TeamView }) {
       )}
     </Card>
   );
-  return (
-    <HoverCard openDelay={160} closeDelay={120}>
-      <HoverCardTrigger asChild>{summary}</HoverCardTrigger>
-      <HoverCardContent align="start" className="w-80">
-        <TeamDetail team={team} />
-      </HoverCardContent>
-    </HoverCard>
-  );
+  return <CardZoom preview={<TeamCardZoom team={team} />}>{summary}</CardZoom>;
 }
 
 // ── skill check (evidence-weighted, C=0.5 in amber) ──────────────────────────
@@ -289,33 +292,34 @@ export function ReviewPanel({ data, lookups }: { data: RunResponse; lookups: Loo
 export function AlertRow({ alert, lookups }: { alert: AlertView; lookups: Lookups }) {
   const a = friendlyAlert(alert, lookups);
   return (
-    <HoverCard openDelay={160} closeDelay={120}>
-      <HoverCardTrigger asChild>
-        <motion.div
-          variants={rise}
-          className="rounded-2xl border border-border/60 bg-card p-4 shadow-card"
-        >
-          <div className="flex items-start justify-between gap-2">
-            <span className="text-sm font-semibold text-foreground">{a.title}</span>
+    <CardZoom
+      preview={
+        <Card className="flex flex-col gap-3 p-7">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-lg font-bold tracking-tight text-foreground">{a.title}</h3>
             <StatusBadge tone={a.tone} dot>
               {a.severity}
             </StatusBadge>
           </div>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{a.description}</p>
-          {a.context && <p className="mt-1.5 text-xs font-medium text-foreground/70">{a.context}</p>}
-        </motion.div>
-      </HoverCardTrigger>
-      <HoverCardContent align="start" className="w-72">
+          <p className="text-sm leading-relaxed text-muted-foreground">{a.description}</p>
+          {a.context && <p className="text-sm font-medium text-foreground">{a.context}</p>}
+        </Card>
+      }
+    >
+      <motion.div
+        variants={rise}
+        className="rounded-2xl border border-border/60 bg-card p-4 shadow-card"
+      >
         <div className="flex items-start justify-between gap-2">
           <span className="text-sm font-semibold text-foreground">{a.title}</span>
           <StatusBadge tone={a.tone} dot>
             {a.severity}
           </StatusBadge>
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
-        {a.context && <p className="mt-2 text-sm font-medium text-foreground">{a.context}</p>}
-      </HoverCardContent>
-    </HoverCard>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{a.description}</p>
+        {a.context && <p className="mt-1.5 text-xs font-medium text-foreground/70">{a.context}</p>}
+      </motion.div>
+    </CardZoom>
   );
 }
 
