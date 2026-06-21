@@ -372,8 +372,28 @@ def get_audit() -> list[AuditView]:
     ]
 
 
+class ApprovalDecision(BaseModel):
+    action: str  # "approve" | "reject"
+
+
 @app.get("/admin/approvals", response_model=list[ApprovalView])
 def get_approvals() -> list[ApprovalView]:
+    if os.environ.get("SUPABASE_URL"):
+        try:
+            from aegis.adapters.repo_db import load_pending_profiles
+
+            return [
+                ApprovalView(
+                    request_id=str(r["id"]),
+                    full_name=str(r.get("email", "")).split("@")[0] or "Account",
+                    email=str(r.get("email", "")),
+                    role_requested=str(r.get("role", "student")),
+                    requested_at="",
+                )
+                for r in load_pending_profiles()
+            ]
+        except Exception as exc:  # noqa: BLE001 — profiles.status absent; show seed
+            print(f"[governance] live approvals unavailable ({exc.__class__.__name__}); using seed")
     return [
         ApprovalView(
             request_id=a.request_id,
@@ -384,6 +404,20 @@ def get_approvals() -> list[ApprovalView]:
         )
         for a in _governance().approvals
     ]
+
+
+@app.post("/admin/approvals/{profile_id}")
+def post_approval(profile_id: str, decision: ApprovalDecision) -> dict[str, str]:
+    """Approve or reject a pending account (admin action via the service_role backend)."""
+    if not os.environ.get("SUPABASE_URL"):
+        raise HTTPException(status_code=400, detail="approvals require a live database")
+    status = {"approve": "approved", "reject": "rejected"}.get(decision.action)
+    if status is None:
+        raise HTTPException(status_code=400, detail="action must be 'approve' or 'reject'")
+    from aegis.adapters.repo_db import set_profile_status
+
+    set_profile_status(profile_id, status)
+    return {"id": profile_id, "status": status}
 
 
 @app.get("/admin/overrides", response_model=list[OverrideView])

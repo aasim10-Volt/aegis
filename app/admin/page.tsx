@@ -14,6 +14,7 @@ import {
   type AuditView,
   type IntegrityView,
   type OverrideView,
+  decideApproval,
   getApprovals,
   getAudit,
   getIntegrity,
@@ -110,6 +111,20 @@ export default function AdminPage() {
   const [approvals, setApprovals] = React.useState<ApprovalView[]>([]);
   const [overrides, setOverrides] = React.useState<OverrideView[]>([]);
   const [error, setError] = React.useState<string | null>(null);
+  const [busyId, setBusyId] = React.useState<string | null>(null);
+
+  async function decide(id: string, action: "approve" | "reject") {
+    setBusyId(id);
+    setError(null);
+    try {
+      await decideApproval(id, action);
+      setApprovals((cur) => cur.filter((a) => a.request_id !== id));
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Action failed");
+    } finally {
+      setBusyId(null);
+    }
+  }
 
   React.useEffect(() => {
     Promise.all([getIntegrity(), getAudit(), getApprovals(), getOverrides()])
@@ -156,13 +171,24 @@ export default function AdminPage() {
                 >
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-foreground">{a.full_name}</p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {a.email} · requests {a.role_requested}
-                    </p>
+                    <p className="truncate text-xs text-muted-foreground">{a.email}</p>
                   </div>
-                  <button className="shrink-0 rounded-xl bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-card">
-                    Approve
-                  </button>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <button
+                      onClick={() => decide(a.request_id, "reject")}
+                      disabled={busyId === a.request_id}
+                      className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      onClick={() => decide(a.request_id, "approve")}
+                      disabled={busyId === a.request_id}
+                      className="rounded-xl bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-card disabled:opacity-60"
+                    >
+                      Approve
+                    </button>
+                  </div>
                 </div>
               ))
             )}

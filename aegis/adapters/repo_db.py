@@ -224,3 +224,24 @@ def db_integrity() -> dict[str, Any]:
     rows: Any = client.rpc("audit_verify", {}).execute().data
     broken = rows[0]["broken_at"] if rows else None
     return {"verified": broken is None and count > 0, "broken_at": broken, "entries": count}
+
+
+# ── signup approval (profiles.status; admin-only update enforced in 0004) ─────
+def load_pending_profiles() -> list[Row]:
+    """Accounts awaiting approval (status='pending')."""
+    client = _service_client()
+    data: Any = (
+        client.table("profiles")
+        .select("id,email,role,status")
+        .eq("status", "pending")
+        .execute()
+        .data
+    )
+    return list(data)
+
+
+def set_profile_status(profile_id: str, status: str) -> None:
+    """Approve/reject an account. service_role passes the admin-only status trigger."""
+    if status not in ("approved", "rejected"):
+        raise ValueError(f"invalid status {status!r}")
+    _service_client().table("profiles").update({"status": status}).eq("id", profile_id).execute()

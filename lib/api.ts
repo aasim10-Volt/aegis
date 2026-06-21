@@ -118,6 +118,21 @@ export const getApprovals = () => getJSON<ApprovalView[]>("/admin/approvals");
 export const getOverrides = () => getJSON<OverrideView[]>("/admin/overrides");
 export const getIntegrity = () => getJSON<IntegrityView>("/admin/integrity");
 
+/** Approve or reject a pending account (admin action). */
+export async function decideApproval(id: string, action: "approve" | "reject"): Promise<void> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/admin/approvals/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action }),
+    });
+  } catch {
+    throw new Error(`Could not reach the AEGIS API at ${API_URL}.`);
+  }
+  if (!res.ok) throw new Error(`Could not ${action} that request (${res.status}).`);
+}
+
 function isRunResponse(v: unknown): v is RunResponse {
   if (typeof v !== "object" || v === null) return false;
   const o = v as Record<string, unknown>;
