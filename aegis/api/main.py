@@ -1,14 +1,14 @@
 """FastAPI surface over the engine pipeline.
 
 Thin HTTP layer: it loads the seed cohort (an adapter concern), runs the pure
-``engine.pipeline``, and serialises the result. No engine logic lives here —
+``engine.pipeline``, and serialises the result. No engine logic lives here -
 the API may import engine + adapters; the engine never imports the API.
 
 Endpoints:
   POST /run             -> run the full A->B->C pipeline, return everything
   GET  /teams           -> teams + health
   GET  /alerts          -> triaged alert inbox
-  GET  /students/{id}   -> adjusted skill profile (Â = L x C) + placement rationale
+  GET  /students/{id}   -> adjusted skill profile (A = L x C) + placement rationale
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ app.add_middleware(
 )
 
 
-# ── cached engine run (seed is static; one run serves every endpoint) ────────
+# -- cached engine run (seed is static; one run serves every endpoint) --------
 @lru_cache(maxsize=1)
 def _cohort() -> Cohort:
     # Live Supabase when configured (SUPABASE_URL set); otherwise the bundled seed,
@@ -53,7 +53,7 @@ def _cohort() -> Cohort:
 @lru_cache(maxsize=1)
 def _result() -> AllocationResult:
     # Seed is static, so one run serves every request. INVARIANT: callers must treat
-    # the returned object as read-only — all serialisers below only read it.
+    # the returned object as read-only - all serialisers below only read it.
     return run(_cohort())
 
 
@@ -63,7 +63,7 @@ def _governance() -> GovernanceData:
     return load_governance()
 
 
-# ── response models ──────────────────────────────────────────────────────────
+# -- response models ----------------------------------------------------------
 class SkillView(BaseModel):
     discipline: str
     declared: float
@@ -131,15 +131,15 @@ class RunResponse(BaseModel):
 
 
 _STAGES = [
-    PipelineStage(key="verify", label="Verify", hint="Â = L × C"),
-    PipelineStage(key="dedupe", label="Dedupe", hint="cosine ≥ 0.75"),
+    PipelineStage(key="verify", label="Verify", hint="A = L x C"),
+    PipelineStage(key="dedupe", label="Dedupe", hint="cosine >= 0.75"),
     PipelineStage(key="match", label="Match", hint="SPA"),
     PipelineStage(key="form", label="Form", hint="maximin"),
     PipelineStage(key="monitor", label="Monitor", hint="health + alerts"),
 ]
 
 
-# ── serialisation helpers ────────────────────────────────────────────────────
+# -- serialisation helpers ----------------------------------------------------
 def _skill_views(cohort: Cohort, student_id: str) -> list[SkillView]:
     student = next(s for s in cohort.students if s.student_id == student_id)
     views: list[SkillView] = []
@@ -177,7 +177,7 @@ def _profile(cohort: Cohort, result: AllocationResult, student_id: str) -> Stude
             f"Team health {health:.0f} ({bands.get(team.team_id, 'n/a')})."
         )
     else:
-        rationale = "Unplaced — held in the faculty exception pool for review."
+        rationale = "Unplaced - held in the faculty exception pool for review."
 
     corrected = [v for v in views if v.corrected]
     if corrected:
@@ -260,7 +260,7 @@ def _run_response() -> RunResponse:
     )
 
 
-# ── endpoints ────────────────────────────────────────────────────────────────
+# -- endpoints ----------------------------------------------------------------
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -289,7 +289,7 @@ def get_student(student_id: str) -> StudentProfile:
     return _profile(cohort, _result(), student_id)
 
 
-# ── admin console (governance) ───────────────────────────────────────────────
+# -- admin console (governance) -----------------------------------------------
 class AuditView(BaseModel):
     id: int
     actor_id: str
@@ -374,7 +374,7 @@ def get_overrides() -> list[OverrideView]:
 def get_integrity() -> IntegrityView:
     """Mirror of SQL audit_verify(): recompute the hash chain, report any break.
 
-    An empty log is NOT "verified" — a truncated/zeroed audit trail must never show
+    An empty log is NOT "verified" - a truncated/zeroed audit trail must never show
     a green badge over nothing.
     """
     audit = _governance().audit
