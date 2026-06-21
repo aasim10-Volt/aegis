@@ -76,7 +76,9 @@ function StatTile({
       </div>
       <div className="min-w-0">
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
-        <p className="mt-0.5 text-xl font-semibold tracking-tight text-foreground">{value}</p>
+        <p className="mt-0.5 text-xl font-semibold tracking-tight tabular-nums text-foreground">
+          {value}
+        </p>
         {hint && <p className="text-[0.7rem] text-muted-foreground">{hint}</p>}
       </div>
     </Card>
@@ -119,8 +121,8 @@ function TeamCard({ team }: { team: TeamView }) {
               {m.name}
             </span>
             <span
-              className={m.overloaded ? "text-xs font-semibold" : "text-xs text-muted-foreground"}
-              style={m.overloaded ? { color: "var(--at-risk)" } : undefined}
+              className={`text-xs tabular-nums ${m.overloaded ? "font-semibold" : "text-muted-foreground"}`}
+              style={m.overloaded ? { color: "var(--at-risk-ink)" } : undefined}
             >
               {utilisationPct(m.utilisation)}
               {m.overloaded ? " · over" : ""}
@@ -130,9 +132,10 @@ function TeamCard({ team }: { team: TeamView }) {
       </ul>
 
       {team.unallocated_hours > 0 && (
-        <p className="flex items-center gap-1.5 rounded-xl bg-[color-mix(in_oklch,var(--at-risk)_10%,transparent)] px-3 py-2 text-xs text-[var(--at-risk)]">
+        <p className="flex items-center gap-1.5 rounded-xl bg-[color-mix(in_oklch,var(--at-risk)_12%,transparent)] px-3 py-2 text-xs text-[var(--at-risk-ink)]">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-          {team.unallocated_hours}h beyond safe capacity — rebalance suggested
+          <span className="tabular-nums">{team.unallocated_hours}h</span> beyond safe capacity —
+          rebalance suggested
         </p>
       )}
     </Card>
@@ -366,7 +369,7 @@ export default function Page() {
               variants={stagger}
               initial="hidden"
               animate="show"
-              className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+              className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
             >
               {data.teams.map((t) => (
                 <motion.div
@@ -385,7 +388,7 @@ export default function Page() {
               variants={stagger}
               initial="hidden"
               animate="show"
-              className="grid gap-4 lg:grid-cols-2"
+              className="grid grid-cols-1 gap-4 lg:grid-cols-2"
             >
               <motion.div variants={rise}>
                 {spotlight ? (

@@ -143,7 +143,7 @@ export default function AdminPage() {
           <IntegrityBadge integrity={integrity} />
         </motion.div>
 
-        <motion.div {...fade(1)} className="grid gap-4 lg:grid-cols-2">
+        <motion.div {...fade(1)} className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Panel title="Pending approvals" icon={UserCheck} count={approvals.length}>
             {approvals.length === 0 ? (
               <p className="text-sm text-muted-foreground">No accounts awaiting approval.</p>
