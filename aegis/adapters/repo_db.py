@@ -16,6 +16,7 @@ from typing import Any
 
 from aegis.domain.models import (
     ActivityEvent,
+    AllocationResult,
     Cohort,
     Project,
     SkillDeclaration,
@@ -24,6 +25,9 @@ from aegis.domain.models import (
 )
 
 Row = dict[str, Any]
+
+# service_role sentinel for backend-authored audit rows (mirrors the SQL triggers).
+SERVICE_ACTOR = "00000000-0000-0000-0000-000000000000"
 
 
 def _str_list(v: Any) -> tuple[str, ...]:
@@ -110,13 +114,16 @@ def rows_to_cohort(
     )
 
 
-def load_db_cohort() -> Cohort:
-    """Fetch the cohort from Supabase. Requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY."""
+def _service_client() -> Any:
+    """Service-role client — bypasses RLS. Backend only (never the browser)."""
     from supabase import create_client  # imported lazily so seed-only runs need no client
 
-    url = os.environ["SUPABASE_URL"]
-    key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-    client = create_client(url, key)
+    return create_client(os.environ["SUPABASE_URL"], os.environ["SUPABASE_SERVICE_ROLE_KEY"])
+
+
+def load_db_cohort() -> Cohort:
+    """Fetch the cohort from Supabase. Requires SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY."""
+    client = _service_client()
 
     def fetch(table: str) -> list[Row]:
         data: Any = client.table(table).select("*").execute().data
@@ -129,3 +136,91 @@ def load_db_cohort() -> Cohort:
         activity=fetch("activity_log"),
         monitoring=fetch("team_monitoring"),
     )
+
+
+# ── write-back: the "allocation writer" the schema expects (service_role) ─────
+def save_result(result: AllocationResult, cohort_id: str = "CS-2026") -> dict[str, int]:
+    """Persist a computed allocation to Supabase and log the run in the audit chain.
+
+    Idempotent: clears the previous allocation first (this backend IS the single
+    allocation writer per 0001's note). The audit_log insert fires the SQL
+    audit_chain trigger, so the governance trail is tamper-evident automatically.
+    """
+    client = _service_client()
+    health = {r.team_id: round(float(r.score), 1) for r in result.health}
+    team_ids = {t.team_id for t in result.teams}
+
+    # reset prior allocation (alerts first; deleting teams cascades members/tasks).
+    client.table("alerts").delete().neq("id", -1).execute()
+    client.table("teams").delete().neq("id", "__none__").execute()
+
+    if result.teams:
+        client.table("teams").insert(
+            [
+                {
+                    "id": t.team_id,
+                    "project_id": t.project_id,
+                    "health_score": health.get(t.team_id),
+                    "status": "formed",
+                }
+                for t in result.teams
+            ]
+        ).execute()
+
+    members = [
+        {"team_id": t.team_id, "student_id": mid} for t in result.teams for mid in t.member_ids
+    ]
+    for i in range(0, len(members), 500):
+        client.table("team_members").insert(members[i : i + 500]).execute()
+
+    alert_rows = [
+        {
+            "team_id": a.team_id if a.team_id in team_ids else None,
+            "severity": a.severity,
+            "trigger_type": a.trigger_type,
+            "detail": a.detail,
+        }
+        for a in result.alerts
+    ]
+    if alert_rows:
+        client.table("alerts").insert(alert_rows).execute()
+
+    # governance: record the run (audit_chain trigger computes the hash chain).
+    client.table("audit_log").insert(
+        {
+            "actor_id": SERVICE_ACTOR,
+            "actor_role": "service_role",
+            "action": "allocation_run",
+            "target_type": "cohort",
+            "target_id": cohort_id,
+            "metadata": {
+                "teams": len(result.teams),
+                "alerts": len(result.alerts),
+                "exception_pool": len(result.exception_pool),
+            },
+        }
+    ).execute()
+
+    return {"teams": len(result.teams), "members": len(members), "alerts": len(alert_rows)}
+
+
+def load_db_audit() -> list[Row]:
+    """Live governance audit log, newest first."""
+    client = _service_client()
+    data: Any = (
+        client.table("audit_log")
+        .select("id,actor_id,actor_role,action,target_id,reason,created_at,row_hash")
+        .order("id", desc=True)
+        .execute()
+        .data
+    )
+    return list(data)
+
+
+def db_integrity() -> dict[str, Any]:
+    """Verify the live audit chain via the SQL audit_verify() function."""
+    client = _service_client()
+    count: int = client.table("audit_log").select("id", count="exact").execute().count or 0
+    rows: Any = client.rpc("audit_verify", {}).execute().data
+    broken = rows[0]["broken_at"] if rows else None
+    return {"verified": broken is None and count > 0, "broken_at": broken, "entries": count}

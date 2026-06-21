@@ -54,7 +54,19 @@ def _cohort() -> Cohort:
 def _result() -> AllocationResult:
     # Seed is static, so one run serves every request. INVARIANT: callers must treat
     # the returned object as read-only - all serialisers below only read it.
-    return run(_cohort())
+    result = run(_cohort())
+    # write-back is OPT-IN and destructive (it replaces the current allocation), so it
+    # only runs when explicitly enabled with AEGIS_PERSIST=1 — never on a plain read.
+    # lru_cache means it happens at most once; best-effort so it never breaks /run.
+    if os.environ.get("SUPABASE_URL") and os.environ.get("AEGIS_PERSIST") == "1":
+        try:
+            from aegis.adapters.repo_db import save_result
+
+            saved = save_result(result)
+            print(f"[write-back] persisted {saved}")
+        except Exception as exc:  # noqa: BLE001 — never let persistence break the read path
+            print(f"[write-back] skipped: {exc.__class__.__name__}: {exc}")
+    return result
 
 
 @lru_cache(maxsize=1)
@@ -326,6 +338,25 @@ class IntegrityView(BaseModel):
 
 @app.get("/admin/audit", response_model=list[AuditView])
 def get_audit() -> list[AuditView]:
+    if os.environ.get("SUPABASE_URL"):
+        try:
+            from aegis.adapters.repo_db import load_db_audit
+
+            return [
+                AuditView(
+                    id=int(r["id"]),
+                    actor_id=str(r["actor_id"]),
+                    actor_role=str(r["actor_role"]),
+                    action=str(r["action"]),
+                    target_id=None if r.get("target_id") is None else str(r["target_id"]),
+                    reason=None if r.get("reason") is None else str(r["reason"]),
+                    created_at=str(r["created_at"]),
+                    row_hash=None if r.get("row_hash") is None else str(r["row_hash"]),
+                )
+                for r in load_db_audit()
+            ]
+        except Exception as exc:  # noqa: BLE001 — governance tables absent; show seed
+            print(f"[governance] live audit unavailable ({exc.__class__.__name__}); using seed")
     return [
         AuditView(
             id=e.id,
@@ -377,6 +408,16 @@ def get_integrity() -> IntegrityView:
     An empty log is NOT "verified" - a truncated/zeroed audit trail must never show
     a green badge over nothing.
     """
+    if os.environ.get("SUPABASE_URL"):
+        try:
+            from aegis.adapters.repo_db import db_integrity
+
+            d = db_integrity()
+            return IntegrityView(
+                verified=bool(d["verified"]), broken_at=d["broken_at"], entries=int(d["entries"])
+            )
+        except Exception as exc:  # noqa: BLE001 — governance tables absent; show seed
+            print(f"[governance] live integrity unavailable ({exc.__class__.__name__}); using seed")
     audit = _governance().audit
     broken = verify(audit)
     verified = broken is None and len(audit) > 0
