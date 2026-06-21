@@ -76,12 +76,13 @@ def _student(raw: dict[str, Any], idx: int) -> Student:
     skills: list[SkillDeclaration] = []
     for pillar, entry in raw["skill_matrix_adjusted"].items():
         discipline = PILLAR_TO_DISCIPLINE[pillar]
-        # mock declared is on a 1–10 scale; the engine works on 1–5.
-        declared = round(float(entry["declared"]) / 2.0, 2)
+        # The mock declares on a 1–10 scale; L is an integer 1–5 self-rating
+        # (skills_declared.declared_level). Rescale, round to a whole number, clamp.
+        declared_level = min(5, max(1, round(float(entry["declared"]) / 2.0)))
         skills.append(
             SkillDeclaration(
                 discipline=discipline,
-                declared_level=declared,
+                declared_level=declared_level,
                 confidence_basis=BASIS_MAP[str(entry["basis"])],
             )
         )

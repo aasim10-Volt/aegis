@@ -23,7 +23,9 @@ def test_mock_cohort_maps_into_engine_vocab() -> None:
         for sk in s.skills:
             assert sk.discipline in DISCIPLINES  # pillar -> discipline mapping
             assert sk.confidence_basis in CONFIDENCE_BASES  # verified_lms -> verified
-            assert 0.0 <= sk.declared_level <= 5.0  # rescaled from the 1-10 mock scale
+            # L is an integer 1-5 self-rating, rescaled from the 1-10 mock scale
+            assert sk.declared_level == int(sk.declared_level)
+            assert 1 <= sk.declared_level <= 5
 
 
 def test_mock_cohort_runs_through_pipeline() -> None:
