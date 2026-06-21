@@ -15,6 +15,7 @@ import { GitBranch, LayoutGrid, Menu, Settings, ShieldAlert, Users, X } from "lu
 import type { LucideIcon } from "lucide-react";
 
 import { Logo } from "@/components/aegis/logo";
+import { ThemeToggle } from "@/components/aegis/theme-toggle";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -94,8 +95,11 @@ export function AppShell({ active = "overview", onNavigate, rail, children }: Ap
           <NavButton key={i.key} item={i} layoutKey={layoutKey} />
         ))}
       </nav>
-      <div className="mt-auto">
-        <UserCard />
+      <div className="mt-auto flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <UserCard />
+        </div>
+        <ThemeToggle />
       </div>
     </>
   );
@@ -115,13 +119,16 @@ export function AppShell({ active = "overview", onNavigate, rail, children }: Ap
       {/* MOBILE TOP BAR */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border/60 bg-background/80 px-4 py-3 backdrop-blur-xl md:hidden">
         <Logo />
-        <button
-          onClick={() => setDrawer(true)}
-          aria-label="Open menu"
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-card shadow-card"
-        >
-          <Menu className="h-5 w-5 text-foreground" />
-        </button>
+        <div className="flex items-center gap-1.5">
+          <ThemeToggle />
+          <button
+            onClick={() => setDrawer(true)}
+            aria-label="Open menu"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-card shadow-card"
+          >
+            <Menu className="h-5 w-5 text-foreground" />
+          </button>
+        </div>
       </header>
 
       {/* MOBILE DRAWER */}

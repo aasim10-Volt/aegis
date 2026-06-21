@@ -35,7 +35,7 @@
   --secondary:            oklch(0.968 0.006 265);
   --secondary-foreground: oklch(0.30 0.03 257);
   --muted:                oklch(0.968 0.006 265);
-  --muted-foreground:     oklch(0.55 0.03 257);  /* #64748B slate-500 */
+  --muted-foreground:     oklch(0.50 0.03 257);  /* slate-600 — AA (≥4.5:1) on card/bg */
   --accent:               oklch(0.962 0.012 277);/* faint indigo wash for hovers */
   --accent-foreground:    oklch(0.30 0.03 257);
 
@@ -50,6 +50,13 @@
   --info-foreground:     oklch(0.985 0 0);
   --destructive:         oklch(0.59 0.22 18);    /* alias of critical      */
   --destructive-foreground: oklch(0.985 0 0);
+
+  /* status INK — darker shades for text/labels on a light status tint (AA ≥4.5:1).
+     The vivid hues above stay for dots, rings, and fills; never for small text. */
+  --healthy-ink:  oklch(0.50 0.13 162);
+  --at-risk-ink:  oklch(0.50 0.11 70);
+  --critical-ink: oklch(0.52 0.21 18);
+  --info-ink:     oklch(0.50 0.13 245);
 
   /* chart series — brand-led, accent violet last so color stays meaningful */
   --chart-1: oklch(0.54 0.22 277);   /* indigo  */
@@ -124,6 +131,12 @@
   --info-foreground:     oklch(0.205 0.03 264);
   --destructive:         oklch(0.65 0.21 18);
   --destructive-foreground: oklch(0.985 0 0);
+
+  /* status INK on dark — lighter shades for text on a dark status tint (AA ≥4.5:1). */
+  --healthy-ink:  oklch(0.82 0.15 162);
+  --at-risk-ink:  oklch(0.86 0.13 82);
+  --critical-ink: oklch(0.80 0.17 18);
+  --info-ink:     oklch(0.82 0.12 233);
 
   --chart-1: oklch(0.64 0.19 277);
   --chart-2: oklch(0.72 0.15 162);

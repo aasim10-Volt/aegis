@@ -2,15 +2,16 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { Tone } from "@/lib/format";
 
-const TONE_VAR: Record<Tone, string> = {
-  healthy: "var(--healthy)",
-  at_risk: "var(--at-risk)",
-  critical: "var(--critical)",
-  info: "var(--info)",
-  neutral: "var(--muted-foreground)",
+/** Each tone: a vivid hue (tint bg + dot) and a darker/lighter "ink" for AA-safe text. */
+const TONE: Record<Tone, { hue: string; ink: string }> = {
+  healthy: { hue: "var(--healthy)", ink: "var(--healthy-ink)" },
+  at_risk: { hue: "var(--at-risk)", ink: "var(--at-risk-ink)" },
+  critical: { hue: "var(--critical)", ink: "var(--critical-ink)" },
+  info: { hue: "var(--info)", ink: "var(--info-ink)" },
+  neutral: { hue: "var(--muted-foreground)", ink: "var(--muted-foreground)" },
 };
 
-/** Soft pastel status pill — tint background + saturated text, with an optional dot. */
+/** Soft status pill — light tint background, AA-contrast ink text, optional vivid dot. */
 export function StatusBadge({
   tone,
   dot = false,
@@ -22,16 +23,16 @@ export function StatusBadge({
   className?: string;
   children: React.ReactNode;
 }) {
-  const color = TONE_VAR[tone];
+  const { hue, ink } = TONE[tone];
   return (
     <span
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium",
         className,
       )}
-      style={{ backgroundColor: `color-mix(in oklch, ${color} 14%, transparent)`, color }}
+      style={{ backgroundColor: `color-mix(in oklch, ${hue} 15%, transparent)`, color: ink }}
     >
-      {dot && <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />}
+      {dot && <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: hue }} />}
       {children}
     </span>
   );

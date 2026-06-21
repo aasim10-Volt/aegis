@@ -51,7 +51,7 @@ export function EvidenceBar({
           className={cn(
             "nums rounded-full px-2 py-0.5 text-[0.6875rem] font-medium",
             corrected
-              ? "bg-[color-mix(in_oklch,var(--at-risk)_16%,transparent)] text-[var(--at-risk)]"
+              ? "bg-[color-mix(in_oklch,var(--at-risk)_16%,transparent)] text-[var(--at-risk-ink)]"
               : "bg-muted text-muted-foreground",
           )}
           title={basis}
