@@ -48,8 +48,13 @@ export function PipelineStepper({
   const progress = (Math.max(0, activeIndex - 1) / (total - 1)) * 100;
 
   return (
-    <div className={cn("w-full rounded-[1.25rem] bg-card p-5 shadow-card", className)}>
-      <div className="relative flex items-start justify-between">
+    <div
+      className={cn(
+        "w-full rounded-3xl border border-border/60 bg-card p-6 shadow-card",
+        className,
+      )}
+    >
+      <div className="relative mx-auto flex max-w-3xl items-start justify-between">
         {/* track */}
         <div className="absolute left-0 right-0 top-4 mx-5 h-0.5 rounded-full bg-border" />
         <motion.div
