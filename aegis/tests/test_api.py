@@ -75,3 +75,11 @@ def test_admin_approvals_and_overrides() -> None:
     overrides = client.get("/admin/overrides").json()
     assert len(overrides) == 1
     assert overrides[0]["reason"]  # override-watch: a reason is always recorded
+
+
+def test_admin_audit_requires_auth_when_live(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """API5:2023 gate: with a live DB configured, /admin/* rejects an
+    unauthenticated caller (401) before any handler/DB access runs. In seed
+    mode (no SUPABASE_URL) the gate is inert — covered by the tests above."""
+    monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
+    assert client.get("/admin/audit").status_code == 401

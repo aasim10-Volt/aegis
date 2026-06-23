@@ -245,3 +245,27 @@ def set_profile_status(profile_id: str, status: str) -> None:
     if status not in ("approved", "rejected"):
         raise ValueError(f"invalid status {status!r}")
     _service_client().table("profiles").update({"status": status}).eq("id", profile_id).execute()
+
+
+# ── auth: resolve an authenticated caller's authoritative role (API5:2023 gate) ─
+def resolve_user_role(access_token: str) -> tuple[str, str] | None:
+    """Validate a Supabase user JWT and return ``(user_id, profiles.role)``.
+
+    Verifies the access token against Supabase Auth, then reads the role from
+    ``profiles`` — the authoritative column RLS ``is_admin()`` trusts, never
+    client-supplied ``user_metadata``. Returns None if the token is
+    invalid/expired or the user has no profile row. Backend-only (service_role).
+    """
+    client = _service_client()
+    try:
+        resp: Any = client.auth.get_user(access_token)
+    except Exception:  # noqa: BLE001 — any auth failure is an unauthenticated caller
+        return None
+    user = getattr(resp, "user", None)
+    if user is None or getattr(user, "id", None) is None:
+        return None
+    uid = str(user.id)
+    rows: Any = client.table("profiles").select("role").eq("id", uid).limit(1).execute().data
+    if not rows:
+        return None
+    return uid, str(rows[0].get("role", ""))

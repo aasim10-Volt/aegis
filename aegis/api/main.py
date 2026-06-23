@@ -16,11 +16,12 @@ from __future__ import annotations
 import os
 from functools import lru_cache
 
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from aegis.adapters.repo_governance import load_governance
+from aegis.api.auth import require_admin
 from aegis.adapters.repo_seed import load_cohort
 from aegis.domain.models import AllocationResult, Cohort
 from aegis.engine import config
@@ -302,6 +303,12 @@ def get_student(student_id: str) -> StudentProfile:
 
 
 # -- admin console (governance) -----------------------------------------------
+# Function-level authorization (OWASP API5:2023): every /admin/* route is gated
+# by require_admin via this router's dependencies, applied uniformly (not
+# per-route). The gate is enforced when a live DB is configured; inert on seed.
+admin = APIRouter(prefix="/admin", dependencies=[Depends(require_admin)])
+
+
 class AuditView(BaseModel):
     id: int
     actor_id: str
@@ -336,7 +343,7 @@ class IntegrityView(BaseModel):
     entries: int
 
 
-@app.get("/admin/audit", response_model=list[AuditView])
+@admin.get("/audit", response_model=list[AuditView])
 def get_audit() -> list[AuditView]:
     if os.environ.get("SUPABASE_URL"):
         try:
@@ -456,3 +463,8 @@ def get_integrity() -> IntegrityView:
     broken = verify(audit)
     verified = broken is None and len(audit) > 0
     return IntegrityView(verified=verified, broken_at=broken, entries=len(audit))
+
+
+# Mount the gated admin router. Routes still on @app.get("/admin/...") below are
+# migrated onto this router in the follow-up step; only /admin/audit is gated now.
+app.include_router(admin)
