@@ -64,3 +64,14 @@ Thumbs.db
 !.vscode/extensions.json
 .idea/
 *.swp
+
+lms_raw_export.csv
+module_skill_mapping.csv
+student_profiles.json
+student_profiles_flat.csv
+
+# untracked source datasets (synthetic, not part of deliverable)
+lms_raw_export.csv
+module_skill_mapping.csv
+student_profiles.json
+student_profiles_flat.csv
