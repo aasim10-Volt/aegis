@@ -16,6 +16,11 @@ client_secret*.json
 /secrets/
 **/secrets/**
 
+# Local tool / agent config — may reference local paths, tokens, or MCP servers
+.claude.json
+.claude/settings.local.json
+.mcp.json
+
 # Supabase / DB
 .supabase/
 supabase/.temp/

@@ -1,0 +1,7 @@
+module_code,module_name,maps_to_pillar,weight
+CS2102,Data Structures & Algorithms,technical_architecture,1.0
+CS2205,Software Engineering Principles,technical_architecture,0.7
+DES2101,Interaction Design Fundamentals,user_experience_design,1.0
+DES2202,Visual Design & Prototyping,user_experience_design,0.6
+MGT2100,Project Management Essentials,project_management_ops,1.0
+COM2050,Technical Communication,communication_presentation,1.0

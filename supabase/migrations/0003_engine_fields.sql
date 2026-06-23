@@ -27,14 +27,21 @@ alter table activity_log add column if not exists task_id     text;
 
 -- ── per-team progress that raw activity can't give (feeds the health score) ──
 create table if not exists team_monitoring (
-  project_id      text primary key references projects(id) on delete cascade,
+  project_id      uuid primary key references projects(id) on delete cascade,
   tasks_assigned  int not null default 0 check (tasks_assigned >= 0),
   tasks_done      int not null default 0 check (tasks_done >= 0),
   milestones_due  int not null default 0 check (milestones_due >= 0),
   milestones_done int not null default 0 check (milestones_done >= 0)
 );
 
--- RLS: default-deny like every other table; readable by any authed user, written
--- only by the backend (service_role bypasses RLS).
 alter table team_monitoring enable row level security;
-create policy team_monitoring_read on team_monitoring for select using (auth.uid() is not null);
+
+create policy team_monitoring_scope on team_monitoring for select using (
+  is_admin()
+  or project_id in (
+    select t.project_id
+    from teams t
+    join team_members tm on tm.team_id = t.id
+    where tm.student_id = auth.uid()
+  )
+);

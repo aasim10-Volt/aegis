@@ -1,0 +1,52 @@
+student_id,module_code,module_name,credit_hours,grade_letter,grade_point,grade_percentage,assessment_type,semester,completion_date
+STU_88053,MGT2100,Project Management Essentials,2,B,3.0,76,project,Y1S2,2025-04-18
+STU_88053,CS2205,Software Engineering Principles,3,B+,3.3,78,coursework,Y2S1,2025-11-12
+STU_88003,MGT2100,Project Management Essentials,2,A,4.0,87,final_exam,Y1S1,2025-06-01
+STU_88003,DES2202,Visual Design & Prototyping,2,B+,3.3,77,final_exam,Y1S1,2025-12-21
+STU_88068,CS2205,Software Engineering Principles,3,A,4.0,84,coursework,Y1S1,2025-09-08
+STU_88016,COM2050,Technical Communication,2,B+,3.3,82,final_exam,Y2S1,2025-10-19
+STU_88016,DES2202,Visual Design & Prototyping,2,C,2.0,57,coursework,Y1S2,2025-04-04
+STU_88057,COM2050,Technical Communication,2,C+,2.3,63,coursework,Y1S2,2025-08-28
+STU_88035,CS2102,Data Structures & Algorithms,3,C+,2.3,63,final_exam,Y1S1,2025-04-07
+STU_88035,COM2050,Technical Communication,2,C,2.0,56,coursework,Y1S1,2025-05-15
+STU_88035,MGT2100,Project Management Essentials,2,B+,3.3,75,coursework,Y2S1,2025-02-02
+STU_88001,MGT2100,Project Management Essentials,2,B+,3.3,76,coursework,Y1S2,2025-08-07
+STU_88001,CS2102,Data Structures & Algorithms,3,C+,2.3,58,final_exam,Y1S2,2025-01-13
+STU_88001,COM2050,Technical Communication,2,B,3.0,75,coursework,Y1S2,2025-12-24
+STU_88049,COM2050,Technical Communication,2,B+,3.3,78,final_exam,Y1S1,2025-10-24
+STU_88049,DES2202,Visual Design & Prototyping,2,A+,4.0,96,final_exam,Y1S1,2025-10-16
+STU_88049,CS2205,Software Engineering Principles,3,A-,3.7,78,project,Y1S1,2025-03-03
+STU_88042,CS2102,Data Structures & Algorithms,3,A,4.0,87,project,Y2S1,2025-01-20
+STU_88042,CS2205,Software Engineering Principles,3,A,4.0,90,project,Y2S1,2025-10-17
+STU_88042,DES2202,Visual Design & Prototyping,2,B-,2.7,68,final_exam,Y2S1,2025-12-11
+STU_88043,DES2101,Interaction Design Fundamentals,2,C+,2.3,60,project,Y2S1,2025-05-15
+STU_88040,CS2102,Data Structures & Algorithms,3,C,2.0,55,final_exam,Y2S1,2025-04-17
+STU_88040,COM2050,Technical Communication,2,B,3.0,70,coursework,Y1S1,2025-04-12
+STU_88037,CS2205,Software Engineering Principles,3,B,3.0,76,final_exam,Y2S1,2025-09-10
+STU_88037,DES2202,Visual Design & Prototyping,2,A,4.0,86,coursework,Y1S1,2025-02-24
+STU_88032,CS2205,Software Engineering Principles,3,B+,3.3,79,final_exam,Y2S1,2025-11-28
+STU_88032,DES2101,Interaction Design Fundamentals,2,B,3.0,76,coursework,Y1S2,2025-01-03
+STU_88032,MGT2100,Project Management Essentials,2,C+,2.3,62,final_exam,Y1S1,2025-06-25
+STU_88052,COM2050,Technical Communication,2,B,3.0,70,project,Y1S2,2025-09-23
+STU_88006,MGT2100,Project Management Essentials,2,A,4.0,85,project,Y1S1,2025-09-02
+STU_88006,CS2102,Data Structures & Algorithms,3,B-,2.7,72,final_exam,Y1S2,2025-03-02
+STU_88005,DES2101,Interaction Design Fundamentals,2,B-,2.7,67,project,Y1S1,2025-11-04
+STU_88005,CS2102,Data Structures & Algorithms,3,B-,2.7,72,coursework,Y2S1,2025-12-05
+STU_88058,CS2205,Software Engineering Principles,3,A-,3.7,84,final_exam,Y1S1,2025-12-11
+STU_88015,COM2050,Technical Communication,2,B,3.0,70,project,Y1S1,2025-07-28
+STU_88015,CS2205,Software Engineering Principles,3,A+,4.0,98,final_exam,Y1S1,2025-08-12
+STU_88047,CS2205,Software Engineering Principles,3,A+,4.0,94,coursework,Y1S2,2025-05-28
+STU_88047,COM2050,Technical Communication,2,A,4.0,88,coursework,Y2S1,2025-09-13
+STU_88063,MGT2100,Project Management Essentials,2,A,4.0,88,final_exam,Y2S1,2025-05-02
+STU_88063,DES2101,Interaction Design Fundamentals,2,A,4.0,90,coursework,Y2S1,2025-06-14
+STU_88063,CS2102,Data Structures & Algorithms,3,A,4.0,90,project,Y1S1,2025-05-02
+STU_88009,DES2202,Visual Design & Prototyping,2,B-,2.7,70,final_exam,Y2S1,2025-06-20
+STU_88009,CS2102,Data Structures & Algorithms,3,B-,2.7,65,project,Y1S2,2025-09-10
+STU_88009,CS2205,Software Engineering Principles,3,C+,2.3,63,coursework,Y2S1,2025-05-18
+STU_88065,CS2205,Software Engineering Principles,3,C+,2.3,64,project,Y2S1,2025-03-20
+STU_88050,DES2101,Interaction Design Fundamentals,2,B,3.0,72,final_exam,Y1S2,2025-10-20
+STU_88050,DES2202,Visual Design & Prototyping,2,B-,2.7,71,coursework,Y1S2,2025-11-07
+STU_88050,CS2102,Data Structures & Algorithms,3,C,2.0,56,project,Y1S1,2025-05-17
+STU_88004,COM2050,Technical Communication,2,A,4.0,87,project,Y1S2,2025-04-26
+STU_88004,MGT2100,Project Management Essentials,2,B+,3.3,76,final_exam,Y1S1,2025-04-16
+STU_88004,DES2101,Interaction Design Fundamentals,2,A,4.0,91,coursework,Y2S1,2025-10-07

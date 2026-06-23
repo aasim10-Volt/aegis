@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEGIS — CIPHER 2.0 Documentation</title>
+<style>
+  @page { size: A4; margin: 13mm 15mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #15202b; font-size: 9.6pt; line-height: 1.42; margin: 0;
+  }
+  h1, h2, h3 { font-family: "Segoe UI Semibold", "Segoe UI", Arial, sans-serif; color: #0b3d5c; margin: 0; }
+  h1 { font-size: 19pt; letter-spacing: -0.2px; }
+  h2 {
+    font-size: 12.2pt; margin: 13px 0 5px; padding-bottom: 3px;
+    border-bottom: 2px solid #0b6fa4;
+  }
+  h3 { font-size: 10pt; color: #0b6fa4; margin: 9px 0 2px; }
+  p { margin: 0 0 6px; }
+  ul { margin: 3px 0 7px; padding-left: 17px; }
+  li { margin: 0 0 3px; page-break-inside: avoid; }
+  .lead { font-size: 9.6pt; }
+  code, .mono { font-family: "Consolas", "SFMono-Regular", monospace; font-size: 9pt; }
+  .formula {
+    font-family: "Cambria Math", "Georgia", serif; font-size: 10.4pt;
+    background: #eef6fb; border-left: 3px solid #0b6fa4; padding: 4px 9px;
+    margin: 5px 0; display: inline-block; border-radius: 2px;
+  }
+  /* Let sections flow across pages, but never split these atomic units: */
+  table, .figbox, .layers, .note { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+
+  /* header band */
+  .titlewrap { border-bottom: 3px solid #0b3d5c; padding-bottom: 9px; margin-bottom: 10px; }
+  .subtitle { color: #4a5a68; font-size: 9.4pt; margin-top: 3px; }
+  .tagline { color: #0b6fa4; font-weight: 600; font-size: 9.6pt; margin-top: 5px; }
+  .badge {
+    display: inline-block; background: #0b6fa4; color: #fff; font-size: 7.6pt;
+    font-weight: 700; letter-spacing: 0.4px; padding: 2px 8px; border-radius: 10px;
+    text-transform: uppercase; vertical-align: middle;
+  }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; margin: 5px 0 8px; font-size: 8.9pt; }
+  th, td { text-align: left; padding: 4px 7px; border: 1px solid #cfdce6; vertical-align: top; }
+  th { background: #0b3d5c; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f4f8fb; }
+
+  /* callouts */
+  .note {
+    background: #fff8e6; border: 1px solid #e8c969; border-radius: 3px;
+    padding: 6px 9px; font-size: 8.8pt; margin: 6px 0;
+  }
+  .key { color: #b3471a; font-weight: 700; }
+  .ok  { color: #1f7a4d; font-weight: 700; }
+
+  /* figure placeholder boxes */
+  .figbox {
+    border: 2.5px dashed #0b6fa4; background: #f0f7fc; border-radius: 5px;
+    min-height: 150px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; color: #0b3d5c; margin: 8px 0;
+    page-break-inside: avoid;
+  }
+  .figbox .ftag { font-weight: 700; font-size: 9.4pt; letter-spacing: 0.3px; }
+  .figbox .fsub { font-size: 8.2pt; color: #4a5a68; margin-top: 3px; }
+  .figbox .fdrop { font-size: 7.6pt; color: #7088a0; margin-top: 7px; font-style: italic; }
+
+  .layers { display: flex; gap: 6px; margin: 6px 0 8px; }
+  .layer {
+    flex: 1; border: 1px solid #0b6fa4; background: #eef6fb; border-radius: 4px;
+    padding: 6px 5px; text-align: center; font-size: 8.2pt;
+  }
+  .layer b { display: block; color: #0b3d5c; font-size: 8.8pt; margin-bottom: 2px; }
+  .arrow { align-self: center; color: #0b6fa4; font-weight: 700; }
+
+  .foot {
+    margin-top: 12px; padding-top: 7px; border-top: 1px solid #cfdce6;
+    font-size: 8pt; color: #4a5a68; text-align: center;
+  }
+  .pagebreak { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<div class="titlewrap">
+  <h1>AEGIS &mdash; Autonomous Evidence-Gated Intake &amp; Governance System</h1>
+  <div class="subtitle">CIPHER 2.0 &middot; Scenario 03 &middot; Phase 2 Prototype &middot; Team Amateurs, Informatics Institute of Technology</div>
+  <div class="tagline">Evidence-weighted capstone team allocation with auditable governance &nbsp;<span class="badge">All data synthetic</span></div>
+</div>
+
+<!-- §1 -->
+<div class="section">
+<h2>1 &nbsp; Problem &amp; Solution</h2>
+<p class="lead"><b>The problem.</b> Allocating students to capstone projects and teams is, in most institutions, a manual and opinion-driven exercise. Skills are taken from self-declaration at face value &mdash; so a confident over-claimer outranks a quiet expert; near-duplicate project topics slip past tired reviewers; and disengagement or free-riding only surfaces at the final viva, when it is too late to intervene. None of it leaves an auditable trail, so allocation decisions cannot be defended when challenged.</p>
+<p class="lead"><b>What AEGIS does.</b> AEGIS is an evidence-gated pipeline &mdash; <span class="mono">intake &rarr; de-duplicate &rarr; match &rarr; form &rarr; monitor</span> &mdash; that treats every self-declared skill as a <i>claim to be weighted by its evidence</i>, not a fact. Unproven claims are discounted, near-duplicate projects are blocked for review before allocation, teams are formed to lift the weakest team rather than the average, and engagement is monitored continuously so faculty are alerted to ghosting, sympathy-carrying and burnout while there is still time to act.</p>
+<p class="lead"><b>What it is.</b> A pure Python decision engine driving a Next.js dashboard over a Supabase&nbsp;/&nbsp;Postgres database, with object-scoped Row-Level Security and an append-only, hash-chained audit log as the governance substrate. Every state-changing action is recorded; every allocation is explainable.</p>
+</div>
+
+<!-- §2 -->
+<div class="section">
+<h2>2 &nbsp; The Algorithm</h2>
+
+<h3>2.1 &nbsp; Evidence weighting &mdash; the Dunning&ndash;Kruger correction</h3>
+<p>Each declared skill is adjusted by a confidence factor reflecting the strength of its evidence:</p>
+<div class="formula">&Acirc; = L &times; C</div>
+<p style="margin-top:4px;">where <b>L</b> is the declared level (1&ndash;5) and <b>C</b> is the confidence factor keyed to the evidence basis:</p>
+<table>
+  <tr><th>Evidence basis</th><th>C</th><th>Meaning</th></tr>
+  <tr><td>verified</td><td>1.0</td><td>institutional grade / assessed record</td></tr>
+  <tr><td>portfolio</td><td>0.8</td><td>portfolio or prior work submitted</td></tr>
+  <tr><td>self&#8209;report</td><td>0.6</td><td>self-report only (default; no LMS link)</td></tr>
+  <tr><td>contradicted</td><td>0.5</td><td>self-report contradicted by observed throughput</td></tr>
+</table>
+<p>The <span class="key">contradicted</span> tier is the Dunning&ndash;Kruger correction: when a high self-claim conflicts with measured task throughput, confidence is halved.</p>
+<p class="note"><b>Live case &mdash; STU_08.</b> Declares Technical <b>5.0</b> with no supporting evidence, contradicted by throughput &rarr; C&nbsp;=&nbsp;0.5 &rarr; <span class="formula" style="font-size:9.6pt; padding:1px 6px;">&Acirc; = 5.0 &times; 0.5 = 2.5</span>. The inflated claim is corrected before it can distort team formation; STU_08 ultimately lands in the critical team P_05.</p>
+
+<h3>2.2 &nbsp; Duplicate detection &mdash; TF-IDF cosine gate</h3>
+<p>Project abstracts are vectorised with TF-IDF and compared by cosine similarity. Any pair scoring <b>&ge; 0.75</b> is flagged and blocked for supervisor review before allocation proceeds.</p>
+<p class="note"><b>Live case.</b> Projects <b>P_02</b> and <b>P_03</b> flagged at <b>0.96</b> &mdash; well above the 0.75 gate &mdash; and held for review rather than silently allocated as two distinct projects.</p>
+
+<h3>2.3 &nbsp; Matching &mdash; Student&ndash;Project Allocation (SPA)</h3>
+<p>Allocation uses the Abraham&ndash;Manlove Student&ndash;Project Allocation algorithm, honouring students' ranked project preferences against supervisor and project-capacity constraints &mdash; a stable matching rather than first-come allocation.</p>
+
+<h3>2.4 &nbsp; Formation &mdash; maximin floor-lifting</h3>
+<p>Teams are formed to maximise the capability of the <i>weakest</i> team (a maximin objective), rather than the average &mdash; deliberately lifting the floor so no team is left non-viable. The resulting health-band spread on the live cohort:</p>
+<table>
+  <tr><th>Team</th><th>Health score</th><th>Band</th></tr>
+  <tr><td>P_04</td><td>84</td><td><span class="ok">Healthy</span></td></tr>
+  <tr><td>P_01</td><td>69</td><td>At-Risk &mdash; carry imbalance + burnout</td></tr>
+  <tr><td>P_05</td><td>41</td><td><span class="key">Critical</span> &mdash; ghost + overload + low completion</td></tr>
+</table>
+
+<h3>2.5 &nbsp; Monitoring &mdash; four engagement signals</h3>
+<p>Over a 14-day sprint window the engine raises four governed signals:</p>
+<ul>
+  <li><b>Ghosting (Tier-3):</b> 10+ consecutive zero-input days &rarr; faculty critical alert.</li>
+  <li><b>Sympathy-carry:</b> one member authoring &ge; 0.95 of another's assigned tasks.</li>
+  <li><b>Burnout:</b> individual utilisation &ge; 2&times; the team average.</li>
+  <li><b>Health-band alerts:</b> team score crossing into At-Risk or Critical bands.</li>
+</ul>
+<p class="note"><b>Live cases.</b> <b>STU_07</b> (team P_05) authors <b>zero events across all 14 sim-days</b> &mdash; a pure ghost, exceeding the 10-day Tier-3 threshold. In team P_01, <b>STU_01</b> authors <b>&ge; 0.95</b> of STU_05's assigned tasks (sympathy-carry), and STU_01's resulting 10-event load trips the <b>burnout</b> tripwire &mdash; carrier and carried surfaced together.</p>
+</div>
+
+<!-- §3 -->
+<div class="section">
+<h2>3 &nbsp; Architecture</h2>
+<p>AEGIS is layered so that decision logic is isolated from data sources and transport:</p>
+<div class="layers">
+  <div class="layer"><b>Engine</b>(pure Python)evidence weighting, SPA, formation, monitoring</div>
+  <div class="arrow">&larr;</div>
+  <div class="layer"><b>Adapters</b>seed file&nbsp;&harr;&nbsp;live DB, behind one interface</div>
+  <div class="arrow">&rarr;</div>
+  <div class="layer"><b>API</b>(FastAPI)serves engine results</div>
+  <div class="arrow">&rarr;</div>
+  <div class="layer"><b>Dashboard</b>(Next.js)pipeline, teams, alerts</div>
+</div>
+<ul>
+  <li><b>Engine purity.</b> The engine imports <i>nothing</i> from the adapter layer &mdash; it operates on plain domain objects, so it is unit-testable on fixed data with no database in the loop.</li>
+  <li><b>Adapter env-switch.</b> A single environment switch flips the data source between the synthetic seed and the live Supabase database <i>without any change to engine code</i> &mdash; the same logic runs in demo and production.</li>
+  <li><b>Governance substrate.</b> Supabase Postgres with Row-Level Security enforces who can read which rows; the API never returns data the caller is not entitled to.</li>
+  <li><b>Drive integration.</b> Team workspace provisioning runs on OAuth-as-user with least-privilege scopes (see &sect;4).</li>
+</ul>
+</div>
+
+<!-- §4 -->
+<div class="section">
+<h2>4 &nbsp; Security &amp; Governance</h2>
+<p>Controls are framed against the standards actually applied, with evidence rather than assertion.</p>
+<ul>
+  <li><b>OWASP API1:2023 (BOLA) remediation.</b> The <span class="mono">team_monitoring</span> surface was hardened from authentication-only to <b>object-scoped RLS</b>: an authenticated user can no longer read another team's monitoring rows &mdash; access is checked against row ownership, not merely a valid session.</li>
+  <li><b>Three-tier RLS verification.</b> Verification distinguishes <i>toggle-exists</i> &ne; <i>policy-exists</i> &ne; <b>policy-enforces</b>. RLS being "on" is necessary but not sufficient; enforcement is confirmed at the row level, not at the toggle.</li>
+  <li><b>Privilege-escalation controls.</b> The <span class="mono">audit_log</span> is <b>append-only and hash-chained</b> (each entry binds the previous, so tampering is detectable). User <b>role is hard-forced server-side</b> &mdash; a client cannot assign itself a privileged role.</li>
+  <li><b>Least-privilege Drive.</b> The integration requests only <span class="mono">drive.file</span> + <span class="mono">drive.activity.readonly</span>, acting as the user via OAuth. The app can touch only the files it itself created &mdash; never the user's wider Drive.</li>
+  <li><b>CIS Control 3 (data protection).</b> No credential material exists anywhere in git history (verified by a targeted full-history pattern sweep for JWT/PEM/OAuth-secret/DB-URL signatures &mdash; see <span class="mono">PUBLICATION_CHECKLIST.md</span>). Seed data is synthetic only, using <b>RFC 2606 reserved <span class="mono">@aegis.test</span></b> addresses that cannot resolve to a real mailbox.</li>
+</ul>
+</div>
+
+<!-- §5 -->
+<div class="section">
+<h2>5 &nbsp; Live Results</h2>
+<p>Running the full pipeline over the <b>70-student cohort</b> produces <b>15 teams + 1 exception pool</b>. Engineered probe students <i>within that cohort</i> each demonstrate one mechanism end-to-end:</p>
+<table>
+  <tr><th>Mechanism</th><th>Live evidence</th><th>Outcome</th></tr>
+  <tr><td>Evidence weighting</td><td>STU_08: declared 5.0, contradicted &rarr; &Acirc; = 5.0 &times; 0.5 = 2.5</td><td>Inflated claim corrected (amber)</td></tr>
+  <tr><td>Duplicate detection</td><td>P_02 / P_03 cosine = 0.96 (&ge; 0.75 gate)</td><td>Blocked for review</td></tr>
+  <tr><td>Ghosting (Tier-3)</td><td>STU_07: 0 events / 14 sim-days</td><td>Faculty critical alert</td></tr>
+  <tr><td>Sympathy-carry + burnout</td><td>STU_01 authors &ge; 0.95 of STU_05's tasks; 10-event load</td><td>Carry + burnout alerts</td></tr>
+  <tr><td>Formation spread</td><td>P_04 = 84 / P_01 = 69 / P_05 = 41</td><td>Healthy / At-Risk / Critical bands</td></tr>
+</table>
+
+<div class="figbox">
+  <div class="ftag">[ FIG 1 ]</div>
+  <div class="fsub">Pipeline stepper &mdash; live dashboard (intake &rarr; de-dup &rarr; match &rarr; form &rarr; monitor)</div>
+  <div class="fdrop">drop screenshot here &middot; captured from the live-data dashboard</div>
+</div>
+<div class="figbox">
+  <div class="ftag">[ FIG 2 ]</div>
+  <div class="fsub">Team health bands &mdash; P_04 Healthy 84, P_01 At-Risk 69, P_05 Critical 41</div>
+  <div class="fdrop">drop screenshot here &middot; captured from the live-data dashboard</div>
+</div>
+<div class="figbox">
+  <div class="ftag">[ FIG 3 ]</div>
+  <div class="fsub">Alert inbox &mdash; STU_07 ghost (Tier-3) + STU_01/STU_05 carry &amp; burnout</div>
+  <div class="fdrop">drop screenshot here &middot; captured from the live-data dashboard</div>
+</div>
+</div>
+
+<!-- §6 -->
+<div class="section">
+<h2>6 &nbsp; Limitations &amp; Scaling</h2>
+<h3>Documented, not built (deliberate prototype scope)</h3>
+<ul>
+  <li><b>LMS grade sync</b> (the verified-evidence T1 channel) is mocked; with no institutional API the system defaults to C&nbsp;=&nbsp;0.6 self-report and works without it.</li>
+  <li><b>Server-side caching / job queue</b> (e.g. Redis, BullMQ) for high-volume alert dispatch &mdash; noted as a scale-up path, not built at prototype scale.</li>
+  <li><b>Off-peak batch re-similarity sweeps</b> across the full cohort, versus the current per-submission duplicate check.</li>
+</ul>
+<h3>Honest engineering caveats</h3>
+<ul>
+  <li><b>Non-atomic migrations.</b> Schema migrations are applied in manual order with no down-migrations; a failed mid-sequence apply needs manual reconciliation.</li>
+  <li><b>Schema-drift risk.</b> The synthetic seed shape and the live DB shape are maintained in parallel; they can drift if a migration lands on one path but not the other.</li>
+  <li><b>Drive ownership constraint.</b> On consumer Gmail a service account cannot own files (zero storage quota), so provisioning uses OAuth-as-user. A Google Workspace <b>Shared Drive</b> is the institution-grade path once that access exists.</li>
+</ul>
+</div>
+
+<!-- §7 -->
+<div class="section">
+<h2>7 &nbsp; Data Statement</h2>
+<p style="font-size:9.8pt;"><b>All personal data in this system is synthetic and was generated for demonstration; it corresponds to no real individual.</b></p>
+</div>
+
+<div class="foot">
+  AEGIS &middot; CIPHER 2.0 Scenario 03 &middot; Team Amateurs, IIT &middot; figures drawn from the live pipeline run and cited project material &middot; all data synthetic
+</div>
+
+</body>
+</html>

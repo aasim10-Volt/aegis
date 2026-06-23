@@ -72,20 +72,46 @@ Google login gives you the student's **real email automatically** — solves the
 
 This is the one external integration worth building for real (visible "wow" feature, not just a backend detail).
 
-### ⚠️ Known gotcha — read first
-A bare service account has **zero Drive storage of its own**. Two fixes:
-- **If IIT gives Workspace access**: use a Shared Drive, add the service account as a Content Manager
-- **If not (most likely for a student prototype)**: share a folder from your **personal Google account** with the service account's email, and have it create files inside that folder instead of its own quota
+### ⚠️ Known gotcha — read first (CORRECTED after live testing)
+A bare service account has **zero Drive storage of its own**, and — critically — **anything it
+creates it also owns**, so those files count against *its* 0-byte quota and the create fails with
+`The user's Drive storage quota has been exceeded`. Sharing a personal folder with the SA does
+**NOT** fix this: the share grants write permission, but newly created files are still SA-owned.
+(This was the original plan here; it was verified broken on a consumer Gmail account on 2026-06-22.)
 
-### Setup steps
-1. [console.cloud.google.com](https://console.cloud.google.com) → create project
-2. **APIs & Services → Library** → enable:
-   - Google Drive API
-   - Google Docs API (only if editing content programmatically, not required for iframe embedding)
-   - Drive Activity API (for telemetry, see Section 7)
-3. **Credentials → Create Credentials → Service Account**
-4. Service Account → **Keys → Add Key → JSON** → download, store as env secret, **never commit to GitHub**
-5. Share your root Drive folder with the service account's email as Editor
+Three actual fixes, by what access you have:
+- **Personal Gmail (no Workspace) — the student-prototype reality**: use **OAuth2 user credentials**
+  (a stored refresh token) so the app acts *as your own Google account*. Files are then owned by you
+  and use your 15 GB quota. This is the recommended path. See Setup steps below.
+- **Google Workspace available**: use a **Shared Drive**, add the service account as a Content
+  Manager — files are owned by the Shared Drive, not the SA, so no quota wall.
+- **Workspace + admin**: domain-wide delegation so the SA *impersonates* a real user.
+
+### Scopes (narrowest that work — do NOT request full `drive`)
+- `drive.file` — per-file access: the app can only touch files **it created**, never the rest
+  of your Drive. This is the key safety property; it also means AEGIS must create its own root
+  folder rather than reuse a folder you made by hand (a `drive.file` app can't see that folder).
+- `drive.activity.readonly` — read edit activity on those app-created files (the §7 monitoring feed).
+- *Not requested:* full `drive` (would expose the whole account) and `documents` (only needed to
+  edit Doc content via API — AEGIS embeds via iframe, so it's unnecessary).
+
+### Setup steps (OAuth2 user-credential path — recommended)
+1. [console.cloud.google.com](https://console.cloud.google.com) → create/select project
+2. **APIs & Services → Library** → enable: **Google Drive API** + **Drive Activity API**
+   (Google Docs API not needed — we embed, we don't edit content via API)
+3. **OAuth consent screen** → External → add yourself as a **Test user** (skips verification)
+4. **Credentials → Create Credentials → OAuth client ID → Desktop app** → note Client ID + Secret
+   (a *separate* client from the Supabase login client in §3 — different scopes)
+5. Put Client ID + Secret in `.env` (`GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET`).
+6. Run the one-time consent capture: `node scripts/google_oauth_setup.mjs` → authorize in the
+   browser. The script (a) requests the two narrow scopes, (b) writes `GOOGLE_OAUTH_REFRESH_TOKEN`
+   straight into `.env` **without ever printing it** (treat it like the service_role key —
+   gitignored, never logged, never committed), and (c) creates an app-owned **"AEGIS Team
+   Workspaces"** folder and writes its id to `AEGIS_ROOT_FOLDER_ID`.
+
+That's it — no folder sharing needed (you own everything the app creates). The service-account
+JSON (`GOOGLE_APPLICATION_CREDENTIALS`) is only for the Workspace/Shared-Drive path; leave it
+unset on consumer Gmail. Auth resolution lives in `lib/google/auth.ts` (OAuth2 wins when present).
 
 ### File provisioning (runs once per team at allocation time)
 

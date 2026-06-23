@@ -1,0 +1,2592 @@
+[
+  {
+    "student_id": "STU_88001",
+    "name": "Nadeesha Perera",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.4,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.4
+      },
+      "user_experience_design": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      },
+      "project_management_ops": {
+        "declared": 3.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 3.1
+      },
+      "communication_presentation": {
+        "declared": 7.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.2
+      }
+    },
+    "capacity_allowance_hours": 10.9,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_15",
+      "P_02",
+      "P_13"
+    ]
+  },
+  {
+    "student_id": "STU_88002",
+    "name": "Hashan Rathnayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "user_experience_design": {
+        "declared": 9.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 2.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.4
+      },
+      "communication_presentation": {
+        "declared": 8.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.0
+      }
+    },
+    "capacity_allowance_hours": 9.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_09",
+      "P_10",
+      "P_06"
+    ]
+  },
+  {
+    "student_id": "STU_88003",
+    "name": "Senuri Bandara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.5
+      },
+      "user_experience_design": {
+        "declared": 6.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 6.6
+      },
+      "project_management_ops": {
+        "declared": 7.4,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.4
+      },
+      "communication_presentation": {
+        "declared": 5.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.5
+      }
+    },
+    "capacity_allowance_hours": 11.2,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_12",
+      "P_14",
+      "P_08"
+    ]
+  },
+  {
+    "student_id": "STU_88004",
+    "name": "Sandun Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      },
+      "user_experience_design": {
+        "declared": 8.3,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.3
+      },
+      "project_management_ops": {
+        "declared": 4.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.1
+      },
+      "communication_presentation": {
+        "declared": 7.8,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.8
+      }
+    },
+    "capacity_allowance_hours": 5.9,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_08",
+      "P_02",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88005",
+    "name": "Ruwan Abeysekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.1
+      },
+      "user_experience_design": {
+        "declared": 4.0,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.0
+      },
+      "project_management_ops": {
+        "declared": 4.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.6
+      },
+      "communication_presentation": {
+        "declared": 3.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.8
+      }
+    },
+    "capacity_allowance_hours": 9.7,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_02",
+      "P_07",
+      "P_14"
+    ]
+  },
+  {
+    "student_id": "STU_88006",
+    "name": "Sanjana Fernando",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.5,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.5
+      },
+      "user_experience_design": {
+        "declared": 5.5,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.4
+      },
+      "project_management_ops": {
+        "declared": 8.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.2
+      },
+      "communication_presentation": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      }
+    },
+    "capacity_allowance_hours": 4.2,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_15",
+      "P_13",
+      "P_10"
+    ]
+  },
+  {
+    "student_id": "STU_88007",
+    "name": "Kasun Silva",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.9
+      },
+      "user_experience_design": {
+        "declared": 4.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.8
+      },
+      "project_management_ops": {
+        "declared": 8.4,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 4.2
+      },
+      "communication_presentation": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      }
+    },
+    "capacity_allowance_hours": 8.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_04",
+      "P_08",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88008",
+    "name": "Vihanga Rathnayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.4
+      },
+      "user_experience_design": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      },
+      "project_management_ops": {
+        "declared": 8.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.8
+      },
+      "communication_presentation": {
+        "declared": 8.3,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 4.2
+      }
+    },
+    "capacity_allowance_hours": 8.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_15",
+      "P_07",
+      "P_10"
+    ]
+  },
+  {
+    "student_id": "STU_88009",
+    "name": "Sasini Weerasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 6.2
+      },
+      "user_experience_design": {
+        "declared": 2.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.2
+      },
+      "project_management_ops": {
+        "declared": 6.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.4
+      },
+      "communication_presentation": {
+        "declared": 5.5,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.4
+      }
+    },
+    "capacity_allowance_hours": 7.6,
+    "preferred_teammate": "STU_88029",
+    "preferred_projects": [
+      "P_06",
+      "P_13",
+      "P_07"
+    ]
+  },
+  {
+    "student_id": "STU_88010",
+    "name": "Kasun Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.0
+      },
+      "user_experience_design": {
+        "declared": 5.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "project_management_ops": {
+        "declared": 5.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.3
+      },
+      "communication_presentation": {
+        "declared": 2.4,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.2
+      }
+    },
+    "capacity_allowance_hours": 10.2,
+    "preferred_teammate": "STU_88009",
+    "preferred_projects": [
+      "P_11",
+      "P_01",
+      "P_13"
+    ]
+  },
+  {
+    "student_id": "STU_88011",
+    "name": "Tharusha Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.3
+      },
+      "user_experience_design": {
+        "declared": 8.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.0
+      },
+      "project_management_ops": {
+        "declared": 3.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.3
+      },
+      "communication_presentation": {
+        "declared": 2.9,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.4
+      }
+    },
+    "capacity_allowance_hours": 6.0,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_06",
+      "P_03",
+      "P_10"
+    ]
+  },
+  {
+    "student_id": "STU_88012",
+    "name": "Gimhani Rathnayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.0
+      },
+      "user_experience_design": {
+        "declared": 2.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.7
+      },
+      "project_management_ops": {
+        "declared": 9.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 7.4
+      },
+      "communication_presentation": {
+        "declared": 2.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.3
+      }
+    },
+    "capacity_allowance_hours": 11.7,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_07",
+      "P_12",
+      "P_04"
+    ]
+  },
+  {
+    "student_id": "STU_88013",
+    "name": "Dulani Abeysekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "user_experience_design": {
+        "declared": 6.7,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.4
+      },
+      "project_management_ops": {
+        "declared": 7.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "communication_presentation": {
+        "declared": 6.5,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.2
+      }
+    },
+    "capacity_allowance_hours": 10.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_06",
+      "P_09",
+      "P_07"
+    ]
+  },
+  {
+    "student_id": "STU_88014",
+    "name": "Hashan Perera",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.0,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.6
+      },
+      "user_experience_design": {
+        "declared": 6.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 5.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "communication_presentation": {
+        "declared": 5.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      }
+    },
+    "capacity_allowance_hours": 7.7,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_07",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88015",
+    "name": "Imesha Mohideen",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.5,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.5
+      },
+      "user_experience_design": {
+        "declared": 9.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 8.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.9
+      },
+      "communication_presentation": {
+        "declared": 5.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.6
+      }
+    },
+    "capacity_allowance_hours": 9.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_06",
+      "P_04"
+    ]
+  },
+  {
+    "student_id": "STU_88016",
+    "name": "Saumya Dissanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.6
+      },
+      "user_experience_design": {
+        "declared": 8.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.6
+      },
+      "project_management_ops": {
+        "declared": 3.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.3
+      },
+      "communication_presentation": {
+        "declared": 6.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 6.6
+      }
+    },
+    "capacity_allowance_hours": 8.0,
+    "preferred_teammate": "STU_88004",
+    "preferred_projects": [
+      "P_06",
+      "P_03",
+      "P_08"
+    ]
+  },
+  {
+    "student_id": "STU_88017",
+    "name": "Lahiru Gunasekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 3.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      },
+      "user_experience_design": {
+        "declared": 4.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.8
+      },
+      "project_management_ops": {
+        "declared": 7.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      },
+      "communication_presentation": {
+        "declared": 2.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.1
+      }
+    },
+    "capacity_allowance_hours": 7.9,
+    "preferred_teammate": "STU_88054",
+    "preferred_projects": [
+      "P_13",
+      "P_04",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88018",
+    "name": "Saumya Jayawardena",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.4
+      },
+      "user_experience_design": {
+        "declared": 5.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.3
+      },
+      "project_management_ops": {
+        "declared": 4.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "communication_presentation": {
+        "declared": 3.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.3
+      }
+    },
+    "capacity_allowance_hours": 6.8,
+    "preferred_teammate": "STU_88069",
+    "preferred_projects": [
+      "P_12",
+      "P_09",
+      "P_06"
+    ]
+  },
+  {
+    "student_id": "STU_88019",
+    "name": "Ruwan Najeeb",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.8
+      },
+      "user_experience_design": {
+        "declared": 4.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.6
+      },
+      "project_management_ops": {
+        "declared": 7.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      },
+      "communication_presentation": {
+        "declared": 7.6,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 3.8
+      }
+    },
+    "capacity_allowance_hours": 5.5,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_12",
+      "P_08",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88020",
+    "name": "Pavithra Senanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.4,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 3.7
+      },
+      "user_experience_design": {
+        "declared": 5.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.5
+      },
+      "project_management_ops": {
+        "declared": 2.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.7
+      },
+      "communication_presentation": {
+        "declared": 3.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      }
+    },
+    "capacity_allowance_hours": 5.0,
+    "preferred_teammate": "STU_88070",
+    "preferred_projects": [
+      "P_01",
+      "P_15",
+      "P_09"
+    ]
+  },
+  {
+    "student_id": "STU_88021",
+    "name": "Dineth Weerasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.2,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.1
+      },
+      "user_experience_design": {
+        "declared": 6.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.1
+      },
+      "project_management_ops": {
+        "declared": 2.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 2.2
+      },
+      "communication_presentation": {
+        "declared": 4.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      }
+    },
+    "capacity_allowance_hours": 6.0,
+    "preferred_teammate": "STU_88007",
+    "preferred_projects": [
+      "P_14",
+      "P_08",
+      "P_02"
+    ]
+  },
+  {
+    "student_id": "STU_88022",
+    "name": "Aisha Fernando",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.9
+      },
+      "user_experience_design": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "project_management_ops": {
+        "declared": 2.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 1.9
+      },
+      "communication_presentation": {
+        "declared": 6.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      }
+    },
+    "capacity_allowance_hours": 4.9,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_13",
+      "P_07",
+      "P_10"
+    ]
+  },
+  {
+    "student_id": "STU_88023",
+    "name": "Heshan Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.9
+      },
+      "user_experience_design": {
+        "declared": 7.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "project_management_ops": {
+        "declared": 8.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.3
+      },
+      "communication_presentation": {
+        "declared": 6.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.8
+      }
+    },
+    "capacity_allowance_hours": 4.5,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_12",
+      "P_02",
+      "P_13"
+    ]
+  },
+  {
+    "student_id": "STU_88024",
+    "name": "Malith Najeeb",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 3.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      },
+      "user_experience_design": {
+        "declared": 7.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.2
+      },
+      "project_management_ops": {
+        "declared": 3.3,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 2.6
+      },
+      "communication_presentation": {
+        "declared": 2.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.2
+      }
+    },
+    "capacity_allowance_hours": 6.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_04",
+      "P_05",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88025",
+    "name": "Anjali Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "user_experience_design": {
+        "declared": 2.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.5
+      },
+      "project_management_ops": {
+        "declared": 4.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.4
+      },
+      "communication_presentation": {
+        "declared": 6.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.8
+      }
+    },
+    "capacity_allowance_hours": 8.4,
+    "preferred_teammate": "STU_88015",
+    "preferred_projects": [
+      "P_11",
+      "P_03",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88026",
+    "name": "Janith Weerasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.6
+      },
+      "user_experience_design": {
+        "declared": 3.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.9
+      },
+      "project_management_ops": {
+        "declared": 7.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "communication_presentation": {
+        "declared": 4.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.4
+      }
+    },
+    "capacity_allowance_hours": 9.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_09",
+      "P_14"
+    ]
+  },
+  {
+    "student_id": "STU_88027",
+    "name": "Buddhika Abeysekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.7,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.6
+      },
+      "user_experience_design": {
+        "declared": 2.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.4
+      },
+      "project_management_ops": {
+        "declared": 4.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.6
+      },
+      "communication_presentation": {
+        "declared": 2.7,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.4
+      }
+    },
+    "capacity_allowance_hours": 8.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_01",
+      "P_13",
+      "P_11"
+    ]
+  },
+  {
+    "student_id": "STU_88028",
+    "name": "Nilani Silva",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.9
+      },
+      "user_experience_design": {
+        "declared": 7.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "project_management_ops": {
+        "declared": 5.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.5
+      },
+      "communication_presentation": {
+        "declared": 4.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.0
+      }
+    },
+    "capacity_allowance_hours": 10.5,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_02",
+      "P_08",
+      "P_06"
+    ]
+  },
+  {
+    "student_id": "STU_88029",
+    "name": "Dilani Rathnayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "user_experience_design": {
+        "declared": 2.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.7
+      },
+      "project_management_ops": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "communication_presentation": {
+        "declared": 7.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.2
+      }
+    },
+    "capacity_allowance_hours": 4.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_02",
+      "P_06",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88030",
+    "name": "Janith Silva",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.4,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.2
+      },
+      "user_experience_design": {
+        "declared": 5.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.0
+      },
+      "project_management_ops": {
+        "declared": 9.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.6
+      },
+      "communication_presentation": {
+        "declared": 6.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      }
+    },
+    "capacity_allowance_hours": 9.0,
+    "preferred_teammate": "STU_88048",
+    "preferred_projects": [
+      "P_08",
+      "P_11",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88031",
+    "name": "Kalani Jayawardena",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "user_experience_design": {
+        "declared": 6.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 3.0
+      },
+      "project_management_ops": {
+        "declared": 5.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      },
+      "communication_presentation": {
+        "declared": 2.9,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.4
+      }
+    },
+    "capacity_allowance_hours": 5.9,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_05",
+      "P_09"
+    ]
+  },
+  {
+    "student_id": "STU_88032",
+    "name": "Kaveesha Dissanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.1
+      },
+      "user_experience_design": {
+        "declared": 5.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.1
+      },
+      "project_management_ops": {
+        "declared": 3.7,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 3.7
+      },
+      "communication_presentation": {
+        "declared": 8.3,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.6
+      }
+    },
+    "capacity_allowance_hours": 9.2,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_08",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88033",
+    "name": "Heshan Senanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "user_experience_design": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "project_management_ops": {
+        "declared": 5.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.3
+      },
+      "communication_presentation": {
+        "declared": 3.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.9
+      }
+    },
+    "capacity_allowance_hours": 10.0,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_14",
+      "P_02"
+    ]
+  },
+  {
+    "student_id": "STU_88034",
+    "name": "Imesha Senanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "user_experience_design": {
+        "declared": 5.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.5
+      },
+      "project_management_ops": {
+        "declared": 5.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.5
+      },
+      "communication_presentation": {
+        "declared": 4.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      }
+    },
+    "capacity_allowance_hours": 12.0,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_08",
+      "P_14",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88035",
+    "name": "Ishini Gunasekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.3,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.3
+      },
+      "user_experience_design": {
+        "declared": 5.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.4
+      },
+      "project_management_ops": {
+        "declared": 7.7,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.7
+      },
+      "communication_presentation": {
+        "declared": 4.8,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.8
+      }
+    },
+    "capacity_allowance_hours": 11.0,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_12",
+      "P_04",
+      "P_10"
+    ]
+  },
+  {
+    "student_id": "STU_88036",
+    "name": "Zain Silva",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      },
+      "user_experience_design": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "project_management_ops": {
+        "declared": 5.5,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.8
+      },
+      "communication_presentation": {
+        "declared": 4.9,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.5
+      }
+    },
+    "capacity_allowance_hours": 9.2,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_08",
+      "P_01"
+    ]
+  },
+  {
+    "student_id": "STU_88037",
+    "name": "Sachin Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.9,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.9
+      },
+      "user_experience_design": {
+        "declared": 9.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 9.2
+      },
+      "project_management_ops": {
+        "declared": 4.5,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.6
+      },
+      "communication_presentation": {
+        "declared": 8.3,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.6
+      }
+    },
+    "capacity_allowance_hours": 4.1,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_03",
+      "P_07",
+      "P_11"
+    ]
+  },
+  {
+    "student_id": "STU_88038",
+    "name": "Riza Wickramasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.3,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 7.4
+      },
+      "user_experience_design": {
+        "declared": 7.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "project_management_ops": {
+        "declared": 6.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.0
+      },
+      "communication_presentation": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      }
+    },
+    "capacity_allowance_hours": 8.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_06",
+      "P_11",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88039",
+    "name": "Vimukthi Najeeb",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.2
+      },
+      "user_experience_design": {
+        "declared": 6.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      },
+      "project_management_ops": {
+        "declared": 3.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.3
+      },
+      "communication_presentation": {
+        "declared": 4.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      }
+    },
+    "capacity_allowance_hours": 10.1,
+    "preferred_teammate": "STU_88013",
+    "preferred_projects": [
+      "P_12",
+      "P_14",
+      "P_02"
+    ]
+  },
+  {
+    "student_id": "STU_88040",
+    "name": "Zain Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.3,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.3
+      },
+      "user_experience_design": {
+        "declared": 7.2,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 3.6
+      },
+      "project_management_ops": {
+        "declared": 2.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.4
+      },
+      "communication_presentation": {
+        "declared": 4.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.2
+      }
+    },
+    "capacity_allowance_hours": 6.0,
+    "preferred_teammate": "STU_88019",
+    "preferred_projects": [
+      "P_07",
+      "P_10",
+      "P_11"
+    ]
+  },
+  {
+    "student_id": "STU_88041",
+    "name": "Senuri Wijesinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "user_experience_design": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "project_management_ops": {
+        "declared": 6.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.0
+      },
+      "communication_presentation": {
+        "declared": 8.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 7.0
+      }
+    },
+    "capacity_allowance_hours": 6.0,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_11",
+      "P_01"
+    ]
+  },
+  {
+    "student_id": "STU_88042",
+    "name": "Yasiru Rathnayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.7,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.7
+      },
+      "user_experience_design": {
+        "declared": 5.5,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 4.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "communication_presentation": {
+        "declared": 2.6,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.3
+      }
+    },
+    "capacity_allowance_hours": 6.4,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_07",
+      "P_12",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88043",
+    "name": "Tharindu Wijesinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      },
+      "user_experience_design": {
+        "declared": 9.5,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 9.5
+      },
+      "project_management_ops": {
+        "declared": 8.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.7
+      },
+      "communication_presentation": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      }
+    },
+    "capacity_allowance_hours": 4.2,
+    "preferred_teammate": "STU_88038",
+    "preferred_projects": [
+      "P_14",
+      "P_11",
+      "P_07"
+    ]
+  },
+  {
+    "student_id": "STU_88044",
+    "name": "Tehan Dissanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "user_experience_design": {
+        "declared": 7.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.3
+      },
+      "project_management_ops": {
+        "declared": 2.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.4
+      },
+      "communication_presentation": {
+        "declared": 5.7,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.9
+      }
+    },
+    "capacity_allowance_hours": 8.9,
+    "preferred_teammate": "STU_88030",
+    "preferred_projects": [
+      "P_06",
+      "P_04",
+      "P_11"
+    ]
+  },
+  {
+    "student_id": "STU_88045",
+    "name": "Hasini Gunasekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 3.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.0
+      },
+      "user_experience_design": {
+        "declared": 7.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "project_management_ops": {
+        "declared": 7.1,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.7
+      },
+      "communication_presentation": {
+        "declared": 2.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      }
+    },
+    "capacity_allowance_hours": 4.3,
+    "preferred_teammate": "STU_88058",
+    "preferred_projects": [
+      "P_06",
+      "P_12",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88046",
+    "name": "Chathurika Gunasekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "user_experience_design": {
+        "declared": 7.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "project_management_ops": {
+        "declared": 3.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.8
+      },
+      "communication_presentation": {
+        "declared": 9.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.6
+      }
+    },
+    "capacity_allowance_hours": 10.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_14",
+      "P_08"
+    ]
+  },
+  {
+    "student_id": "STU_88047",
+    "name": "Theekshana Najeeb",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.3,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 9.3
+      },
+      "user_experience_design": {
+        "declared": 4.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.5
+      },
+      "project_management_ops": {
+        "declared": 8.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.8
+      },
+      "communication_presentation": {
+        "declared": 2.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.6
+      }
+    },
+    "capacity_allowance_hours": 5.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_11",
+      "P_12",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88048",
+    "name": "Heshan Bandara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.3,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 4.7
+      },
+      "user_experience_design": {
+        "declared": 8.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.8
+      },
+      "project_management_ops": {
+        "declared": 7.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.3
+      },
+      "communication_presentation": {
+        "declared": 6.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.6
+      }
+    },
+    "capacity_allowance_hours": 9.4,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_10",
+      "P_07",
+      "P_11"
+    ]
+  },
+  {
+    "student_id": "STU_88049",
+    "name": "Aisha Bandara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 9.1
+      },
+      "user_experience_design": {
+        "declared": 2.8,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.8
+      },
+      "project_management_ops": {
+        "declared": 3.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.0
+      },
+      "communication_presentation": {
+        "declared": 8.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.6
+      }
+    },
+    "capacity_allowance_hours": 11.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_04",
+      "P_11",
+      "P_02"
+    ]
+  },
+  {
+    "student_id": "STU_88050",
+    "name": "Riza Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.8,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 6.8
+      },
+      "user_experience_design": {
+        "declared": 5.5,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 7.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      },
+      "communication_presentation": {
+        "declared": 2.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 2.3
+      }
+    },
+    "capacity_allowance_hours": 4.9,
+    "preferred_teammate": "STU_88065",
+    "preferred_projects": [
+      "P_04",
+      "P_09",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88051",
+    "name": "Achini Dissanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      },
+      "user_experience_design": {
+        "declared": 9.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.5
+      },
+      "project_management_ops": {
+        "declared": 6.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      },
+      "communication_presentation": {
+        "declared": 7.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      }
+    },
+    "capacity_allowance_hours": 10.7,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_10",
+      "P_07",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88052",
+    "name": "Sanjana Abeysekara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.3
+      },
+      "user_experience_design": {
+        "declared": 5.3,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 2.6
+      },
+      "project_management_ops": {
+        "declared": 8.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.7
+      },
+      "communication_presentation": {
+        "declared": 7.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.1
+      }
+    },
+    "capacity_allowance_hours": 11.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_06",
+      "P_01",
+      "P_07"
+    ]
+  },
+  {
+    "student_id": "STU_88053",
+    "name": "Tehan Senanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 4.1
+      },
+      "user_experience_design": {
+        "declared": 9.3,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 4.7
+      },
+      "project_management_ops": {
+        "declared": 8.2,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.2
+      },
+      "communication_presentation": {
+        "declared": 2.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      }
+    },
+    "capacity_allowance_hours": 11.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_01",
+      "P_13",
+      "P_06"
+    ]
+  },
+  {
+    "student_id": "STU_88054",
+    "name": "Vinodh Niyas",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 3.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.0
+      },
+      "user_experience_design": {
+        "declared": 6.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.0
+      },
+      "project_management_ops": {
+        "declared": 7.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      },
+      "communication_presentation": {
+        "declared": 3.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      }
+    },
+    "capacity_allowance_hours": 10.3,
+    "preferred_teammate": "STU_88019",
+    "preferred_projects": [
+      "P_10",
+      "P_01",
+      "P_05"
+    ]
+  },
+  {
+    "student_id": "STU_88055",
+    "name": "Ruwan Fernando",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 8.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.7
+      },
+      "user_experience_design": {
+        "declared": 3.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.8
+      },
+      "project_management_ops": {
+        "declared": 3.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.0
+      },
+      "communication_presentation": {
+        "declared": 2.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 1.8
+      }
+    },
+    "capacity_allowance_hours": 5.9,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_06",
+      "P_01",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88056",
+    "name": "Nadeesha Bandara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.0,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.2
+      },
+      "user_experience_design": {
+        "declared": 5.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.2
+      },
+      "project_management_ops": {
+        "declared": 2.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.5
+      },
+      "communication_presentation": {
+        "declared": 4.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.8
+      }
+    },
+    "capacity_allowance_hours": 5.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_10",
+      "P_01",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88057",
+    "name": "Hasini Najeeb",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "user_experience_design": {
+        "declared": 5.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.5
+      },
+      "project_management_ops": {
+        "declared": 9.2,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 7.4
+      },
+      "communication_presentation": {
+        "declared": 5.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 5.6
+      }
+    },
+    "capacity_allowance_hours": 9.5,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_08",
+      "P_12",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88058",
+    "name": "Kaveesha Weerasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 2.6
+      },
+      "user_experience_design": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "project_management_ops": {
+        "declared": 2.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.5
+      },
+      "communication_presentation": {
+        "declared": 6.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.0
+      }
+    },
+    "capacity_allowance_hours": 6.4,
+    "preferred_teammate": "STU_88069",
+    "preferred_projects": [
+      "P_09",
+      "P_10",
+      "P_07"
+    ]
+  },
+  {
+    "student_id": "STU_88059",
+    "name": "Vimukthi Pettanayaka",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "user_experience_design": {
+        "declared": 8.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.0
+      },
+      "project_management_ops": {
+        "declared": 7.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      },
+      "communication_presentation": {
+        "declared": 3.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      }
+    },
+    "capacity_allowance_hours": 10.6,
+    "preferred_teammate": "STU_88044",
+    "preferred_projects": [
+      "P_07",
+      "P_15",
+      "P_12"
+    ]
+  },
+  {
+    "student_id": "STU_88060",
+    "name": "Mohamed Liyanage",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 2.7,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "user_experience_design": {
+        "declared": 7.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.2
+      },
+      "project_management_ops": {
+        "declared": 3.1,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.6
+      },
+      "communication_presentation": {
+        "declared": 2.5,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.5
+      }
+    },
+    "capacity_allowance_hours": 10.0,
+    "preferred_teammate": "STU_88013",
+    "preferred_projects": [
+      "P_06",
+      "P_13",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88061",
+    "name": "Sara Jayawardena",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      },
+      "user_experience_design": {
+        "declared": 6.2,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.7
+      },
+      "project_management_ops": {
+        "declared": 2.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.7
+      },
+      "communication_presentation": {
+        "declared": 7.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.2
+      }
+    },
+    "capacity_allowance_hours": 9.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_10",
+      "P_15"
+    ]
+  },
+  {
+    "student_id": "STU_88062",
+    "name": "Janith Mohideen",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.8
+      },
+      "user_experience_design": {
+        "declared": 3.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.2
+      },
+      "project_management_ops": {
+        "declared": 3.7,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 3.0
+      },
+      "communication_presentation": {
+        "declared": 8.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.0
+      }
+    },
+    "capacity_allowance_hours": 8.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_13",
+      "P_07",
+      "P_09"
+    ]
+  },
+  {
+    "student_id": "STU_88063",
+    "name": "Imesha Hameed",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 9.3,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 9.3
+      },
+      "user_experience_design": {
+        "declared": 8.1,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 8.1
+      },
+      "project_management_ops": {
+        "declared": 6.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 6.6
+      },
+      "communication_presentation": {
+        "declared": 6.8,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.4
+      }
+    },
+    "capacity_allowance_hours": 10.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_05",
+      "P_01",
+      "P_03"
+    ]
+  },
+  {
+    "student_id": "STU_88064",
+    "name": "Ahmed Dissanayake",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 4.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.4
+      },
+      "user_experience_design": {
+        "declared": 8.9,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.3
+      },
+      "project_management_ops": {
+        "declared": 3.4,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 2.7
+      },
+      "communication_presentation": {
+        "declared": 6.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 5.5
+      }
+    },
+    "capacity_allowance_hours": 11.8,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_02",
+      "P_12",
+      "P_09"
+    ]
+  },
+  {
+    "student_id": "STU_88065",
+    "name": "Sasini Wickramasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 3.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 3.6
+      },
+      "user_experience_design": {
+        "declared": 5.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.1
+      },
+      "project_management_ops": {
+        "declared": 4.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.9
+      },
+      "communication_presentation": {
+        "declared": 7.8,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.7
+      }
+    },
+    "capacity_allowance_hours": 5.2,
+    "preferred_teammate": "STU_88007",
+    "preferred_projects": [
+      "P_13",
+      "P_10",
+      "P_01"
+    ]
+  },
+  {
+    "student_id": "STU_88066",
+    "name": "Sasini Jayawardena",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.3
+      },
+      "user_experience_design": {
+        "declared": 7.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.2
+      },
+      "project_management_ops": {
+        "declared": 5.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      },
+      "communication_presentation": {
+        "declared": 7.7,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 6.2
+      }
+    },
+    "capacity_allowance_hours": 6.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_11",
+      "P_10",
+      "P_08"
+    ]
+  },
+  {
+    "student_id": "STU_88067",
+    "name": "Methmi Pettanayaka",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.0,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.6
+      },
+      "user_experience_design": {
+        "declared": 3.7,
+        "confidence": 0.5,
+        "basis": "contradicted",
+        "adjusted": 1.9
+      },
+      "project_management_ops": {
+        "declared": 2.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.4
+      },
+      "communication_presentation": {
+        "declared": 9.1,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.5
+      }
+    },
+    "capacity_allowance_hours": 6.3,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_02",
+      "P_01",
+      "P_08"
+    ]
+  },
+  {
+    "student_id": "STU_88068",
+    "name": "Tharusha Bandara",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 7.6,
+        "confidence": 1.0,
+        "basis": "verified_lms",
+        "adjusted": 7.6
+      },
+      "user_experience_design": {
+        "declared": 3.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.0
+      },
+      "project_management_ops": {
+        "declared": 7.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      },
+      "communication_presentation": {
+        "declared": 8.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 5.0
+      }
+    },
+    "capacity_allowance_hours": 7.5,
+    "preferred_teammate": "STU_88006",
+    "preferred_projects": [
+      "P_08",
+      "P_02",
+      "P_06"
+    ]
+  },
+  {
+    "student_id": "STU_88069",
+    "name": "Nethmi Wickramasinghe",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 6.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.8
+      },
+      "user_experience_design": {
+        "declared": 7.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.4
+      },
+      "project_management_ops": {
+        "declared": 2.9,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 2.3
+      },
+      "communication_presentation": {
+        "declared": 4.4,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 2.6
+      }
+    },
+    "capacity_allowance_hours": 10.7,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_15",
+      "P_06",
+      "P_02"
+    ]
+  },
+  {
+    "student_id": "STU_88070",
+    "name": "Yuvan Pettanayaka",
+    "skill_matrix_adjusted": {
+      "technical_architecture": {
+        "declared": 5.3,
+        "confidence": 0.8,
+        "basis": "portfolio",
+        "adjusted": 4.2
+      },
+      "user_experience_design": {
+        "declared": 5.3,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 3.2
+      },
+      "project_management_ops": {
+        "declared": 2.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 1.6
+      },
+      "communication_presentation": {
+        "declared": 7.6,
+        "confidence": 0.6,
+        "basis": "self_report",
+        "adjusted": 4.6
+      }
+    },
+    "capacity_allowance_hours": 4.6,
+    "preferred_teammate": null,
+    "preferred_projects": [
+      "P_11",
+      "P_02",
+      "P_09"
+    ]
+  }
+]
