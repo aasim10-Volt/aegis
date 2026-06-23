@@ -16,11 +16,14 @@ Accepted identities (``Authorization: Bearer <token>``):
      not a weakening; it is compared in constant time, and it is a real secret,
      not a static header password.
 
-Scope: the gate is enforced only when a live database is configured
-(``SUPABASE_URL`` set) — the production path this finding is about. In seed-only
-mode the endpoints serve static demo data with no secrets and perform no DB
-writes (``post_approval`` already refuses), and offline dev/tests carry no
-credentials, so the gate is inert there by design.
+Seed-only mode (no ``SUPABASE_URL``): the /admin/* endpoints serve static,
+non-sensitive demonstration data — no secrets, no live PII, and no DB writes
+(``post_approval`` refuses without a live DB). That data is treated as **public,
+read-only**: the gate grants **no admin identity** (it returns a non-privileged
+``role="public"`` caller, never ``"admin"``), so it cannot be mistaken for a
+real authorization. Privilege enforcement runs on the live path, where real
+data and mutations exist. This is the deliberate seed behavior — not a
+fail-open admin grant.
 """
 
 from __future__ import annotations
@@ -32,11 +35,19 @@ from fastapi import Header, HTTPException, status
 
 
 class AdminIdentity:
-    """The resolved caller permitted to use /admin/*."""
+    """The resolved caller permitted to use /admin/*.
+
+    ``role`` is "admin" or "service_role" on the live path (privileged), or
+    "public" in seed mode (non-privileged access to static demo data).
+    """
 
     def __init__(self, subject: str, role: str) -> None:
-        self.subject = subject  # auth.uid, "service_role", or "seed"
+        self.subject = subject  # auth.uid, "service_role", or "public"
         self.role = role
+
+    @property
+    def is_admin(self) -> bool:
+        return self.role in ("admin", "service_role")
 
 
 def _bearer(authorization: str | None) -> str | None:
@@ -57,8 +68,9 @@ def require_admin(authorization: str | None = Header(default=None)) -> AdminIden
     and the static-seed demo keep working without credentials.
     """
     if not os.environ.get("SUPABASE_URL"):
-        # No live data to protect; static seed governance only.
-        return AdminIdentity(subject="seed", role="admin")
+        # Seed mode: static, non-sensitive demo data served as public read-only.
+        # Grant NO admin identity — this must never read as a real authorization.
+        return AdminIdentity(subject="public", role="public")
 
     token = _bearer(authorization)
     if token is None:

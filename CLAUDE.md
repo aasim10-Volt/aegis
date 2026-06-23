@@ -33,9 +33,13 @@ Chrome — command at top of `BUILD_NOTES_PDF.md`). Live health bands for §5.2 
 - `0006_staff_directory` (DRAFTED, **not applied**) adds admin/service_role-write-only allowlist;
   re-asserts the `auth.users` trigger idempotently so it stops being live-only.
 - CIS Control 3: no secrets in git history (pattern-swept); synthetic `@aegis.test` seed only (RFC 2606).
-- **[BLOCKER] FastAPI `/admin/*` endpoints are unauthenticated** (run on service_role, no JWT
-  check). Keep the API port private during the demo, or gate before showing Governance.
-  (AUTH_AUDIT §6.)
+- **FastAPI `/admin/*` function-level authorization (OWASP API5:2023) — REMEDIATED in code.**
+  A uniform `require_admin` dependency (`aegis/api/auth.py`) gates every admin route: live path
+  requires a token-verified identity whose authoritative `profiles.role='admin'` (never client
+  metadata), or the service_role key (constant-time compared); seed path serves static demo data
+  as public read-only (grants no admin identity). Unauth→401, non-admin→403 (tested). Frontend
+  (`lib/api.ts`) sends the logged-in user's Supabase JWT on `/admin/*`. Demo prereq: the demo
+  Google account must have `profiles.role='admin'` or Governance 401s.
 
 ## Remaining (mine — hands-on-system; see GO_LIVE.md / NEXT_STEPS.md)
 1. **Live capture** (`CAPTURE_SESSION.md`): verify 0.911 / 15 teams + 1 pool, record health-band

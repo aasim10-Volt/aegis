@@ -77,9 +77,37 @@ def test_admin_approvals_and_overrides() -> None:
     assert overrides[0]["reason"]  # override-watch: a reason is always recorded
 
 
-def test_admin_audit_requires_auth_when_live(monkeypatch) -> None:  # type: ignore[no-untyped-def]
-    """API5:2023 gate: with a live DB configured, /admin/* rejects an
-    unauthenticated caller (401) before any handler/DB access runs. In seed
-    mode (no SUPABASE_URL) the gate is inert — covered by the tests above."""
+# ── API5:2023 function-level authorization — control-effectiveness evidence ───
+# These exercise the LIVE path (SUPABASE_URL set). The admin-token case falls
+# back to seed governance data inside the handler (no SUPABASE_SERVICE_ROLE_KEY),
+# so 200 is proven without a real database — the gate, not the data, is the SUT.
+_ADMIN_GETS = ["/admin/audit", "/admin/approvals", "/admin/overrides", "/admin/integrity"]
+
+
+def test_admin_unauthenticated_401_when_live(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """Every /admin/* GET rejects a tokenless caller (401) before any DB access."""
     monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
-    assert client.get("/admin/audit").status_code == 401
+    for path in _ADMIN_GETS:
+        assert client.get(path).status_code == 401, path
+    # the mutation route is gated too
+    assert client.post("/admin/approvals/x", json={"action": "approve"}).status_code == 401
+
+
+def test_admin_non_admin_token_403_when_live(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """A valid token whose authoritative profiles.role != 'admin' is refused (403)."""
+    monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
+    monkeypatch.setattr(
+        "aegis.adapters.repo_db.resolve_user_role", lambda _t: ("uid-student", "student")
+    )
+    res = client.get("/admin/audit", headers={"Authorization": "Bearer student.jwt"})
+    assert res.status_code == 403
+
+
+def test_admin_admin_token_200_when_live(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """A valid token resolving to profiles.role='admin' is admitted (200)."""
+    monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
+    monkeypatch.setattr(
+        "aegis.adapters.repo_db.resolve_user_role", lambda _t: ("uid-admin", "admin")
+    )
+    res = client.get("/admin/audit", headers={"Authorization": "Bearer admin.jwt"})
+    assert res.status_code == 200

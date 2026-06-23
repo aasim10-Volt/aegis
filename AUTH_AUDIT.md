@@ -186,17 +186,25 @@ Migration `0006` (drafted) re-asserts this trigger idempotently so it stops bein
 
 **Gaps (graded):**
 
-- **[BLOCKER — role] `/admin` is reachable by any logged-in user, AND the admin API is
-  unauthenticated.** `middleware.ts` lets any authenticated user open `/admin`. The page then
-  calls FastAPI (`lib/api.ts` → `NEXT_PUBLIC_API_URL`) endpoints `/admin/audit`,
-  `/admin/approvals`, `/admin/overrides`, `/admin/integrity`, and `POST /admin/approvals/{id}`.
-  In `aegis/api/main.py` these handlers have **no `Depends` auth, no Authorization header is sent
-  by the client, and no JWT is verified** — they run on the **service_role** backend. Net effect:
-  **anyone who can reach the API URL can read the full governance/audit data and approve or reject
-  accounts**, regardless of their role. This is the single most important finding. *(Reported
-  only — `aegis/` was not modified per the run constraints.)*
-  - *Mitigations for demo:* keep `NEXT_PUBLIC_API_URL` pointed at a backend only you run; do not
-    expose the FastAPI port publicly; or add a bearer check on `/admin/*` before any public demo.
+- **[REMEDIATED — was BLOCKER] admin API function-level authorization (OWASP API5:2023).**
+  *Original finding:* the FastAPI `/admin/*` endpoints (`/admin/audit`, `/admin/approvals`,
+  `/admin/overrides`, `/admin/integrity`, `POST /admin/approvals/{id}`) had **no `Depends` auth,
+  no Authorization header from the client, and no JWT verification** — they run on the
+  **service_role** backend (RLS-bypassing), so anyone who could reach the API URL could read the
+  governance/audit data and approve/reject accounts regardless of role.
+  *Fix (applied in code):* every admin route is now mounted on
+  `APIRouter(prefix="/admin", dependencies=[Depends(require_admin)])` — a **single uniform
+  server-side gate** (`aegis/api/auth.py`). On the live path it requires a **token-verified
+  identity whose authoritative `profiles.role='admin'`** (validated via Supabase Auth, role read
+  from `profiles` — never client `user_metadata`), or the **service_role key**, constant-time
+  compared, for the trusted backend writer. Unauthenticated → **401**, authenticated non-admin →
+  **403** (covered by `aegis/tests/test_api.py`). The client (`lib/api.ts`) now sends the
+  logged-in user's Supabase access token on `/admin/*`. In **seed mode** (no `SUPABASE_URL`) the
+  endpoints serve static, non-sensitive demo data as **public read-only** and grant no admin
+  identity. *Note:* `middleware.ts` still routes `/admin` to any authenticated session — but the
+  API (the data path) now enforces role, so the page renders nothing without an admin token.
+  - *Demo prerequisite:* the demo account must have `profiles.role='admin'` (see GO_LIVE), else
+    Governance returns 401/403 by design.
 
 - **[RISK — cosmetic] Sidebar role label is spoofable but grants nothing.** `user-provider.toUser()`
   derives the displayed role from **`user_metadata.role`**, which on the email-signup path comes
@@ -227,12 +235,12 @@ Migration `0006` (drafted) re-asserts this trigger idempotently so it stops bein
 **Effective "what each role sees" today (via the demo accounts):**
 | Role (`profiles.role`) | Dashboard / Teams / Alerts / Pipeline | Governance (`/admin`) data | Approve/reject |
 |---|---|---|---|
-| student | yes (engine demo + RLS-scoped DB) | **page opens; API currently returns data (BLOCKER)** | **currently yes (BLOCKER)** |
-| lecturer | yes, scoped to assigned cohort (RLS) | same as above | same |
-| admin | yes, all cohorts | intended audience | intended |
+| student | yes (engine demo + RLS-scoped DB) | **API returns 401/403 (gated)** | **API returns 401/403 (gated)** |
+| lecturer | yes, scoped to assigned cohort (RLS) | same — 401/403 unless role=admin | same |
+| admin | yes, all cohorts | intended audience (token role=admin) | intended |
 
-Once the `/admin/*` API gets a real auth/role check, this table collapses to the intended
-"admin-only governance" — until then, treat the governance panel as **not access-controlled**.
+The `/admin/*` API now enforces a real auth/role check (API5:2023 fix above), so the table reflects
+the intended **admin-only governance**: a non-admin token gets 403, no token gets 401.
 
 ---
 
@@ -245,8 +253,8 @@ Once the `/admin/*` API gets a real auth/role check, this table collapses to the
 - [ ] **[VERIFY]** `on auth.users` trigger for `handle_new_user` exists in live (§4).
 - [ ] Brief judges on the unverified-app **Advanced → Continue** click (§2), or lead with the
       **email+password** demo accounts (§1 fallback) to skip Google entirely.
-- [ ] Decide before showing the **Governance** tab to anyone: the `/admin/*` API is currently
-      unauthenticated (§6 BLOCKER) — keep the API private or add a check.
+- [ ] **Governance now requires an admin token** (§6, API5:2023 fix): confirm the demo account has
+      `profiles.role='admin'` so the panel loads — a non-admin/no token gets 403/401 by design.
 
-*All items above are dashboard/config or backend-code actions for the human operator. This audit
-changed nothing.*
+*Items above are dashboard/config actions for the human operator. The §6 admin-API authorization
+fix is applied in code (`aegis/api/auth.py`, tests in `aegis/tests/test_api.py`).*

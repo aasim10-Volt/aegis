@@ -21,8 +21,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from aegis.adapters.repo_governance import load_governance
-from aegis.api.auth import require_admin
 from aegis.adapters.repo_seed import load_cohort
+from aegis.api.auth import require_admin
 from aegis.domain.models import AllocationResult, Cohort
 from aegis.engine import config
 from aegis.engine.phase_a_scoring import fit
@@ -303,9 +303,10 @@ def get_student(student_id: str) -> StudentProfile:
 
 
 # -- admin console (governance) -----------------------------------------------
-# Function-level authorization (OWASP API5:2023): every /admin/* route is gated
+# Function-level authorization (OWASP API5:2023): EVERY /admin/* route is gated
 # by require_admin via this router's dependencies, applied uniformly (not
-# per-route). The gate is enforced when a live DB is configured; inert on seed.
+# per-route, so no route can be added ungated by accident). Live path requires a
+# token-verified admin role (or service_role); seed path is public static data.
 admin = APIRouter(prefix="/admin", dependencies=[Depends(require_admin)])
 
 
@@ -383,7 +384,7 @@ class ApprovalDecision(BaseModel):
     action: str  # "approve" | "reject"
 
 
-@app.get("/admin/approvals", response_model=list[ApprovalView])
+@admin.get("/approvals", response_model=list[ApprovalView])
 def get_approvals() -> list[ApprovalView]:
     if os.environ.get("SUPABASE_URL"):
         try:
@@ -413,7 +414,7 @@ def get_approvals() -> list[ApprovalView]:
     ]
 
 
-@app.post("/admin/approvals/{profile_id}")
+@admin.post("/approvals/{profile_id}")
 def post_approval(profile_id: str, decision: ApprovalDecision) -> dict[str, str]:
     """Approve or reject a pending account (admin action via the service_role backend)."""
     if not os.environ.get("SUPABASE_URL"):
@@ -427,7 +428,7 @@ def post_approval(profile_id: str, decision: ApprovalDecision) -> dict[str, str]
     return {"id": profile_id, "status": status}
 
 
-@app.get("/admin/overrides", response_model=list[OverrideView])
+@admin.get("/overrides", response_model=list[OverrideView])
 def get_overrides() -> list[OverrideView]:
     return [
         OverrideView(
@@ -442,7 +443,7 @@ def get_overrides() -> list[OverrideView]:
     ]
 
 
-@app.get("/admin/integrity", response_model=IntegrityView)
+@admin.get("/integrity", response_model=IntegrityView)
 def get_integrity() -> IntegrityView:
     """Mirror of SQL audit_verify(): recompute the hash chain, report any break.
 
@@ -465,6 +466,5 @@ def get_integrity() -> IntegrityView:
     return IntegrityView(verified=verified, broken_at=broken, entries=len(audit))
 
 
-# Mount the gated admin router. Routes still on @app.get("/admin/...") below are
-# migrated onto this router in the follow-up step; only /admin/audit is gated now.
+# Mount the gated admin router — all /admin/* routes carry require_admin.
 app.include_router(admin)

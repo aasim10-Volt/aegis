@@ -1,5 +1,7 @@
 /** Typed client for the AEGIS FastAPI backend. Mirrors api/main.py response models. */
 
+import { createClient } from "@/lib/supabase/client";
+
 export interface SkillView {
   discipline: string;
   declared: number;
@@ -102,12 +104,28 @@ export interface IntegrityView {
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
+/**
+ * Authorization header for /admin/* calls: the logged-in USER's Supabase access
+ * token (JWT), read client-side from the browser session. This is the anon-key
+ * user session — NEVER the service_role key, which must never reach the browser.
+ * The backend (require_admin) verifies the token and checks profiles.role='admin'.
+ * No session → no header → the backend returns 401, surfaced to the panel.
+ */
+async function authHeader(): Promise<Record<string, string>> {
+  const { data } = await createClient().auth.getSession();
+  const token = data.session?.access_token;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 async function getJSON<T>(path: string): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`);
+    res = await fetch(`${API_URL}${path}`, { headers: await authHeader() });
   } catch {
     throw new Error(`Could not reach the AEGIS API at ${API_URL}. Is it running (uvicorn)?`);
+  }
+  if (res.status === 401 || res.status === 403) {
+    throw new Error("You must be signed in as an admin to view Governance.");
   }
   if (!res.ok) throw new Error(`${path} failed (${res.status}).`);
   return res.json() as Promise<T>;
@@ -124,11 +142,14 @@ export async function decideApproval(id: string, action: "approve" | "reject"): 
   try {
     res = await fetch(`${API_URL}/admin/approvals/${id}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...(await authHeader()) },
       body: JSON.stringify({ action }),
     });
   } catch {
     throw new Error(`Could not reach the AEGIS API at ${API_URL}.`);
+  }
+  if (res.status === 401 || res.status === 403) {
+    throw new Error("You must be signed in as an admin to approve or reject accounts.");
   }
   if (!res.ok) throw new Error(`Could not ${action} that request (${res.status}).`);
 }
