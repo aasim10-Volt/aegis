@@ -20,7 +20,9 @@ interface UserContextValue {
   signOut: () => Promise<void>;
 }
 
-function toUser(u: User): SessionUser {
+/** Build the user from auth metadata alone. `role` here is only a PRE-LOAD HINT —
+ *  the authoritative role is read from profiles.role in resolveSessionUser(). */
+function metaUser(u: User): SessionUser {
   const meta = u.user_metadata ?? {};
   return {
     email: u.email ?? "",
@@ -28,6 +30,25 @@ function toUser(u: User): SessionUser {
     role: (meta.role as string) || "Member",
     studentId: (meta.student_id as string) || null,
   };
+}
+
+/** Resolve the session user with the AUTHORITATIVE role of record: profiles.role —
+ *  the same column the backend (require_admin) and RLS is_admin() trust, never
+ *  client-supplied metadata. Read-only query scoped to the user's own row (RLS
+ *  allows reading own profile). Falls back to the metadata hint if the read is
+ *  empty (e.g. profile not yet created), so the UI never blocks on it. */
+async function resolveSessionUser(
+  supabase: ReturnType<typeof createClient>,
+  u: User,
+): Promise<SessionUser> {
+  const base = metaUser(u);
+  const { data } = await supabase
+    .from("profiles")
+    .select("role,status")
+    .eq("id", u.id)
+    .single();
+  if (data?.role) base.role = data.role as string;
+  return base;
 }
 
 const UserContext = React.createContext<UserContextValue | null>(null);
@@ -41,13 +62,20 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     let active = true;
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
+      const su = data.user ? await resolveSessionUser(supabase, data.user) : null;
       if (!active) return;
-      setUser(data.user ? toUser(data.user) : null);
+      setUser(su);
       setLoading(false);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ? toUser(session.user) : null);
+      if (!session?.user) {
+        setUser(null);
+        return;
+      }
+      void resolveSessionUser(supabase, session.user).then((su) => {
+        if (active) setUser(su);
+      });
     });
     return () => {
       active = false;

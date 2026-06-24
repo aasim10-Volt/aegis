@@ -6,6 +6,7 @@ import { Target, TrendingUp, Users } from "lucide-react";
 
 import { AppShell } from "@/components/aegis/app-shell";
 import { useAccessGuard } from "@/components/auth/role-guard";
+import { SampleDataBanner } from "@/components/aegis/sample-data-banner";
 import { useUser } from "@/components/auth/user-provider";
 import { Card } from "@/components/ui/card";
 import { SkillCheck, StatTile, rise, stagger } from "@/components/dashboard";
@@ -16,7 +17,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const ready = useAccessGuard("profile");
   const { user } = useUser();
-  const { data } = useRun(ready);
+  const { data, sample } = useRun(ready);
 
   if (!ready) return null;
 
@@ -27,6 +28,7 @@ export default function ProfilePage() {
   return (
     <AppShell active="profile" onNavigate={(key) => router.push(routeFor(key))}>
       <div className="flex flex-col gap-8">
+        {sample && <SampleDataBanner />}
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">My profile</h1>
           <p className="mt-1 text-sm text-muted-foreground">

@@ -16,6 +16,7 @@ import {
   stagger,
 } from "@/components/dashboard";
 import { useAccessGuard } from "@/components/auth/role-guard";
+import { SampleDataBanner } from "@/components/aegis/sample-data-banner";
 import { routeFor } from "@/lib/nav";
 import { useRun } from "@/lib/use-run";
 
@@ -30,6 +31,7 @@ export default function AlertsPage() {
   return (
     <AppShell active="alerts" onNavigate={(key) => router.push(routeFor(key))}>
       <div className="flex flex-col gap-8">
+        {sample && <SampleDataBanner />}
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">Alerts</h1>

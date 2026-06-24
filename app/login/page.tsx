@@ -12,11 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
+import { safeRedirect } from "@/lib/safe-redirect";
 
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const redirect = params.get("redirect") || "/dashboard";
+  // Validate the redirect param (CWE-601): only same-origin relative paths allowed.
+  const redirect = safeRedirect(params.get("redirect"));
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");

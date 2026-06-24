@@ -7,6 +7,7 @@ import { AlertTriangle, Inbox, Loader2, Play, ShieldCheck, Users } from "lucide-
 import { AppShell } from "@/components/aegis/app-shell";
 import { PipelineStepper } from "@/components/aegis/pipeline-stepper";
 import { useUser } from "@/components/auth/user-provider";
+import { SampleDataBanner } from "@/components/aegis/sample-data-banner";
 import { StudentWorkspace } from "@/components/student-workspace";
 import { isStudent } from "@/lib/roles";
 import { Card } from "@/components/ui/card";
@@ -63,6 +64,7 @@ export default function DashboardPage() {
       rail={data && lookups ? <AttentionList alerts={data.alerts} lookups={lookups} /> : undefined}
     >
       <div className="flex flex-col gap-8">
+        {sample && <SampleDataBanner />}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">

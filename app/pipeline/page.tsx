@@ -9,6 +9,7 @@ import { PipelineStepper } from "@/components/aegis/pipeline-stepper";
 import { Card } from "@/components/ui/card";
 import { EASE, SampleBadge, StatTile, rise, stagger } from "@/components/dashboard";
 import { useAccessGuard } from "@/components/auth/role-guard";
+import { SampleDataBanner } from "@/components/aegis/sample-data-banner";
 import { PIPELINE_STEPS } from "@/lib/labels";
 import { routeFor } from "@/lib/nav";
 import { useRun } from "@/lib/use-run";
@@ -23,6 +24,7 @@ export default function PipelinePage() {
   return (
     <AppShell active="pipeline" onNavigate={(key) => router.push(routeFor(key))}>
       <div className="flex flex-col gap-8">
+        {sample && <SampleDataBanner />}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">

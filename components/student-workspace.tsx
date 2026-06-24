@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { AlertTriangle, Sparkles, Target, Users } from "lucide-react";
 
 import { HealthRing } from "@/components/aegis/health-ring";
+import { SampleDataBanner } from "@/components/aegis/sample-data-banner";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -250,6 +251,7 @@ export function StudentWorkspace({
   const firstName = name?.split(" ")[0] ?? "";
   return (
     <div className="flex flex-col gap-8">
+      {sample && <SampleDataBanner />}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-3">
