@@ -26,6 +26,10 @@ client_secret*.json
 # Supabase / DB
 .supabase/
 supabase/.temp/
+# Database dumps from scripts/backup_db.py — contain ALL live data, never commit.
+backups/
+*.sql.gz
+aegis_*.sql
 # Staff directory seed — REAL institutional emails, never commit (use the .example template).
 supabase/staff_directory_seed.local.sql
 **/*_seed.local.sql
