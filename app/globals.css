@@ -81,7 +81,7 @@
   --sidebar-ring:                oklch(0.54 0.22 277);
 
   /* radius — generous, for the floating-pill feel */
-  --radius: 0.875rem;       /* 14px base; cards use rounded-[1.25rem] */
+  --radius: 0.875rem;       /* 14px base; cards use rounded-3xl, inner tiles rounded-2xl/xl */
 
   /* elevation — soft, layered, cool-tinted, low alpha (the "floating" look) */
   --shadow-sm: 0 1px 2px rgb(2 6 23 / 0.04), 0 1px 1px rgb(2 6 23 / 0.03);

@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { Logo } from "@/components/aegis/logo";
 import { ThemeToggle } from "@/components/aegis/theme-toggle";
 
 /** Shared centered frame for the login / signup pages, on the brand wash. */
@@ -35,8 +35,15 @@ export function AuthFrame({
 
       <div className="mx-auto flex min-h-screen w-full max-w-[26rem] flex-col justify-center px-5 py-12">
         <div className="mb-8 flex justify-center">
-          <Link href="/" aria-label="AEGIS home">
-            <Logo />
+          <Link href="/" aria-label="AEGIS home" className="inline-block">
+            <Image
+              src="/aegis-workspace.png"
+              alt="AEGIS Workspace"
+              width={180}
+              height={180}
+              priority
+              className="h-auto w-40 rounded-2xl shadow-card ring-1 ring-border/60"
+            />
           </Link>
         </div>
 

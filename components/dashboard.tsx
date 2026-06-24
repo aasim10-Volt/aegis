@@ -50,7 +50,7 @@ export function StatTile({
   value: React.ReactNode;
 }) {
   return (
-    <Card className="flex items-center gap-4 p-5">
+    <Card className="flex items-center gap-4 p-5 transition-shadow hover:shadow-card-lg">
       <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
         <Icon className="h-5 w-5" />
       </div>
@@ -238,7 +238,7 @@ export function ReviewPanel({ data, lookups }: { data: RunResponse; lookups: Loo
               <span className="text-xs font-semibold" style={{ color: "var(--at-risk-ink)" }}>
                 Two proposals overlap
               </span>
-              <StatusBadge tone="at_risk">{Math.round(dup.similarity * 100)}% match</StatusBadge>
+              <StatusBadge tone="at_risk"><span className="tabular-nums">{Math.round(dup.similarity * 100)}%</span> match</StatusBadge>
             </div>
             <ul className="mt-2 flex flex-col gap-1 text-sm text-foreground">
               <li className="truncate">{titleA ?? "Project A"}</li>
