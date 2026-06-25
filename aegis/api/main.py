@@ -476,5 +476,15 @@ def get_integrity() -> IntegrityView:
     return IntegrityView(verified=verified, broken_at=broken, entries=len(audit))
 
 
+@admin.post("/reload")
+def reload_caches() -> dict[str, str]:
+    """Clear the cached cohort/result/governance so the next /run reflects the live DB
+    (e.g. after a student onboards via /api/onboarding). Admin-gated by the router."""
+    _cohort.cache_clear()
+    _result.cache_clear()
+    _governance.cache_clear()
+    return {"status": "reloaded"}
+
+
 # Mount the gated admin router — all /admin/* routes carry require_admin.
 app.include_router(admin)

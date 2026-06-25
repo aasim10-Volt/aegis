@@ -38,6 +38,8 @@ supabase/staff_directory_seed.local.sql
 scripts/seed_demo_users.py
 # Demo student mapper — ties a demo account to a REAL cohort student (name/PII); keep local.
 scripts/map_demo_student.py
+# Onboarded-student cleanup — operates on live cohort data; keep local.
+scripts/cleanup_onboarded.py
 
 # ── deps / build (Node + Next.js) ──
 node_modules/

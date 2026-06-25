@@ -60,21 +60,25 @@ export default function OnboardingPage() {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const { error } = await supabase.auth.updateUser({
-      data: {
+    // Server route (service role) registers the student in the cohort + links the
+    // auth user + sets skills_completed. It alone can write the RLS-protected tables.
+    const res = await fetch("/api/onboarding", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         skills,
         capacity_hours: Number(capacity) || 0,
         preferred_role: preferredRole,
-        skills_completed: true,
-      },
+      }),
     });
-    if (error) {
-      setError(error.message);
+    if (!res.ok) {
+      const j = (await res.json().catch(() => ({}))) as { error?: string };
+      setError(j.error ?? "Could not save your profile. Please try again.");
       setBusy(false);
       return;
     }
-    // Hard navigation so the refreshed session (skills_completed) is read fresh and
-    // the dashboard doesn't bounce back here.
+    // Hard navigation so the refreshed session (skills_completed, student_id) is read
+    // fresh and the dashboard doesn't bounce back here.
     window.location.assign("/dashboard");
   }
 
