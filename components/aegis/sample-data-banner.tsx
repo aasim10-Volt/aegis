@@ -20,7 +20,7 @@ export function SampleDataBanner() {
     >
       <AlertTriangle className="h-4 w-4 shrink-0" />
       <span>
-        <b>Showing sample data</b> — the live API is unavailable, so these are illustrative
+        <b>Showing sample data:</b> the live API is unavailable, so these are illustrative
         seed numbers, not a live run.
       </span>
     </div>

@@ -397,7 +397,7 @@ export function AttentionList({ alerts, lookups }: { alerts: AlertView[]; lookup
         </span>
       </div>
       {alerts.length === 0 ? (
-        <Card className="p-6 text-sm text-muted-foreground">All clear — nothing to review.</Card>
+        <Card className="p-6 text-sm text-muted-foreground">All clear. Nothing to review.</Card>
       ) : (
         <motion.div variants={stagger} initial="hidden" animate="show" className="flex flex-col gap-3">
           {alerts.map((a, i) => (

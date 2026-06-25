@@ -50,7 +50,7 @@ export const STAT_HINTS: Record<string, string> = {
   "Needs attention": "Teams that are at risk or need an urgent look.",
   "To review": "Open items waiting in the attention inbox.",
   Urgent: "Issues that need action now.",
-  Attention: "Worth a look soon — not yet urgent.",
+  Attention: "Worth a look soon, not yet urgent.",
   Info: "For your awareness; no action needed.",
   "Students considered": "Students included in this allocation run.",
   "Duplicates flagged": "Project proposals that look too similar.",
@@ -70,11 +70,11 @@ export const HEALTH_COMPONENT: Record<string, string> = {
 const ALERT_COPY: Record<string, { title: string; description: string }> = {
   ghosting_tier3: {
     title: "Member engagement is low",
-    description: "A student has gone quiet — a check-in is recommended.",
+    description: "A student has gone quiet. A check-in is recommended.",
   },
   ghosting_tier2: {
     title: "Engagement is slipping",
-    description: "Activity has dropped off lately — worth a quick nudge.",
+    description: "Activity has dropped off lately. Worth a quick nudge.",
   },
   ghosting_tier1: {
     title: "Early signs of disengagement",

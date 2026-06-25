@@ -81,7 +81,7 @@ export default function DashboardPage() {
               {sample && <SampleBadge />}
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
-              Balanced teams at a glance — and anything that needs your attention.
+              Balanced teams at a glance, and anything that needs your attention.
             </p>
           </div>
           <motion.button

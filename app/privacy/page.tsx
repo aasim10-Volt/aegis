@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Logo } from "@/components/aegis/logo";
 
 const SECTIONS = [
   {
@@ -30,12 +30,11 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-background px-5 py-12 text-foreground">
+    <main className="min-h-[100dvh] bg-background px-5 py-12 text-foreground">
       <article className="mx-auto max-w-[680px]">
         <header className="mb-10">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <Image src="/aegis-workspace.png" alt="" width={32} height={32} className="h-8 w-8 rounded-full bg-foreground object-contain" />
-            <span className="text-sm font-semibold text-muted-foreground">AEGIS WORKSPACE</span>
+          <Link href="/" className="inline-flex">
+            <Logo />
           </Link>
           <h1 className="mt-8 text-3xl font-bold tracking-tight">Privacy Policy</h1>
           <p className="mt-2 text-sm text-muted-foreground">Last updated: June 2026</p>

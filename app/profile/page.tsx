@@ -54,7 +54,7 @@ export default function ProfilePage() {
                   label="My project"
                   value={
                     <span className="text-base font-semibold">
-                      {myTeam?.project_title ?? "—"}
+                      {myTeam?.project_title ?? "-"}
                     </span>
                   }
                 />
@@ -63,14 +63,14 @@ export default function ProfilePage() {
                 <StatTile
                   icon={TrendingUp}
                   label="My fit for it"
-                  value={me.fit != null ? `${Math.round(me.fit)}%` : "—"}
+                  value={me.fit != null ? `${Math.round(me.fit)}%` : "-"}
                 />
               </motion.div>
               <motion.div variants={rise}>
                 <StatTile
                   icon={Target}
                   label="Preference matched"
-                  value={rank ? `#${rank}` : "—"}
+                  value={rank ? `#${rank}` : "-"}
                 />
               </motion.div>
             </motion.div>

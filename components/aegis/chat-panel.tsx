@@ -155,7 +155,7 @@ export function ChatPanel({
               width: 6,
               height: 6,
               borderRadius: 9999,
-              background: isConnected ? "#10B981" : "var(--muted-foreground)",
+              background: isConnected ? "var(--healthy)" : "var(--muted-foreground)",
             }}
           />
           <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
@@ -249,7 +249,7 @@ export function ChatPanel({
                       marginTop: 2,
                       fontSize: 10,
                       color: "var(--muted-foreground)",
-                      fontFamily: "monospace",
+                      fontFamily: "var(--font-mono)",
                     }}
                   >
                     {new Date(message.created_at).toLocaleTimeString([], {
@@ -268,11 +268,11 @@ export function ChatPanel({
       {sendError && (
         <div
           style={{
-            background: "color-mix(in oklch, #EF4444 10%, transparent)",
-            border: "1px solid color-mix(in oklch, #EF4444 30%, transparent)",
+            background: "color-mix(in oklch, var(--critical) 10%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--critical) 30%, transparent)",
             padding: "6px 12px",
             fontSize: 12,
-            color: "#EF4444",
+            color: "var(--critical-ink)",
             borderRadius: 6,
             margin: "0 16px",
             display: "flex",
@@ -326,7 +326,10 @@ export function ChatPanel({
               fontSize: 13,
               color: "var(--foreground)",
               minWidth: 0,
+              outline: "none",
             }}
+            onFocus={(e) => { e.currentTarget.style.border = "1px solid color-mix(in oklch, var(--primary) 60%, transparent)"; e.currentTarget.style.boxShadow = "0 0 0 3px color-mix(in oklch, var(--primary) 18%, transparent)"; }}
+            onBlur={(e) => { e.currentTarget.style.border = "1px solid var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
           />
           <button
             type="button"

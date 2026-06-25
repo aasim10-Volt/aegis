@@ -20,7 +20,7 @@ export function AuthFrame({
   footer?: React.ReactNode;
 }) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background">
+    <main className="relative min-h-[100dvh] overflow-hidden bg-background">
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
@@ -33,12 +33,12 @@ export function AuthFrame({
         <ThemeToggle />
       </div>
 
-      <div className="mx-auto flex min-h-screen w-full max-w-[26rem] flex-col justify-center px-5 py-12">
+      <div className="mx-auto flex min-h-[100dvh] w-full max-w-[26rem] flex-col justify-center px-5 py-12">
         <div className="mb-8 flex justify-center">
-          <Link href="/" aria-label="AEGIS — home" className="inline-block">
+          <Link href="/" aria-label="AEGIS home" className="inline-block">
             <Image
               src="/aegis-workspace.png"
-              alt="AEGIS — capstone allocation"
+              alt="AEGIS capstone allocation"
               width={144}
               height={144}
               priority

@@ -150,7 +150,7 @@ export default function AdminPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Governance</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Every privileged action is recorded and tamper-evident — nothing happens unlogged.
+            Every privileged action is recorded and tamper-evident. Nothing happens unlogged.
           </p>
         </div>
 
@@ -210,7 +210,7 @@ export default function AdminPage() {
                     <StatusBadge tone="info">{o.from_status} → {o.to_status}</StatusBadge>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {o.lecturer} — “{o.reason}”
+                    {o.lecturer}: “{o.reason}”
                   </p>
                 </div>
               ))

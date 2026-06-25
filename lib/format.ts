@@ -33,13 +33,13 @@ export const SEVERITY_LABEL: Record<string, string> = {
 
 /** Engine trigger code -> human headline. */
 const TRIGGER_LABEL: Record<string, string> = {
-  ghosting_tier3: "Disengagement — critical",
-  ghosting_tier2: "Disengagement — escalating",
-  ghosting_tier1: "Disengagement — early signs",
+  ghosting_tier3: "Disengagement: critical",
+  ghosting_tier2: "Disengagement: escalating",
+  ghosting_tier1: "Disengagement: early signs",
   sympathy_carry: "Uneven workload",
   burnout: "Burnout risk",
-  health_critical: "Team health — critical",
-  health_at_risk: "Team health — at risk",
+  health_critical: "Team health: critical",
+  health_at_risk: "Team health: at risk",
   duplicate_project: "Duplicate proposal",
 };
 
@@ -54,7 +54,7 @@ export function titleCase(s: string): string {
 
 /** Utilisation as a friendly percentage. */
 export function utilisationPct(u: number | null): string {
-  return u == null ? "—" : `${Math.round(u * 100)}%`;
+  return u == null ? "-" : `${Math.round(u * 100)}%`;
 }
 
 /** Build id -> human-name / team -> project-title lookups from a run result. */

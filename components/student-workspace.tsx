@@ -81,8 +81,7 @@ function PlacementCard({
         You were placed on <span className="font-medium text-foreground">{team.project_title}</span>
         {rank ? (
           <>
-            {" "}
-            — your{" "}
+            {", your "}
             <span className="font-medium text-foreground">
               #{rank} preference
             </span>

@@ -76,7 +76,7 @@ export default function AlertsPage() {
 
             {data.alerts.length === 0 ? (
               <Card className="p-8 text-center text-sm text-muted-foreground">
-                All clear — nothing needs your attention right now.
+                All clear. Nothing needs your attention right now.
               </Card>
             ) : (
               <motion.div

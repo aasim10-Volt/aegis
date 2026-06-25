@@ -68,13 +68,13 @@ export default function SettingsPage() {
             </div>
             <div className="divide-y divide-border/60">
               <Row icon={UserRound} label="Name">
-                {user?.name ?? "—"}
+                {user?.name ?? "-"}
               </Row>
               <Row icon={Mail} label="Email">
-                <span className="truncate">{user?.email ?? "—"}</span>
+                <span className="truncate">{user?.email ?? "-"}</span>
               </Row>
               <Row icon={ShieldCheck} label="Role">
-                <span className="capitalize">{user?.role ?? "—"}</span>
+                <span className="capitalize">{user?.role ?? "-"}</span>
               </Row>
             </div>
           </Card>

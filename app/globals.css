@@ -80,6 +80,14 @@
   --sidebar-border:              oklch(0.93 0.006 265);
   --sidebar-ring:                oklch(0.54 0.22 277);
 
+  /* Login / landing page atmospheric glow ----------------------------------- */
+  /* Solid vivid hues — element opacity (login-orb-* classes) does the fade.   */
+  --login-glow-a: oklch(0.54 0.22 277);   /* indigo  */
+  --login-glow-b: oklch(0.60 0.22 290);   /* violet  */
+  --login-glow-c: oklch(0.68 0.16 233);   /* sky     */
+  /* Vignette centre strength — lighter in light mode to let orbs show through */
+  --login-vignette-pct: 64%;
+
   /* radius — generous, for the floating-pill feel */
   --radius: 0.875rem;       /* 14px base; cards use rounded-3xl, inner tiles rounded-2xl/xl */
 
@@ -149,6 +157,12 @@
   --chart-3: oklch(0.80 0.14 78);
   --chart-4: oklch(0.72 0.13 233);
   --chart-5: oklch(0.68 0.18 290);
+
+  /* Login / landing page atmospheric glow — dark mode: brighter hues visible on slate */
+  --login-glow-a: oklch(0.70 0.20 277);
+  --login-glow-b: oklch(0.72 0.19 290);
+  --login-glow-c: oklch(0.74 0.14 233);
+  --login-vignette-pct: 82%;
 
   --border: oklch(0.30 0.02 264);
   --input:  oklch(0.32 0.02 264);
@@ -225,13 +239,11 @@
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
 
-  /* One tuned system family carries the whole UI (instant load, no FOUT). Heading
-     character comes from size/weight/tracking, not a second (previously unloaded) font. */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  /* next/font pre-loads Geist at build time — self-hosted, zero FOUT, instant paint.
+     System stack is the SSR fallback only; it never reaches the user. */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-sans);
-  --font-mono: ui-monospace, "SF Mono", "SFMono-Regular", "Cascadia Code",
-    "JetBrains Mono", Menlo, Consolas, monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Code", Menlo, monospace;
 
   /* type scale — fixed rem, ~1.2 modular ratio (product UI; no fluid clamp).
      line-heights tighten as size grows. */
@@ -313,3 +325,16 @@
 }
 @utility animate-aurora { animation: aegis-aurora 22s ease-in-out infinite; will-change: transform; }
 @utility animate-float { animation: aegis-float 6s ease-in-out infinite; }
+
+/* Login page glow-orb opacity — light mode subtle, dark mode vivid.
+   Inline styles can't read CSS vars as numbers, so we use classes here.
+   :is(.dark *) matches the @custom-variant dark (&:is(.dark *)) pattern.  */
+.login-orb-1 { opacity: 0.36; }
+.login-orb-2 { opacity: 0.26; }
+.login-orb-3 { opacity: 0.22; }
+.login-orb-4 { opacity: 0.15; }
+
+:is(.dark *).login-orb-1 { opacity: 0.70; }
+:is(.dark *).login-orb-2 { opacity: 0.52; }
+:is(.dark *).login-orb-3 { opacity: 0.46; }
+:is(.dark *).login-orb-4 { opacity: 0.32; }
