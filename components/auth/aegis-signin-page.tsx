@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { ThemeToggle } from "@/components/aegis/theme-toggle";
 import { cn } from "@/lib/utils";
 import { safeRedirect } from "@/lib/safe-redirect";
 import { createClient } from "@/lib/supabase/client";
@@ -36,10 +37,10 @@ export const CanvasRevealEffect = ({
       {showGradient && (
         <div
           aria-hidden
-          className="absolute inset-0"
+          className="pointer-events-none absolute inset-0 z-[1]"
           style={{
             background:
-              "linear-gradient(to top, var(--background), color-mix(in oklch, var(--background) 0%, transparent))",
+              "radial-gradient(ellipse 60% 70% at 50% 50%, color-mix(in oklch, var(--background) 92%, transparent) 0%, color-mix(in oklch, var(--background) 75%, transparent) 40%, color-mix(in oklch, var(--background) 20%, transparent) 70%, color-mix(in oklch, var(--background) 0%, transparent) 100%)",
           }}
         />
       )}
@@ -107,8 +108,8 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
               width: dotSize,
               height: dotSize,
               opacity: dot.opacity,
-              backgroundColor: "var(--foreground)",
-              boxShadow: "0 0 18px color-mix(in oklch, var(--foreground) 24%, transparent)",
+              backgroundColor: "var(--login-dot)",
+              boxShadow: "0 0 18px color-mix(in oklch, var(--login-dot) 70%, transparent)",
             }}
           />
         ))}
@@ -119,10 +120,18 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
 
 const AnimatedNavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   return (
-    <a href={href} className="group relative flex h-5 items-center overflow-hidden text-sm">
+    <a
+      href={href}
+      className="group relative flex items-center overflow-hidden text-sm"
+      style={{ height: 20 }}
+    >
       <div className="flex flex-col transition-transform duration-300 ease-out group-hover:-translate-y-1/2">
-        <span className="text-muted-foreground">{children}</span>
-        <span className="text-foreground">{children}</span>
+        <span className="text-muted-foreground" style={{ lineHeight: "20px" }}>
+          {children}
+        </span>
+        <span className="text-foreground" style={{ lineHeight: "20px" }}>
+          {children}
+        </span>
       </div>
     </a>
   );
@@ -160,13 +169,13 @@ function MiniNavbar() {
   const navLinksData = [
     { label: "Features", href: "#features" },
     { label: "How it works", href: "#how-it-works" },
-    { label: "Security", href: "#security" },
+    { label: "FAQ", href: "#faq" },
   ];
 
   const loginButtonElement = (
     <a
       href="#signin-form"
-      className="w-full rounded-full border border-border bg-card/70 px-4 py-2 text-center text-xs text-muted-foreground transition-colors duration-200 hover:border-foreground/40 hover:text-foreground sm:w-auto sm:px-3 sm:text-sm"
+      className="w-full rounded-full border border-[var(--login-border)] bg-[var(--login-nav-bg)] px-4 py-2 text-center text-xs text-muted-foreground transition-colors duration-200 hover:border-foreground/40 hover:text-foreground sm:w-auto sm:px-3 sm:text-sm"
     >
       Sign in
     </a>
@@ -187,7 +196,7 @@ function MiniNavbar() {
   return (
     <header
       className={cn(
-        "fixed left-1/2 top-6 z-20 flex w-[calc(100%-2rem)] -translate-x-1/2 flex-col items-center border border-border bg-card/70 px-6 py-3 shadow-card transition-[border-radius] duration-0 ease-in-out sm:w-auto",
+        "fixed left-1/2 top-6 z-20 flex w-[calc(100%-2rem)] -translate-x-1/2 flex-col items-center border border-[var(--login-border)] bg-[var(--login-nav-bg)] px-6 py-3 shadow-card transition-[border-radius,background-color,border-color] duration-300 ease-in-out sm:w-auto",
         headerShapeClass,
       )}
     >
@@ -213,6 +222,7 @@ function MiniNavbar() {
         </nav>
 
         <div className="hidden items-center gap-2 sm:flex sm:gap-3">
+          <ThemeToggle className="h-9 w-9 rounded-full border border-[var(--login-border)] bg-[var(--login-nav-bg)]" />
           {loginButtonElement}
           {signupButtonElement}
         </div>
@@ -248,6 +258,7 @@ function MiniNavbar() {
           ))}
         </nav>
         <div className="mt-4 flex w-full flex-col items-center space-y-4">
+          <ThemeToggle className="h-10 w-full rounded-full border border-[var(--login-border)] bg-[var(--login-nav-bg)]" />
           {loginButtonElement}
           {signupButtonElement}
         </div>
@@ -268,7 +279,7 @@ function AmbientCard({
   return (
     <motion.div
       aria-hidden
-      className={cn("absolute hidden rounded-2xl border border-border/60 bg-card/80 p-4 shadow-card sm:block", className)}
+      className={cn("absolute hidden rounded-2xl border border-[var(--login-border)] bg-[var(--login-card-bg)] px-5 py-4 shadow-[var(--login-card-shadow)] backdrop-blur-md sm:block", className)}
       animate={{ y: [0, -6, 0] }}
       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay }}
     >
@@ -349,7 +360,14 @@ export function AegisSignInPage({ className }: SignInPageProps) {
   };
 
   return (
-    <div className={cn("dark relative flex min-h-screen w-full flex-col overflow-hidden bg-background text-foreground", className)}>
+    <div
+      className={cn(
+        "relative flex min-h-screen w-full flex-col overflow-hidden bg-background text-foreground",
+        "[--login-border:rgb(15_23_42_/_0.10)] [--login-card-bg:rgb(255_255_255_/_0.92)] [--login-card-shadow:0_4px_24px_rgb(0_0_0_/_0.10)] [--login-dot:rgb(15_23_42_/_0.12)] [--login-field-bg:rgb(255_255_255_/_1)] [--login-field-border:rgb(15_23_42_/_0.12)] [--login-field-placeholder:rgb(100_116_139_/_1)] [--login-nav-bg:rgb(255_255_255_/_0.80)]",
+        "dark:[--login-border:rgb(255_255_255_/_0.10)] dark:[--login-card-bg:rgb(22_27_37_/_0.85)] dark:[--login-card-shadow:0_4px_24px_rgb(0_0_0_/_0.40),0_1px_4px_rgb(0_0_0_/_0.20)] dark:[--login-dot:rgb(255_255_255_/_0.12)] dark:[--login-field-bg:rgb(255_255_255_/_0.06)] dark:[--login-field-border:rgb(255_255_255_/_0.15)] dark:[--login-field-placeholder:rgb(255_255_255_/_0.40)] dark:[--login-nav-bg:rgb(14_17_23_/_0.72)]",
+        className,
+      )}
+    >
       <div className="absolute inset-0 z-0">
         {initialCanvasVisible && (
           <div className="absolute inset-0">
@@ -403,20 +421,20 @@ export function AegisSignInPage({ className }: SignInPageProps) {
             84
           </span>
           <div>
-            <p className="text-sm font-semibold text-foreground">Team health</p>
-            <p className="text-sm text-healthy">On track</p>
+            <p className="text-[15px] font-semibold text-foreground">Team health</p>
+            <p className="text-xs font-medium text-healthy">On track</p>
           </div>
         </div>
       </AmbientCard>
 
       <AmbientCard className="bottom-24 left-16" delay={1}>
-        <p className="text-sm font-semibold text-foreground">15 teams + 1 pool</p>
-        <p className="mt-1 text-sm text-muted-foreground">from 70 students</p>
+        <p className="text-[15px] font-semibold text-foreground">15 teams + 1 pool</p>
+        <p className="mt-1 text-xs text-muted-foreground">from 70 students</p>
       </AmbientCard>
 
       <AmbientCard className="right-10 top-24" delay={2}>
         <p className="text-sm font-semibold text-foreground">Similar proposals</p>
-        <p className="mt-1 text-sm text-at-risk">
+        <p className="mt-1 text-sm font-semibold text-at-risk">
           <span className="tabular-nums">0.911</span> match
         </p>
         <p className="text-xs text-muted-foreground">held for review</p>
@@ -448,9 +466,15 @@ export function AegisSignInPage({ className }: SignInPageProps) {
                         type="button"
                         onClick={handleGoogleSignIn}
                         disabled={busy}
-                        className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card/55 px-4 py-3 text-foreground transition-colors hover:bg-card/80 disabled:cursor-not-allowed disabled:opacity-60"
+                        aria-label="Continue with Google"
+                        className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full border border-[rgb(15_23_42_/_0.12)] bg-[rgb(255_255_255_/_0.92)] px-5 text-[15px] text-foreground transition-colors hover:border-[rgb(15_23_42_/_0.22)] hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 dark:border-[rgb(255_255_255_/_0.20)] dark:bg-[rgb(255_255_255_/_0.08)] dark:hover:border-[rgb(255_255_255_/_0.35)] dark:hover:bg-[rgb(255_255_255_/_0.14)]"
                       >
-                        <span className="text-lg">G</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden>
+                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                        </svg>
                         <span>Continue with Google</span>
                       </button>
 
@@ -467,8 +491,9 @@ export function AegisSignInPage({ className }: SignInPageProps) {
                             placeholder="your@university.edu"
                             value={email}
                             autoComplete="email"
+                            aria-label="Email address"
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full rounded-full border border-border bg-background/65 px-4 py-3 text-center text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/30"
+                            className="h-[52px] w-full rounded-full border border-[var(--login-field-border)] bg-[var(--login-field-bg)] px-5 text-center text-[15px] text-foreground outline-none transition-colors placeholder:text-[var(--login-field-placeholder)] focus:border-[rgb(15_23_42_/_0.32)] dark:text-white dark:focus:border-[rgb(255_255_255_/_0.40)]"
                             required
                           />
                         </div>
@@ -478,8 +503,9 @@ export function AegisSignInPage({ className }: SignInPageProps) {
                             placeholder="Password"
                             value={password}
                             autoComplete="current-password"
+                            aria-label="Password"
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full rounded-full border border-border bg-background/65 py-3 pl-4 pr-14 text-center text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-foreground/30"
+                            className="h-[52px] w-full rounded-full border border-[var(--login-field-border)] bg-[var(--login-field-bg)] pl-5 pr-14 text-center text-[15px] text-foreground outline-none transition-colors placeholder:text-[var(--login-field-placeholder)] focus:border-[rgb(15_23_42_/_0.32)] dark:text-white dark:focus:border-[rgb(255_255_255_/_0.40)]"
                             required
                           />
                           <button
@@ -509,11 +535,11 @@ export function AegisSignInPage({ className }: SignInPageProps) {
 
                     <p className="pt-10 text-xs leading-relaxed text-muted-foreground">
                       By signing in, you agree to the{" "}
-                      <Link href="#" className="underline transition-colors hover:text-foreground">
+                      <Link href="/terms" className="underline transition-colors hover:text-foreground">
                         AEGIS terms of use
                       </Link>{" "}
                       and{" "}
-                      <Link href="#" className="underline transition-colors hover:text-foreground">
+                      <Link href="/privacy" className="underline transition-colors hover:text-foreground">
                         privacy policy
                       </Link>
                       .
