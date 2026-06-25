@@ -37,7 +37,7 @@ export function AuthFrame({
         <div className="mb-8 flex justify-center">
           <Link href="/" aria-label="AEGIS — home" className="inline-block">
             <Image
-              src="/aegis-logo.png"
+              src="/aegis-workspace.png"
               alt="AEGIS — capstone allocation"
               width={144}
               height={144}

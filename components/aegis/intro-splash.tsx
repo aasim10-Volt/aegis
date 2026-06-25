@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+const LETTERS = ["A", "E", "G", "I", "S"];
 
 /** A ~2s startup splash: the AEGIS mark scales in over a drifting aurora, then the
  *  whole overlay fades out to reveal the page. Plays once per session (sessionStorage),
@@ -23,7 +23,7 @@ export function IntroSplash() {
       /* sessionStorage unavailable — still show once this mount */
     }
     setShow(true);
-    const t = setTimeout(() => setShow(false), 1600);
+    const t = setTimeout(() => setShow(false), 1700);
     return () => clearTimeout(t);
   }, [reduce]);
 
@@ -38,30 +38,39 @@ export function IntroSplash() {
           onClick={() => setShow(false)}
           role="presentation"
         >
-          {/* aurora behind the mark */}
-          <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div
-              className="animate-aurora absolute left-1/2 top-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(closest-side, color-mix(in oklch, var(--primary) 30%, transparent), transparent)",
-              }}
-            />
-          </div>
           <motion.div
-            initial={{ scale: 0.82, y: 10 }}
-            animate={{ scale: 1, y: 0 }}
-            transition={{ duration: 1.0, ease: EASE }}
-            className="relative"
+            initial={{ y: 14, scale: 0.98 }}
+            animate={{ y: 0, scale: 1 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="relative flex flex-col items-center"
           >
-            <Image
-              src="/aegis-logo.png"
-              alt="AEGIS — capstone allocation"
-              width={160}
-              height={160}
-              priority
-              className="h-28 w-28 object-contain sm:h-36 sm:w-36 dark:rounded-3xl dark:bg-white dark:p-4 dark:ring-1 dark:ring-black/5"
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {LETTERS.map((letter, index) => (
+                <motion.span
+                  key={letter}
+                  initial={{ y: 16 }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.55, delay: index * 0.055, ease: EASE }}
+                  className="font-display text-5xl font-bold tracking-tight text-foreground sm:text-6xl"
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </div>
+            <motion.div
+              initial={{ scaleX: 0.18 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.75, delay: 0.18, ease: EASE }}
+              className="mt-4 h-1 w-28 origin-center rounded-full bg-primary sm:w-36"
             />
+            <motion.p
+              initial={{ y: 8 }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.55, delay: 0.32, ease: EASE }}
+              className="mt-3 text-sm font-medium text-muted-foreground"
+            >
+              Workspace
+            </motion.p>
           </motion.div>
         </motion.div>
       )}

@@ -69,30 +69,26 @@ function FloatCard({
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-muted/50 px-3 py-4 sm:px-5 sm:py-6">
+    <main className="relative min-h-screen overflow-hidden bg-background px-3 py-4 sm:px-5 sm:py-6">
       <IntroSplash />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="animate-aurora absolute -left-24 -top-32 h-[34rem] w-[34rem] rounded-full opacity-50 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(closest-side, color-mix(in oklch, var(--primary) 22%, transparent), transparent)",
+          }}
+        />
+        <div
+          className="animate-aurora absolute -right-24 -top-16 h-[30rem] w-[30rem] rounded-full opacity-40 blur-3xl"
+          style={{
+            background:
+              "radial-gradient(closest-side, color-mix(in oklch, var(--chart-5) 20%, transparent), transparent)",
+            animationDelay: "-9s",
+          }}
+        />
+      </div>
       <div className="mx-auto max-w-6xl">
-        {/* framed product card on the grey page */}
-        <div className="relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card shadow-xl">
-          {/* drifting "shader-style" aurora */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div
-              className="animate-aurora absolute -left-24 -top-32 h-[34rem] w-[34rem] rounded-full opacity-60 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(closest-side, color-mix(in oklch, var(--primary) 26%, transparent), transparent)",
-              }}
-            />
-            <div
-              className="animate-aurora absolute -right-24 -top-16 h-[30rem] w-[30rem] rounded-full opacity-50 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(closest-side, color-mix(in oklch, var(--chart-5) 24%, transparent), transparent)",
-                animationDelay: "-9s",
-              }}
-            />
-          </div>
-
           {/* nav */}
           <header className="relative flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
             <Logo />
@@ -123,7 +119,7 @@ export default function LandingPage() {
             variants={stagger}
             initial="hidden"
             animate="show"
-            className="relative px-5 pb-24 pt-14 text-center sm:px-8 sm:pb-32 sm:pt-20"
+            className="relative min-h-[72vh] px-5 pb-24 pt-14 text-center sm:px-8 sm:pb-32 sm:pt-20"
           >
             {/* — top-left: team health — */}
             <FloatCard className="left-5 top-8 -rotate-2 xl:left-12" delay="0s">
@@ -217,7 +213,6 @@ export default function LandingPage() {
               </div>
             </motion.div>
           </motion.section>
-        </div>
 
         {/* integrations strip */}
         <section id="integrations" className="px-2 pt-12 text-center">
