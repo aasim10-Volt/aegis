@@ -114,11 +114,9 @@ export function AppShell({ active = "overview", onNavigate, rail, children }: Ap
         )}
       >
         {isActive && (
-          <motion.span
-            layoutId={layoutKey}
-            className="absolute inset-0 -z-10 rounded-2xl bg-primary/10 ring-1 ring-primary/15"
-            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 32 }}
-          />
+          // Static active pill — no layoutId/shared-layout, so it can't fly between
+          // AppShell instances (each route renders its own) and flicker on navigation.
+          <span className="absolute inset-0 -z-10 rounded-2xl bg-primary/10 ring-1 ring-primary/15" />
         )}
         <Icon className="h-[1.15rem] w-[1.15rem] shrink-0" />
         <span>{item.label}</span>
