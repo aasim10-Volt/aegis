@@ -65,6 +65,14 @@ const FAQS = [
   ],
 ] as const;
 
+type AmbientCardId = "health" | "teams" | "duplicates";
+
+const CARD_PURPOSE: Record<AmbientCardId, string> = {
+  health: "Shows how AEGIS turns engagement, workload, task completion, and milestones into an early warning signal.",
+  teams: "Shows the allocation result: formed teams plus any exception pool that needs staff review.",
+  duplicates: "Shows the duplicate-proposal detector that catches similar project ideas before teams are formed.",
+};
+
 export const CanvasRevealEffect = ({
   animationSpeed = 10,
   opacities = [0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1],
@@ -172,17 +180,15 @@ const AnimatedNavLink = ({ href, children }: { href: string; children: React.Rea
   return (
     <a
       href={href}
-      className="group relative flex items-center overflow-hidden text-sm"
-      style={{ height: 20 }}
+      className="group relative block overflow-hidden text-sm"
+      style={{ height: 20, lineHeight: "20px" }}
     >
-      <div className="flex flex-col transition-transform duration-300 ease-out group-hover:-translate-y-1/2">
-        <span className="text-muted-foreground" style={{ lineHeight: "20px" }}>
+      <span className="block h-5 text-muted-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
+        {children}
+      </span>
+      <span className="absolute left-0 top-5 block h-5 text-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
           {children}
-        </span>
-        <span className="text-foreground" style={{ lineHeight: "20px" }}>
-          {children}
-        </span>
-      </div>
+      </span>
     </a>
   );
 };
@@ -330,23 +336,44 @@ function MiniNavbar() {
 }
 
 function AmbientCard({
+  id,
   className,
   delay,
+  active,
+  onToggle,
   children,
 }: {
+  id: AmbientCardId;
   className: string;
   delay: number;
+  active: boolean;
+  onToggle: (id: AmbientCardId) => void;
   children: React.ReactNode;
 }) {
   return (
-    <motion.div
-      aria-hidden
+    <motion.button
+      type="button"
+      aria-expanded={active}
+      onClick={() => onToggle(id)}
       className={cn("absolute hidden rounded-2xl border border-[var(--login-border)] bg-[var(--login-card-bg)] px-5 py-4 shadow-[var(--login-card-shadow)] backdrop-blur-md sm:block", className)}
       animate={{ y: [0, -6, 0] }}
       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay }}
     >
       {children}
-    </motion.div>
+      <AnimatePresence>
+        {active && (
+          <motion.span
+            initial={{ y: 8, scale: 0.98 }}
+            animate={{ y: 0, scale: 1 }}
+            exit={{ y: 8, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
+            className="absolute left-1/2 top-[calc(100%+0.75rem)] z-30 w-64 -translate-x-1/2 rounded-2xl border border-[var(--login-border)] bg-[var(--login-card-bg)] p-4 text-left text-xs leading-relaxed text-muted-foreground shadow-[var(--login-card-shadow)]"
+          >
+            {CARD_PURPOSE[id]}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.button>
   );
 }
 
@@ -361,6 +388,7 @@ export function AegisSignInPage({ className }: SignInPageProps) {
   const [initialCanvasVisible, setInitialCanvasVisible] = React.useState(true);
   const [reverseCanvasVisible, setReverseCanvasVisible] = React.useState(false);
   const [openFaq, setOpenFaq] = React.useState<number | null>(0);
+  const [activeAmbientCard, setActiveAmbientCard] = React.useState<AmbientCardId | null>(null);
   const [error, setError] = React.useState<string | null>(
     params.get("error") === "link" ? "That sign-in link is invalid or has expired." : null,
   );
@@ -432,6 +460,14 @@ export function AegisSignInPage({ className }: SignInPageProps) {
       )}
     >
       <div className="absolute inset-0 z-0">
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(44rem 28rem at 50% 8%, color-mix(in oklch, var(--primary) 24%, transparent), transparent 72%), radial-gradient(36rem 26rem at 82% 18%, color-mix(in oklch, var(--chart-5) 18%, transparent), transparent 70%), radial-gradient(34rem 24rem at 14% 34%, color-mix(in oklch, var(--info) 14%, transparent), transparent 76%)",
+          }}
+        />
         {initialCanvasVisible && (
           <div className="absolute inset-0">
             <CanvasRevealEffect
@@ -466,7 +502,7 @@ export function AegisSignInPage({ className }: SignInPageProps) {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at center, var(--background) 0%, color-mix(in oklch, var(--background) 0%, transparent) 100%)",
+              "radial-gradient(ellipse 55% 58% at 50% 48%, color-mix(in oklch, var(--background) 78%, transparent) 0%, color-mix(in oklch, var(--background) 48%, transparent) 42%, color-mix(in oklch, var(--background) 8%, transparent) 78%, transparent 100%)",
           }}
         />
         <div
@@ -478,7 +514,13 @@ export function AegisSignInPage({ className }: SignInPageProps) {
         />
       </div>
 
-      <AmbientCard className="left-10 top-32" delay={0}>
+      <AmbientCard
+        id="health"
+        className="left-10 top-32 text-left"
+        delay={0}
+        active={activeAmbientCard === "health"}
+        onToggle={(id) => setActiveAmbientCard((current) => (current === id ? null : id))}
+      >
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-healthy/15 text-lg font-bold tabular-nums text-healthy">
             84
@@ -490,12 +532,24 @@ export function AegisSignInPage({ className }: SignInPageProps) {
         </div>
       </AmbientCard>
 
-      <AmbientCard className="bottom-24 left-16" delay={1}>
+      <AmbientCard
+        id="teams"
+        className="bottom-20 left-16 text-left"
+        delay={1}
+        active={activeAmbientCard === "teams"}
+        onToggle={(id) => setActiveAmbientCard((current) => (current === id ? null : id))}
+      >
         <p className="text-[15px] font-semibold text-foreground">15 teams + 1 pool</p>
         <p className="mt-1 text-xs text-muted-foreground">from 70 students</p>
       </AmbientCard>
 
-      <AmbientCard className="right-10 top-24" delay={2}>
+      <AmbientCard
+        id="duplicates"
+        className="right-10 top-24 text-left"
+        delay={2}
+        active={activeAmbientCard === "duplicates"}
+        onToggle={(id) => setActiveAmbientCard((current) => (current === id ? null : id))}
+      >
         <p className="text-sm font-semibold text-foreground">Similar proposals</p>
         <p className="mt-1 text-sm font-semibold text-at-risk">
           <span className="tabular-nums">0.911</span> match
