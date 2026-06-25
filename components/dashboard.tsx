@@ -3,12 +3,14 @@
 /** Reusable dashboard pieces shared by Overview / Teams / Alerts / Pipeline. */
 
 import * as React from "react";
-import { motion, type Variants } from "framer-motion";
-import { AlertTriangle, Copy, Inbox, UserRound } from "lucide-react";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { AlertTriangle, ChevronDown, Copy, Inbox, MessageSquare, UserRound } from "lucide-react";
 
+import { ChatPanel } from "@/components/aegis/chat-panel";
 import { EvidenceBar } from "@/components/aegis/evidence-bar";
 import { HealthRing } from "@/components/aegis/health-ring";
 import { OpenWorkspaceButton } from "@/components/aegis/open-workspace-button";
+import { useUser } from "@/components/auth/user-provider";
 import {
   Card,
   CardContent,
@@ -52,6 +54,10 @@ function workloadPct(value: number | null | undefined): string {
 function hasStampedWorkload(team: TeamView): boolean {
   const values = team.members.map((m) => m.utilisation).filter((v): v is number => v != null);
   return values.length > 1 && values.every((v) => near(v, values[0]));
+}
+
+function supabaseTeamId(teamId: string): string {
+  return teamId.startsWith("T::") ? teamId.slice(3) : teamId;
 }
 
 function TeamWorkloadSummary({ team }: { team: TeamView }) {
@@ -199,6 +205,8 @@ function TeamCardZoom({ team }: { team: TeamView }) {
 }
 
 export function TeamCard({ team }: { team: TeamView }) {
+  const [chatOpen, setChatOpen] = React.useState(false);
+  const { user } = useUser();
   const status = band(team.band);
   const needsBalancing = team.unallocated_hours > 0 || team.members.some((m) => m.overloaded);
   const stampedWorkload = hasStampedWorkload(team);
@@ -227,6 +235,46 @@ export function TeamCard({ team }: { team: TeamView }) {
           </li>
         ))}
       </ul>
+
+      {user && (
+        <>
+          <button
+            type="button"
+            onClick={() => setChatOpen((open) => !open)}
+            className="mt-2 flex w-full cursor-pointer items-center justify-between border-t border-border pt-2 text-muted-foreground"
+          >
+            <span className="flex items-center gap-1.5 text-xs font-medium">
+              <MessageSquare className="h-[13px] w-[13px]" />
+              Team chat
+            </span>
+            <motion.span animate={{ rotate: chatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+              <ChevronDown className="h-[13px] w-[13px]" />
+            </motion.span>
+          </button>
+          <AnimatePresence initial={false}>
+            {chatOpen && (
+              <motion.div
+                key="chat"
+                initial={{ height: 0, opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 1 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+                style={{ overflow: "hidden" }}
+              >
+                <div style={{ paddingTop: 8 }}>
+                  <ChatPanel
+                    teamId={supabaseTeamId(team.team_id)}
+                    currentUserId={user.id}
+                    currentUserName={user.name || user.email}
+                    isReadOnly={true}
+                    messageLimit={20}
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
+      )}
 
       <OpenWorkspaceButton variant="link" className="self-end" />
 
