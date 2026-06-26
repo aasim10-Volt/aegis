@@ -31,22 +31,49 @@ from aegis.governance.audit import verify
 from aegis.governance.models import GovernanceData
 
 app = FastAPI(title="AEGIS", version="1.0.0", description="Capstone allocation engine API")
-# Allow the dashboard on :3000 from localhost OR any private-LAN address, so the
-# demo survives Wi-Fi/IP changes and shared-network previews without a restart.
-# Private ranges: 10.x, 172.16-31.x, 192.168.x  (RFC 1918) + localhost/127.0.0.1.
+
+# ---------------------------------------------------------------------------
+# CORS
+# ---------------------------------------------------------------------------
+# In production (Railway): set CORS_ORIGINS to a comma-separated list of
+# allowed frontend origins, e.g.:
+#   CORS_ORIGINS=https://aegis-dashboard.up.railway.app
+#
+# In local dev: leave CORS_ORIGINS unset — the regex fallback allows
+# localhost and any RFC-1918 private LAN address on any port, so the demo
+# survives Wi-Fi/IP changes without a restart.
+# ---------------------------------------------------------------------------
+
+_cors_origins_env = os.environ.get("CORS_ORIGINS", "")
+_cors_origins_list = [o.strip() for o in _cors_origins_env.split(",") if o.strip()]
+
+# Private-LAN + localhost regex for local dev fallback
 _cors_regex = (
-    r"^http://(localhost|127\.0\.0\.1"
+    r"^https?://(localhost|127\.0\.0\.1"
     r"|10\.\d{1,3}\.\d{1,3}\.\d{1,3}"
     r"|172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}"
     r"|192\.168\.\d{1,3}\.\d{1,3})"
     r"(:\d+)?$"
 )
-app.add_middleware(
-    CORSMiddleware,
-    allow_origin_regex=_cors_regex,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+if _cors_origins_list:
+    # Production: explicit allow-list from env var (supports https:// Railway URLs)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_cors_origins_list,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    # Local dev: regex covers localhost + any private LAN IP
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origin_regex=_cors_regex,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 # -- cached engine run (seed is static; one run serves every endpoint) --------
