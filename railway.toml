@@ -1,14 +1,5 @@
 [build]
-builder = "nixpacks"
+builder = "RAILPACK"
 
-[[services]]
-name = "aegis-engine"
-source = "."
-buildCommand = "pip install -r requirements.txt"
-startCommand = "uvicorn aegis.api.main:app --host 0.0.0.0 --port $PORT"
-
-[[services]]
-name = "aegis-dashboard"
-source = "."
-buildCommand = "pnpm install && pnpm build"
-startCommand = "pnpm start"
+[deploy]
+startCommand = "pnpm start -- -p $PORT"
