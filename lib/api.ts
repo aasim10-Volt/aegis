@@ -102,19 +102,18 @@ export interface IntegrityView {
   entries: number;
 }
 
-/**
- * Base URL for the FastAPI backend.
- * NEXT_PUBLIC_API_URL always wins (set in .env.production for Railway).
- * Falls back to same-host :8000 in the browser (local dev / LAN) or
- * localhost:8000 server-side (SSR / build).
- */
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ??
-  (typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:8000`
-    : "http://localhost:8000");
+function resolveApiBase() {
+  const explicit = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (explicit) {
+    return explicit.replace(/\/$/, "");
+  }
+  if (typeof window !== "undefined") {
+    return `${window.location.protocol}//${window.location.hostname}:8000`;
+  }
+  return "http://localhost:8000";
+}
 
-export const API_URL = API_BASE;
+export const API_URL = resolveApiBase();
 
 /**
  * Authorization header for /admin/* calls: the logged-in USER's Supabase access
