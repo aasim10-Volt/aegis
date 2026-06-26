@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+!.env.production
 *.local
 
 # Google service-account credentials — the single most dangerous file in this repo.
