@@ -299,10 +299,10 @@ const AnimatedNavLink = ({ href, children }: { href: string; children: React.Rea
       className="group relative block overflow-hidden text-sm"
       style={{ height: 20, lineHeight: "20px" }}
     >
-      <span className="block h-5 text-muted-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
+      <span className="block h-5 whitespace-nowrap text-muted-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
         {children}
       </span>
-      <span className="absolute left-0 top-5 block h-5 text-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
+      <span className="absolute left-0 top-5 block h-5 whitespace-nowrap text-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
           {children}
       </span>
     </a>
