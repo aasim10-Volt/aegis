@@ -296,7 +296,7 @@ const AnimatedNavLink = ({ href, children }: { href: string; children: React.Rea
   return (
     <a
       href={href}
-      className="group relative block overflow-hidden text-sm"
+      className="group relative block overflow-hidden whitespace-nowrap text-sm"
       style={{ height: 20, lineHeight: "20px" }}
     >
       <span className="block h-5 whitespace-nowrap text-muted-foreground transition-transform duration-300 ease-out group-hover:-translate-y-5">
@@ -435,7 +435,7 @@ function MiniNavbar() {
       >
         <nav className="flex w-full flex-col items-center space-y-4 text-base">
           {navLinksData.map((link) => (
-            <a key={link.href} href={link.href} className="w-full text-center text-muted-foreground transition-colors hover:text-foreground">
+            <a key={link.href} href={link.href} className="w-full whitespace-nowrap text-center text-muted-foreground transition-colors hover:text-foreground">
               {link.label}
             </a>
           ))}
